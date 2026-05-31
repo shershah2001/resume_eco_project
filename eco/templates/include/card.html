@@ -1,0 +1,122 @@
+{% load static %}
+<div class="swiper cardSwiper" style="padding-top:5rem;">
+   <div class="swiper-wrapper">
+   {% for card_item in data %}
+    <div class="swiper-slide">
+      <div class="min-h-screen  flex items-center justify-center p-10">
+      
+      <div class="w-[320px] bg-[#111111] rounded-[1.5rem] overflow-hidden border border-[#2a2a2a] shadow-2xl group transition duration-500 hover:-translate-y-2">
+
+          <!-- Product Image -->
+          <div class="relative overflow-hidden">
+            <a href="{% url 'product-detail' card_item.slug %}" class="no-underline">
+              <img 
+                  src="{{card_item.image.url}}"
+                  class="w-full h-[320px] object-cover group-hover:scale-110 transition duration-700"
+              >
+            </a>
+              <!-- Badge -->
+              <span class="absolute top-4 left-4 bg-[#c49b66] text-white text-sm px-4 py-1 rounded-full font-semibold">
+                  NEW
+              </span>
+
+              <!-- Wishlist -->
+              <button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#c49b66] transition">
+                  ♥
+              </button>
+
+          </div>
+
+          <!-- Card Content -->
+          <div class="p-6">
+
+              <!-- Category -->
+              <p class="text-[#c49b66] text-sm tracking-[0.2rem] uppercase mb-2 text-center">
+                  {{card_item.category}}
+              </p>
+
+              <!-- Product Name -->
+              <h2 class="text-white text-3xl font-bold mb-3 text-center">
+                  {{card_item.name}}
+              </h2>
+
+              <!-- Description -->
+              <p class="text-gray-400 leading-7 mb-5  text-center">
+                  {{card_item.description}}
+              </p>
+
+              <!-- Price -->
+              <div class="flex items-center gap-4 mb-6">
+
+                  <span class="text-white text-2xl font-bold">
+                      ${{card_item.price}}
+                  </span>
+
+                  <span class="text-gray-500 line-through text-lg">
+                      $199
+                  </span>
+
+              </div>
+
+              <!-- Buttons -->
+              <div class="flex gap-3">
+
+                  <button class="flex-1 bg-[#c49b66] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
+                      Add To Cart
+                  </button>
+                <a href="{% url 'product-detail' card_item.slug %}" class="no-underline">
+                  <button class="w-14 border border-[#2a2a2a] rounded-xl text-white hover:bg-white hover:text-black transition">
+                      →
+                  </button>
+                </a>
+              </div>
+
+          </div>
+
+      </div>
+
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+    <!-- <div class="swiper-pagination"></div> -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+
+   <!-- Initialize Swiper -->
+  <script>
+     var swiper = new Swiper(".cardSwiper", {
+      slidesPerView: 4,
+      spaceBetween: 10,
+      grabCursor: true,
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+       breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 5,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 5,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 5,
+        },
+      },
+    });
+  </script>
+
+
+
