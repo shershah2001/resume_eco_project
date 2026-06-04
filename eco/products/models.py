@@ -30,4 +30,9 @@ class Product(models.Model):
         if not  self.slug:
             self.slug = slugify(self.name)
         super().save(*args,**kwargs)
-        
+
+class productImage(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="sub_productImages")
+    product_image = models.ImageField(upload_to="product_image/",default="assets/static/image/default.png")
+
+    

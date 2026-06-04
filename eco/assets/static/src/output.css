@@ -215,6 +215,9 @@
   .sticky {
     position: sticky;
   }
+  .start {
+    inset-inline-start: var(--spacing);
+  }
   .end {
     inset-inline-end: var(--spacing);
   }
@@ -332,6 +335,9 @@
   .w-70 {
     width: calc(var(--spacing) * 70);
   }
+  .w-\[50\%\] {
+    width: 50%;
+  }
   .w-\[80\%\] {
     width: 80%;
   }
@@ -431,6 +437,9 @@
   .gap-x-\[1rem\] {
     column-gap: 1rem;
   }
+  .gap-y-\[1rem\] {
+    row-gap: 1rem;
+  }
   .overflow-hidden {
     overflow: hidden;
   }
@@ -497,6 +506,9 @@
   }
   .bg-indigo-600 {
     background-color: var(--color-indigo-600);
+  }
+  .bg-red-500 {
+    background-color: var(--color-red-500);
   }
   .bg-white {
     background-color: var(--color-white);

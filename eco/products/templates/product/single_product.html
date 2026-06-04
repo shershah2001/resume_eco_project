@@ -1,133 +1,128 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block style %}
+<style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
 
-<div class="product_detail_page">
-  <div class="product_detail_slider">
-    <div class="product-image-carousels">
-  <!-- Thumbnail track carousel -->
-  <div class="thumbnails-slider">
-    <button class="thumbnail-button" aria-current="true">
-      <!-- Note that the alt attribute values describe the FUNCTION of the button, not the CONTENT of the image inside the button. -->
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/annie-spratt-500x500.jpg" alt="Go to image 1">
-    </button>
+    body {
+      background: #000;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
 
-    <button class="thumbnail-button">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/blanca-paloma-sanchez-500x500.jpg" alt="Go to image 2">
-    </button>
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
 
-    <button class="thumbnail-button"> 
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/erol-ahmed-500x500.jpg" alt="Go to image 3">
-    </button>
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #444;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-    <button class="thumbnail-button">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/armando-castillejo-500x500.jpg" alt="Go to image 4">
-    </button>
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-    <button class="thumbnail-button">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/calle-macarone-500x500.jpg" alt="Go to image 5">
-    </button>
-  </div>
+    body {
+      background: #000;
+      color: #000;
+    }
+
+    .swiper {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      background-size: cover;
+      background-position: center;
+    }
+
+   
 
 
-  <!-- Main image carousel -->
-  <div class="main-image-slider">
-    <a href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/annie-spratt-500x500.jpg" target="_blank" class="image-link">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/annie-spratt-500x500.jpg" alt="Extreme close up of a plant with flat leaves with rounded sides and pointy tips.">
-    </a>
+    .twisted_mySwiper .swiper-slide {
     
-    <a href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/blanca-paloma-sanchez-500x500.jpg" target="_blank" class="image-link">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/blanca-paloma-sanchez-500x500.jpg" alt="Top view of at least 3 plants with flat leaves with rounded sides and pointy tips arranged radially.">
-    </a>
+      opacity: 0.4;
+    }
 
-    <a href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/erol-ahmed-500x500.jpg" target="_blank" class="image-link">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/erol-ahmed-500x500.jpg" alt="Close-up top view of a single plant with flat leaves with rounded sides and pointy tips, showing small serrations along the leaf margins.">
-    </a>
+    .twisted_mySwiper .swiper-slide-thumb-active {
+      opacity: 1;
+    }
 
-    <a href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/armando-castillejo-500x500.jpg" target="_blank" class="image-link">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/armando-castillejo-500x500.jpg" alt="Close-up top view of a single plant with flat leaves with rounded sides and pointy tips, showing more pronounced serrations along the leaf margins.">
-    </a>
+</style>
+{% endblock style %}
+{% block  content %}
+<div class="flex">
 
-    <a href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/calle-macarone-500x500.jpg" target="_blank" class="image-link">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3609497/calle-macarone-500x500.jpg" alt="Close up of a plant showing a group of separate clusters of buds.">
-    </a>
+   <div thumbsSlider="" class="swiper twisted_mySwiper bg-red-500">
+    <div class="swiper-wrapper flex flex-col gap-y-[1rem]">
+      {% for img in images %}
+      <div class="swiper-slide">
+        <img src="{{img.product_image.url}}" />
+      </div>
+      {% endfor %}
+    </div>
+
   </div>
+
+  <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper twisted_mySwiper2">
+
+    <div class="swiper-wrapper">
+      {% for img in images %}
+      <div class="swiper-slide">
+        <img src="{{img.product_image.url}}" />
+      </div>
+     {% endfor %}
+    </div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
 </div>
-  </div>
-  <div class="product_detail_content">
 
-  </div>
-</div>
+{% endblock %}
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
+ 
+  <!-- Initialize Swiper -->
 
-    /*********************
-      Thumbnails Slider
-    *********************/
-
-    const thumbnailSlider = document.querySelector(".thumbnails-slider");
-    const mainSlider = document.querySelector(".main-image-slider");
-
-    // Slick init equivalent
-    thumbnailSlider.addEventListener("init", (e) => {
-
-        const buttons = document.querySelectorAll(".thumbnail-button");
-
-        buttons.forEach((button) => {
-
-            button.addEventListener("click", () => {
-
-                // Remove current active thumbnail
-                buttons.forEach(btn => {
-                    btn.removeAttribute("aria-current");
-                });
-
-                // Add current thumbnail
-                button.setAttribute("aria-current", "true");
-
-                // Get slide index
-                const slide = button.closest(".slick-slide");
-                const index = slide.dataset.slickIndex;
-
-                // Move main slider
-                $('.main-image-slider').slick('slickGoTo', index);
-
-            });
-
-        });
-
+{% block script %}
+  <script>
+    var swiper = new Swiper(".twisted_mySwiper", {
+      loop: true,
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesProgress: true,
     });
-
-
-    /*********************
-      Main Slider Change
-    *********************/
-
-    mainSlider.addEventListener("beforeChange", (e) => {
-
-        const nextSlide = e.detail.nextSlide;
-
-        const currentThumbnail = document.querySelector(
-            '.thumbnails-slider .thumbnail-button[aria-current="true"]'
-        );
-
-        if (currentThumbnail) {
-            currentThumbnail.removeAttribute("aria-current");
-        }
-
-        // Move thumbnail slider
-        $('.thumbnails-slider').slick('slickGoTo', nextSlide);
-
-        const nextThumbnail = document.querySelector(
-            `.thumbnails-slider .thumbnail-button:nth-of-type(${nextSlide + 1})`
-        );
-
-        if (nextThumbnail) {
-            nextThumbnail.setAttribute("aria-current", "true");
-        }
-
+    var swiper2 = new Swiper(".twisted_mySwiper2", {
+      loop: true,
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      thumbs: {
+        swiper: swiper,
+      },
     });
+  </script>
 
-});
-</script>
+{% endblock %}
