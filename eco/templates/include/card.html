@@ -4,9 +4,9 @@
   
    {% for card_item in data %}
     <div class="swiper-slide">
-      <div class="min-h-screen  flex items-center justify-center p-10">
+      <div class="min-h-screen flex justify-center px-2 ">
       
-      <div class="w-[320px] bg-[#111111] rounded-[1.5rem] overflow-hidden border border-[#2a2a2a] shadow-2xl group transition duration-500 hover:-translate-y-2">
+      <div class="bg-[#111111] rounded-[1.5rem] overflow-hidden border border-[#2a2a2a] shadow-2xl group transition duration-500 hover:-translate-y-2">
 
           <!-- Product Image -->
           <div class="relative overflow-hidden">
@@ -65,8 +65,8 @@
                   <button class="flex-1 bg-[#c49b66] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
                       Add To Cart
                   </button>
-                <a href="{% url 'product_detail' card_item.slug %}" class="no-underline">
-                  <button class="w-14 border border-[#2a2a2a] rounded-xl text-white hover:bg-white hover:text-black transition">
+                <a class="block" href="{% url 'product_detail' card_item.slug %}" class="no-underline">
+                  <button class=" h-full w-14 border border-[#2a2a2a] rounded-xl text-white hover:bg-white hover:text-black transition">
                       →
                   </button>
                 </a>
@@ -91,12 +91,16 @@
   <script>
      var swiper = new Swiper(".cardSwiper", {
       slidesPerView: 4,
-      spaceBetween: 10,
+      spaceBetween: 20,
       grabCursor: true,
       loop: true,
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
+      },
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
       },
       navigation: {
         nextEl: ".swiper-button-next",
@@ -118,6 +122,3 @@
       },
     });
   </script>
-
-
-
