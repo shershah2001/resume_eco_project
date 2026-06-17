@@ -61,10 +61,12 @@
 
               <!-- Buttons -->
               <div class="flex gap-3">
-
-                  <button class="flex-1 bg-[#c49b66] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
+                 <form action="{% url 'add_to_cart' card_item.slug  %}" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="cursor-pointer flex-1 bg-[#c49b66] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
                       Add To Cart
                   </button>
+                  </form>
                 <a class="block" href="{% url 'product_detail' card_item.slug %}" class="no-underline">
                   <button class=" h-full w-14 border border-[#2a2a2a] rounded-xl text-white hover:bg-white hover:text-black transition">
                       →
