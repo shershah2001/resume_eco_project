@@ -133,3 +133,4 @@ AUTH_USER_MODEL = 'account.MyUser'
 
 LOGIN_REDIRECT_URL='home'
 LOGOUT_REDIRECT_URL='login'
+LOGIN_URL='/accounts/login/'

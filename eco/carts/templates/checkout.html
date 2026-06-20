@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block globlestyle %}
+<style>
+    *,*::before,*::after{
+        color:black !important;
+        border-color:rgba(211,211,211,1);
+    }
+</style>
+{% endblock globlestyle %}
+
+{% block content %}
+    <!-- Checkout Section -->
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+            <!-- LEFT SECTION -->
+            <div class="xl:col-span-2 space-y-6">
+
+                <!-- Shipping Address -->
+                <div class="bg-white rounded-lg shadow-sm">
+
+                    <div
+                        class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 p-6 border-b">
+
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-truck text-orange-500 text-2xl"></i>
+                            <h2 class="text-2xl font-bold">
+                                Shipping Address
+                            </h2>
+                        </div>
+
+                        <button
+                            class="text-blue-600 font-semibold hover:text-blue-700">
+                            Change
+                        </button>
+                    </div>
+
+                    <div
+                        class="p-6 flex flex-col lg:flex-row gap-6 justify-between">
+
+                        <div class="space-y-3">
+
+                            <h3 class="text-xl font-semibold">
+                                Abhinav Chaudhry
+                            </h3>
+
+                            <p class="text-gray-600 leading-7">
+                                A-101, Unique Apartments <br>
+                                Opp Bus Depot <br>
+                                Virar, Thane, Maharashtra 401301
+                            </p>
+
+                            <p>
+                                <span class="font-semibold">Email:</span>
+                                abhinav@gmail.com
+                            </p>
+
+                            <div class="flex gap-5 pt-4">
+                                <a href="#"
+                                    class="text-blue-600 font-medium">
+                                    Edit
+                                </a>
+
+                                <a href="#"
+                                    class="text-blue-600 font-medium">
+                                    + Add New Address
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="border rounded-lg p-4 w-full lg:w-72 space-y-4">
+
+                            <h4
+                                class="font-semibold text-gray-500 uppercase text-sm">
+                                Saved Address
+                            </h4>
+
+                            <div>
+                                <p class="font-semibold">401301</p>
+                                <p class="text-gray-600">
+                                    9-201 Flower Apartment
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold">110068</p>
+                                <p class="text-gray-600">
+                                    81 Nehaj Subhash Nagar
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="bg-white rounded-lg shadow-sm">
+
+                    <div
+                        class="flex items-center justify-between p-6 border-b">
+
+                        <div class="flex items-center gap-3">
+                            <i
+                                class="fa-regular fa-credit-card text-orange-500 text-xl"></i>
+
+                            <h2 class="text-2xl font-bold">
+                                Payment Method
+                            </h2>
+                        </div>
+
+                        <a href="#"
+                            class="text-blue-600 font-semibold">
+                            Add New Payment
+                        </a>
+
+                    </div>
+
+                    <div
+                        class="flex flex-col md:flex-row min-h-[350px]">
+
+                        <!-- Menu -->
+
+                        <div
+                            class="md:w-72 border-b md:border-b-0 md:border-r">
+
+                            <ul>
+
+                                <li
+                                    class="p-4 bg-blue-50 text-blue-600 border-l-4 border-blue-600 font-semibold">
+                                    Saved Method
+                                </li>
+
+                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                                    PhonePe / Wallet
+                                </li>
+
+                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                                    Credit / Debit Card
+                                </li>
+
+                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                                    Net Banking
+                                </li>
+
+                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                                    EMI
+                                </li>
+
+                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                                    Cash On Delivery
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                        <!-- Cards -->
+
+                        <div class="flex-1 p-6 space-y-6">
+
+                            <div
+                                class="border rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+                                <div class="flex items-center gap-4">
+
+                                    <i
+                                        class="fa-solid fa-circle-check text-green-500 text-2xl"></i>
+
+                                    <div>
+                                        <h4
+                                            class="font-semibold text-lg">
+                                            Axis Credit Card
+                                        </h4>
+
+                                        <p class="text-gray-600">
+                                            VISA •••• •••• •••• 66
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm mb-2">
+                                        CVV
+                                    </label>
+
+                                    <input type="password"
+                                        class="border rounded-md px-3 py-2 w-24 outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="border rounded-lg p-4 flex items-center gap-4">
+
+                                <i
+                                    class="fa-regular fa-circle text-gray-400 text-2xl"></i>
+
+                                <div>
+                                    <h4 class="font-semibold text-lg">
+                                        HDFC Debit Card
+                                    </h4>
+
+                                    <p class="text-gray-600">
+                                        Mastercard •••• •••• •••• 00
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ORDER SUMMARY -->
+            <div>
+
+                <div class="bg-white rounded-lg shadow-sm sticky top-5">
+
+                    <div
+                        class="flex items-center justify-between p-6 border-b">
+
+                        <div class="flex items-center gap-3">
+                            <i
+                                class="fa-solid fa-bag-shopping text-orange-500 text-xl"></i>
+
+                            <h2 class="text-2xl font-bold">
+                                Order Summary
+                            </h2>
+                        </div>
+
+                        <a href="#"
+                            class="text-blue-600 font-semibold">
+                            Edit Bag
+                        </a>
+
+                    </div>
+
+                    <div class="p-6 space-y-6">
+
+                        <!-- Product -->
+
+                        <div class="flex gap-4">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200"
+                                class="w-20 h-20 object-cover rounded border">
+
+                            <div class="flex-1">
+
+                                <h4 class="font-semibold">
+                                    United Colors of Benetton
+                                </h4>
+
+                                <p class="text-sm text-gray-500">
+                                    Canvas Sneakers
+                                </p>
+
+                                <p class="text-sm text-gray-500">
+                                    Size: 8
+                                </p>
+
+                            </div>
+
+                            <div class="text-right">
+                                <p class="font-bold text-lg">
+                                    ₹1,350
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="border-t pt-4">
+
+                            <div
+                                class="flex justify-between py-2 text-gray-700">
+                                <span>Subtotal</span>
+                                <span>₹4,349</span>
+                            </div>
+
+                            <div
+                                class="flex justify-between py-2 text-gray-700">
+                                <span>Shipping</span>
+                                <span class="text-green-600">
+                                    Free
+                                </span>
+                            </div>
+
+                            <div
+                                class="flex justify-between py-4 border-t mt-3 font-bold text-xl">
+
+                                <span>Total</span>
+                                <span>₹4,349</span>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-lg font-semibold text-lg transition">
+                            PROCEED TO PAY
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock content %}
+

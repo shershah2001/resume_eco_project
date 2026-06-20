@@ -4,6 +4,7 @@ from products.models import Product
 from django.shortcuts import get_object_or_404
 # Create your views here.
 from .utilis import _cart_id_
+from django.contrib.auth.decorators import login_required
 
 def cartView(request):
     if request.user.is_authenticated:
@@ -16,14 +17,17 @@ def cartView(request):
     tax_percentage  = 10
     grand_total= 0
     for item in cart_item:
-        total_price  += item.product.price
+        total_price  += item.product.price * item.quantity
         quantity += item.quantity
     grand_total = total_price  + (total_price * tax_percentage)/100
+    # for item in cart_item:
+    #     print("cart_item==>",item.product.image.url)
     context={
         "cart_item":cart_item,
-        "total_price":total_price,
+        "sub_total":total_price,
         "quantity":quantity,
-        "grand_total":grand_total
+        "grand_total":grand_total,
+        "tax_percentage":tax_percentage
     }
     return render(request,'cart.html',context)
 
@@ -40,7 +44,7 @@ def add_to_cart(request,product_slug):
         cartItem.quantity  +=1
     else:
         cartItem.quantity=1
-    cartItem.price = product.price * cartItem.quantity
+    # cartItem.price = product.price * cartItem.quantity
     cartItem.save()
 
     return redirect('cart')
@@ -57,7 +61,7 @@ def remove_to_cart(request,product_slug):
         for item in cart_item:
             if item.quantity > 1:
                 item.quantity -=1
-                item.price = product.price * item.quantity
+                # item.price = product.price * item.quantity
                 item.save()
             else:
                 item.delete()
@@ -76,7 +80,7 @@ def increaseView(request,product_slug):
         cart_item=get_object_or_404(CartItem,cart=cart,product=product)
 
         cart_item.quantity += 1
-        cart_item.price = product.price * cart_item.quantity
+        # cart_item.price = product.price * cart_item.quantity
         cart_item.save()
     return redirect('cart')
     
@@ -93,9 +97,13 @@ def decreaseView(request,product_slug):
 
         if cart_item.quantity > 1:
             cart_item.quantity-=1
-            cart_item.price = product.price * cart_item.quantity
+            # cart_item.price = product.price * cart_item.quantity
             cart_item.save()
         else:
             cart_item.delete()
     return redirect('cart')
 
+
+@login_required
+def checkout(request):
+    return render(request,'checkout.html')

@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block globlestyle %}
+ <style>
+    *,*::before,*::after{
+        border-color:rgba(211,211,211,1);
+    }
+    .active{
+        background-color: rgba(59, 130, 246, 1);
+        color:white;
+    }
+ </style>
+{% endblock globlestyle %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto p-4">
+
+    <div class="grid lg:grid-cols-4 gap-5">
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-1">
+
+            <div class="shadow-sm ">
+
+                <!-- User -->
+                <div class="bg-white flex items-center gap-3 p-3 border-b mb-[0.5rem]">
+
+                    <div
+                        class="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center text-white font-bold">
+                        S
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">
+                            Hello
+                        </p>
+
+                        <h3 class="font-semibold">
+                            Sher Shah
+                        </h3>
+                    </div>
+
+                </div>
+
+                <!-- Menu -->
+
+                <div class="p-3 bg-white">
+
+                    <div class="mb-4 border-b py-3">
+                        <div  class="font-semibold text-gray-500 text-xs mb-2 flex items-center gap-x-1 cursor-pointer">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 18"><g fill="none" fill-rule="evenodd" transform="translate(-8.694 -11)"><ellipse cx="20.557" cy="20" rx="20.557" ry="20"/><path fill="#2874F1" d="M9 11v17.108c0 .493.41.892.918.892h4.93v-5.257h-3.033l4.912-4.77 4.972 4.83h-3.035V29h12.417c.507 0 .918-.4.918-.892V11H9z"/></g></svg>
+
+                            <h3 class="font-semibold text-[1rem]"> MY ORDERS</h3>
+                           
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+
+                        <div class="font-semibold text-gray-500 text-xs mb-2 flex items-center gap-x-1 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21"><g fill="none" fill-rule="evenodd" transform="translate(-9.694 -10)"><path fill="#2874F0" d="M14.275 22.704c2.272-.412 4.347-.618 6.225-.618 1.878 0 3.953.206 6.225.618a5.15 5.15 0 0 1 4.23 5.068V31h-20.91v-3.228a5.15 5.15 0 0 1 4.23-5.068zm1.274-7.724c0-2.58 2.163-4.673 4.832-4.673 2.667 0 4.83 2.092 4.83 4.673 0 2.58-2.163 4.673-4.83 4.673-2.67 0-4.833-2.092-4.833-4.673z"/><ellipse cx="20.557" cy="20" rx="20.557" ry="20"/></g></svg>
+
+                            <h3 class="font-semibold text-[0.8rem]">ACCOUNT SETTINGS</h3>
+                           
+                        </div>
+
+                        <ul class="space-y-2">
+
+                            <li
+                                class="userprofile_list px-3 py-2 rounded text-[0.9rem] cursor-pointer active">
+                                Profile Information
+                            </li>
+
+                            <li
+                                class="userprofile_list px-3 py-2 rounded cursor-pointer text-[0.9rem]">
+                                Manage Addresses
+                            </li>
+
+                            <!-- <li
+                                class="px-3 py-2 hover:bg-gray-100 rounded cursor-pointer text-[0.9rem]">
+                                PAN Card Information
+                            </li> -->
+
+                        </ul>
+
+                    </div>
+
+                    <!-- <div class="mb-4">
+
+                        <div  class="font-semibold text-gray-500 text-xs mb-2 flex items-center gap-x-1">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22"><g fill="none" fill-rule="evenodd" transform="translate(-9.694 -9)"><ellipse cx="20.557" cy="20" rx="20.557" ry="20"/><path d="M7 6h28v28H7z"/><path fill="#2874F0" fill-rule="nonzero" d="M31.5 27v1.167a2.34 2.34 0 0 1-2.333 2.333H12.833a2.333 2.333 0 0 1-2.333-2.333V11.833A2.333 2.333 0 0 1 12.833 9.5h16.334a2.34 2.34 0 0 1 2.333 2.333V13H21a2.333 2.333 0 0 0-2.333 2.333v9.334A2.333 2.333 0 0 0 21 27h10.5zM21 24.667h11.667v-9.334H21v9.334zm4.667-2.917c-.97 0-1.75-.782-1.75-1.75s.78-1.75 1.75-1.75c.968 0 1.75.782 1.75 1.75s-.782 1.75-1.75 1.75z"/></g></svg>
+
+                            <h3 class="font-semibold text-[0.8rem]">PAYMENTS</h3>
+
+                        </div>
+
+                        <ul class="space-y-2">
+
+                            <li class="px-3 py-2 hover:bg-gray-100 rounded">
+                                Gift Cards
+                            </li>
+
+                            <li class="px-3 py-2 hover:bg-gray-100 rounded">
+                                Saved UPI
+                            </li>
+
+                            <li class="px-3 py-2 hover:bg-gray-100 rounded">
+                                Saved Cards
+                            </li>
+
+                        </ul>
+
+                    </div> -->
+                     
+                     <div class="mt-4">
+
+                        <div class="font-semibold text-gray-500 text-xs mb-2 flex items-center gap-x-1 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="19" viewBox="0 0 23 19"><g fill="none" fill-rule="evenodd"><path fill="#2874F0" fill-rule="nonzero" d="M20.5 2.75h-9L9.25.5H2.5A2.247 2.247 0 0 0 .26 2.75l-.01 13.5A2.257 2.257 0 0 0 2.5 18.5h18a2.257 2.257 0 0 0 2.25-2.25V5a2.257 2.257 0 0 0-2.25-2.25zm-5.625 3.375a2.257 2.257 0 0 1 2.25 2.25 2.257 2.257 0 0 1-2.25 2.25 2.257 2.257 0 0 1-2.25-2.25 2.257 2.257 0 0 1 2.25-2.25zm4.5 9h-9V14c0-1.496 3.004-2.25 4.5-2.25s4.5.754 4.5 2.25v1.125z"/><path d="M-2-4h27v27H-2z"/></g></svg>
+
+                            <h3 class="font-semibold text-[0.8rem]"> MY STUFF</h3>
+                        </div>
+
+                        <ul class="space-y-2">
+
+                            <!-- <li class="userprofile_list px-3 py-2 hover:bg-gray-100 rounded text-[0.9rem] cursor-pointer">
+                                My Coupons
+                            </li> -->
+
+                            <li class="userprofile_list px-3 py-2  rounded text-[0.9rem] cursor-pointer">
+                                My Reviews & Ratings
+                            </li>
+
+                            <!-- <li class="userprofile_list px-3 py-2 hover:bg-gray-100 rounded text-[0.9rem] cursor-pointer">
+                                All Notifications
+                            </li> -->
+                            
+                              <li class="userprofile_list px-3 py-2  rounded text-[0.9rem] cursor-pointer">
+                                My Wishlist
+                            </li>
+
+                            <li class="userprofile_list px-3 py-2 border-t  hover:bg-gray-100 rounded flex items-center gap-x-1 cursor-pointer">
+                               <svg width="24" height="24" class="" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#2874F0" stroke-width="0.3" stroke="#2874F0" d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"></path></svg>
+
+                               <h3 class="text-gray-400 font-semibold">LOGOUT</h3>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- Main Content -->
+
+        <main class="lg:col-span-3">
+
+            <div class="bg-white border shadow-sm p-6">
+
+                <div class="profile_content_section personal_information_section">
+                     <!-- Personal Info -->
+
+                        <div class="mb-8">
+
+                            <div
+                                class="flex items-center gap-4 mb-5">
+
+                                <h2
+                                    class="text-xl font-semibold">
+                                    Personal Information
+                                </h2>
+
+                                <button
+                                    class="text-blue-600 text-sm">
+                                    Edit
+                                </button>
+
+                            </div>
+
+                            <div
+                                class="flex flex-col lg:flex-row gap-x-4 gap-y-4">
+
+                                <input
+                                    type="text"
+                                    placeholder="First Name"
+                                    class="border p-3 rounded outline-none focus:border-blue-500 w-full md:w-80">
+
+                                <input
+                                    type="text"
+                                    placeholder="Last Name"
+                                    class="border p-3 rounded outline-none focus:border-blue-500 w-full md:w-80">
+
+                            </div>
+
+                            <div class="mt-5">
+
+                                <p
+                                    class="font-medium mb-3">
+                                    Your Gender
+                                </p>
+
+                                <div class="flex gap-6">
+
+                                    <label class="flex items-center gap-2">
+                                        <input type="radio" name="gender">
+                                        Male
+                                    </label>
+
+                                    <label class="flex items-center gap-2">
+                                        <input type="radio" name="gender">
+                                        Female
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    <!-- Email -->
+                        <div class="flex flex-col lg:flex-row gap-x-4">
+                                <div class="mb-8">
+
+                                    <div
+                                        class="flex items-center gap-4 mb-4">
+
+                                        <h3
+                                            class="text-lg font-semibold">
+                                            Email Address
+                                        </h3>
+
+                                        <button
+                                            class="text-blue-600 text-sm">
+                                            Edit
+                                        </button>
+
+                                    </div>
+
+                                    <input
+                                        type="email"
+                                        placeholder="Enter Email"
+                                        class="border p-3 rounded w-full md:w-80">
+
+                                </div>
+
+                                <!-- Mobile -->
+
+                                <div class="mb-8">
+
+                                    <div
+                                        class="flex items-center gap-4 mb-4">
+
+                                        <h2
+                                            class="text-lg font-semibold">
+                                            Mobile Number
+                                        </h2>
+
+                                        <button
+                                            class="text-blue-600 text-sm">
+                                            Edit
+                                        </button>
+
+                                    </div>
+
+                                    <input
+                                        type="text"
+                                        placeholder="+91 9876543210"
+                                        class="border p-3 rounded w-full md:w-80">
+
+                                </div>
+                        </div>
+                    <!-- FAQ -->
+
+                        <div>
+
+                            <h2
+                                class="text-xl font-semibold mb-5">
+                                FAQs
+                            </h2>
+
+                            <div
+                                class="space-y-6 text-gray-600 text-sm leading-7">
+
+                                <div>
+                                    <h3
+                                        class="font-semibold text-gray-800 mb-2">
+                                        What happens when I update my email address?
+                                    </h3>
+
+                                    <p>
+                                        Your login email ID changes immediately.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3
+                                        class="font-semibold text-gray-800 mb-2">
+                                        Can I update my mobile number?
+                                    </h3>
+
+                                    <p>
+                                        Yes, you can update your mobile number anytime.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                </div>
+
+                <div class="profile_content_section address_add_section hidden">
+                    {% include 'accounts/address_add.html' %}
+                </div>
+
+                <div class="profile_content_section review_rating_section hidden">
+                  {% include 'accounts/review_rating.html' %}
+                </div>
+                 
+                <div class="profile_content_section whislist_section hidden">
+                    {% include 'accounts/whislist.html' %}
+                </div>
+                 
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+
+
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    const add_new_address = document.querySelector("#add_new_address");
+    const address_form = document.querySelector("#addressform");
+    const hide_heading = document.querySelector("#hide_heading")
+    const userProfileList = document.querySelectorAll(".userprofile_list")
+    const profileContentSection = document.querySelectorAll('.profile_content_section');
+
+    add_new_address.onclick  = () =>{
+      add_new_address.style.display="none"
+      address_form.style.display = "block"
+      hide_heading.style.display="none"
+    }
+
+    userProfileList.forEach((item,index)=>{
+        item.onclick=()=>{
+        userProfileList.forEach((itm)=>{
+            itm.classList.remove("active")
+        })
+         userProfileList[index].classList.add('active') 
+          profileContentSection.forEach(content=> content.style.display="none")
+
+          profileContentSection[index].style.display="block"
+        }
+    })
+</script>
+
+{% endblock script %}

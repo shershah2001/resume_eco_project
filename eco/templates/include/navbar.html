@@ -1,6 +1,7 @@
 {% load static %}
 
-<ul class="flex items-center justify-between bg-black px-[1rem] h-[5.5rem]">
+<ul class="flex items-center justify-between bg-black px-[1rem] h-[5.5rem]" style="-webkit-box-shadow: 0px 7px 22px 3px rgba(207,207,207,0.25); 
+box-shadow: 0px 7px 22px 3px rgba(207,207,207,0.25);">
     <div class="flex items-center">
         <li class="mt-[-0.5rem] cursor-pointer hamburger_icon ">
             <svg class="!text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
@@ -10,7 +11,7 @@
             </svg>
     </li>
     <li>
-        <a href="#" class="cursor-pointer">
+        <a href="{% url 'home' %}" class="cursor-pointer">
            <img src="{% static 'image/logo.png' %}" alt="logo" class="w-full lg:w-[8rem] h-auto">
         </a>
     </li>
@@ -35,16 +36,17 @@
         </a>
     </li>
     <li class="relative">
-        <a href="#"  class="!text-white cursor-pointer">
+        <a href="{% url 'cart' %}"  class="!text-white cursor-pointer">
             <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
                 fill="#fff" viewBox="0 0 24 24">
                 <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
                 <path d="M21 6H7.05L5.94 2.68A1 1 0 0 0 4.99 2h-3v2h2.28l3.54 10.63A2 2 0 0 0 9.71 16h7.59a2 2 0 0 0 1.87-1.3l2.76-7.35c.11-.31.07-.65-.11-.92A1 1 0 0 0 21 6m-3.69 8H9.72l-2-6h11.84zM10 18a2 2 0 1 0 0 4 2 2 0 1 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path>
             </svg>
-        </a>
-        <span class="absolute top-[-0.2rem] right-[-0.2rem] bg-white w-[1rem] h-[1rem] rounded-full !text-black flex justify-center items-center">
+            <span class="absolute top-[-0.2rem] right-[-0.2rem] bg-white w-[1rem] h-[1rem] rounded-full !text-black flex justify-center items-center text-[0.5rem]">
             {{count_quantity}}
         </span>
+        </a>
+        
     </li>
     </div>
 

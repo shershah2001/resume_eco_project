@@ -1,13 +1,36 @@
 {%  extends 'base.html' %}
 {% load static %}
+
+{% block globlestyle %}
+<style>
+*,*::before,*::after{
+color:black;
+}
+</style>
+
+{% endblock globlestyle %}
+
 {% load widget_tweaks %}
 {% block content %}
-<form action="{% url 'login' %}" method="POST">
+<div class="h-[80dvh] flex items-center">
+ <div class="w-[30%] mx-auto bg-white rounded-lg py-[2rem] relative">
+    <h2 class="!text-gray-400 font-semibold text-[1.5rem] w-[90%] mx-auto ">Sign In</h2>
+   <form class="w-[90%] mx-auto" action="{% url 'login' %}" method="POST">
     {% csrf_token %}
+    
+    <!-- Yeh line add karo -->
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+    
     {% for field in form %}
-     <label for="{{field.id_for_label}}" class="text-white">{{field.name}}</label>
-     {{field|add_class:"text-white"}}
+     <div class="my-[0.5rem]">
+        <label for="{{field.id_for_label}}" class="text-white">{{field.name}}</label>
+        {{field|add_class:"text-white"}}
+     </div>
     {% endfor %}
-    <button type="submit" class="bg-blue-500 text-white rounded-lg outline-none px-4 py-4">Submit</button>
+    <button type="submit" ...>Submit</button>
 </form>
+
+</div>
+</div>
+
 {% endblock content %}

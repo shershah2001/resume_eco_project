@@ -1,0 +1,194 @@
+
+<div class="max-w-5xl mx-auto mt-[1.5rem] px-4 md:px-8 hidden " id="addressform">
+
+    <!-- Main Box -->
+
+    <div class="bg-white border rounded-sm">
+
+        <div class="p-5 border-b">
+
+            <h2 class="font-semibold text-xl">
+                Manage Addresses
+            </h2>
+
+        </div>
+
+        <!-- Form -->
+
+        <div class="p-5">
+
+            <h3 class="text-blue-600 font-semibold text-sm mb-5">
+                ADD A NEW ADDRESS
+            </h3>
+
+            <!-- Current Location -->
+
+            <button
+                class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded mb-6">
+
+                <i class="fa-solid fa-location-crosshairs mr-2"></i>
+
+                Use my current location
+
+            </button>
+
+            <form>
+
+                <!-- Name & Mobile -->
+
+                <div class="grid md:grid-cols-2 gap-4">
+
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        class="border p-3 rounded outline-none focus:border-blue-500">
+
+                    <input
+                        type="text"
+                        placeholder="10-digit mobile number"
+                        class="border p-3 rounded outline-none focus:border-blue-500">
+
+                </div>
+
+                <!-- Pincode & Locality -->
+
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+
+                    <input
+                        type="text"
+                        placeholder="Pincode"
+                        class="border p-3 rounded outline-none focus:border-blue-500">
+
+                    <input
+                        type="text"
+                        placeholder="Locality"
+                        class="border p-3 rounded outline-none focus:border-blue-500">
+
+                </div>
+
+                <!-- Address -->
+
+                <div class="mt-4">
+
+                    <textarea
+                        rows="4"
+                        placeholder="Address (Area and Street)"
+                        class="w-full border p-3 rounded resize-none outline-none focus:border-blue-500"></textarea>
+
+                </div>
+
+                <!-- City & State -->
+
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+
+                    <input
+                        type="text"
+                        placeholder="City / District / Town"
+                        class="border p-3 rounded outline-none focus:border-blue-500">
+
+                    <select
+                        class="border p-3 rounded outline-none focus:border-blue-500">
+
+                        <option>
+                            --Select State--
+                        </option>
+
+                        <option>
+                            Bihar
+                        </option>
+
+                        <option>
+                            Uttar Pradesh
+                        </option>
+
+                        <option>
+                            Delhi
+                        </option>
+
+                        <option>
+                            Maharashtra
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Landmark -->
+
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+
+                    <input
+                        type="text"
+                        placeholder="Landmark (Optional)"
+                        class="border p-3 rounded outline-none focus:border-blue-500">
+
+                    <input
+                        type="text"
+                        placeholder="Alternate Phone (Optional)"
+                        class="border p-3 rounded outline-none focus:border-blue-500">
+
+                </div>
+
+                <!-- Address Type -->
+
+                <div class="mt-6">
+
+                    <p class="text-sm font-medium mb-3">
+                        Address Type
+                    </p>
+
+                    <div class="flex gap-8">
+
+                        <label class="flex items-center gap-2">
+
+                            <input type="radio"
+                                name="address_type">
+
+                            Home
+
+                        </label>
+
+                        <label class="flex items-center gap-2">
+
+                            <input type="radio"
+                                name="address_type">
+
+                            Work
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+
+                <div
+                    class="flex flex-wrap items-center gap-5 mt-8">
+
+                    <button
+                        type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded font-medium">
+
+                        SAVE
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="text-blue-600 font-medium">
+
+                        CANCEL
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+</div>

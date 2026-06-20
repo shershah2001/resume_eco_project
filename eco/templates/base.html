@@ -14,13 +14,19 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
 
- <style>
-  *,*::before,*::after{
-    box-sizing: border-box;
-    color:white;
-  }
+  
+    
+  {% block globlestyle %}
 
- </style>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      color: white;
+    }
+  </style>
+  {% endblock globlestyle %}
 
   {% block style %}
 
@@ -69,9 +75,9 @@
 
 
   {% block script %}
-   <script>
+  <script>
     var swiper = new Swiper(".mySwiper", {
-      
+
       autoplay: {
         delay: 2500,
         disableOnInteraction: false,
@@ -84,7 +90,7 @@
     });
   </script>
   {% endblock %}
- 
+
 </body>
 
 </html>

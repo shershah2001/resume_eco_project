@@ -63,7 +63,7 @@
               <div class="flex gap-3">
                  <form action="{% url 'add_to_cart' card_item.slug  %}" method="POST">
                   {% csrf_token %}
-                  <button type="submit" class="cursor-pointer flex-1 bg-[#c49b66] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
+                  <button type="submit" class="cursor-pointer flex-1 bg-[#c49b66] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition px-[2rem]">
                       Add To Cart
                   </button>
                   </form>

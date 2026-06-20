@@ -1,6 +1,7 @@
 from django import forms
 from account.models import MyUser
 
+
 class user_register(forms.ModelForm):
     
     password=forms.CharField(max_length=100,widget=forms.PasswordInput(
@@ -62,27 +63,23 @@ class user_register(forms.ModelForm):
         
 
     
-class user_login(forms.ModelForm):
+class user_login(forms.Form):
 
-    password = forms.CharField(
-        widget=forms.PasswordInput(
+    email = forms.EmailField(
+        widget=forms.EmailInput(
             attrs={
-                'class':'w-full rounded-lg border border-gray-100 text-black-500 px-4 py-4 focus:outline-none focus:ring-2'
+                'class':'w-full rounded-lg border border-gray-100 px-4 py-4 focus:outline-none focus:ring-2'
             }
         )
     )
 
-    class Meta:
-        model=MyUser
-        fields=['email','password']
-
-        widgets={
-            'email':forms.EmailInput(
-                attrs={
-                    'class':'w-full rounded-lg border border-gray-100 text-black-500 px-4 py-4 focus:outline-none focus:ring-2'
-                }
-            )
-        }
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'w-full rounded-lg border border-gray-100 px-4 py-4 focus:outline-none focus:ring-2'
+            }
+        )
+    )
         
 
     

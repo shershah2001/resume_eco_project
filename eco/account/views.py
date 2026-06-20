@@ -18,28 +18,46 @@ def registerView(request):
     }
     return render(request,"accounts/register.html",context)
 
+
 def userlogin(request):
-    if request.method=='POST':
+    if request.method == "POST":
         form = user_login(request.POST)
+
         if form.is_valid():
-            password = form.cleaned_data.get('password')
-            email = form.cleaned_data.get('email')
-            
-            user = authenticate(email=email,password=password)
+
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            user = authenticate(
+                request,
+                username=email,
+                password=password
+            )
+
+            print("USER :", user)
 
             if user:
-                login(request,user)
-                messages.success(request,"Login successful!")
+                login(request, user)
+
+                next_url = request.POST.get('next')
+
+                if next_url:
+                    return redirect(next_url)
+
                 return redirect('home')
-            else:
-                messages.error(request,'Invalid email or password')
+
+            messages.error(request, "Invalid email or password")
+
     else:
         form = user_login()
-    context={
-        'form':form
-    }
-    return render(request,'accounts/login.html',context)
+
+    return render(
+        request,
+        'accounts/login.html',
+        {'form': form}
+    )
+
+def userprofile(request):
+    return render(request,"accounts/userprofile.html")
 
 
-def home(request):
-    return render(request,'accounts/home.html')
