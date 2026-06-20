@@ -5,15 +5,33 @@
 <div  class="w-70 mx-auto shadow-[2px 2px 2px]">
     <h2 class="text-black font-semibold text-[2.5rem]">Register</h2>
         <form action="{% url 'register' %}" method="POST">
-
             {% csrf_token %}
+  
+            {% if form.non_field_errors %}
+              {% forerror in form.non_field_errors %}
+                <div class="bg-red-500 !text-white p-2 mb-2 rounded">
+                    {{ error }}
+                </div>
+               {% endfor  %}
+            {% endif %}
 
             {% for field in form %}
             <label for="{{field.id_for_label}}" class="text-white">
                     {{field.name}}
                 </label>
             {{field |add_class:"text-white"}}
+
+            {% if field.errors %}
+               {% for error in field.errors %}
+                <div class="bg-red-500 !text-white p-2 mb-2 rounded">
+                    {{ error }}
+                </div>
+               {% endfor %}
+            {% endif %}
+            
             {% endfor %}
+
+           
         <button type="submit" class="border border-blue-500 rounded-lg py-2 px-4 bg-blue-500 text-white font-semibold mt-2 cursor-pointer">Submit</button>
         </form>
 </div>

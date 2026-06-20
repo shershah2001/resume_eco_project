@@ -14,8 +14,10 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
 
-  
-    
+  <!-- SweetAlert2  start here -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- SweetAlert2  end here -->
+
   {% block globlestyle %}
 
   <style>
@@ -72,7 +74,7 @@
   {% endblock content %}
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   {% block script %}
   <script>
@@ -90,6 +92,19 @@
     });
   </script>
   {% endblock %}
+
+   {% if messages %}
+        {% for message in messages %}
+            <script>
+                Swal.fire({
+                    icon: '{{ message.tags }}',
+                    text: '{{ message }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
 
 </body>
 

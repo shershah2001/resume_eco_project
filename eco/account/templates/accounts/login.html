@@ -14,10 +14,10 @@ color:black;
 {% block content %}
 <div class="h-[80dvh] flex items-center">
  <div class="w-[30%] mx-auto bg-white rounded-lg py-[2rem] relative">
-    <h2 class="!text-gray-400 font-semibold text-[1.5rem] w-[90%] mx-auto ">Sign In</h2>
+    <h2 class="!text-black font-semibold text-[1.5rem] w-[90%] mx-auto ">Sign In</h2>
    <form class="w-[90%] mx-auto" action="{% url 'login' %}" method="POST">
     {% csrf_token %}
-    
+
     <!-- Yeh line add karo -->
     <input type="hidden" name="next" value="{{ request.GET.next }}">
     
@@ -26,8 +26,19 @@ color:black;
         <label for="{{field.id_for_label}}" class="text-white">{{field.name}}</label>
         {{field|add_class:"text-white"}}
      </div>
+
+     {% if field.errors %}
+         {% for error in field.errors %}
+            <p class="text-red-500 text-sm mt-1">
+                  {{ error }}
+            </p>
+         {% endfor %}
+      {% endif %}
+
     {% endfor %}
-    <button type="submit" ...>Submit</button>
+    <button type="submit" class="!text-white bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded font-semibold cursor-pointer">Submit</button>
+    <a href="{% url 'register' %}" class=" underline underline-offset-2 text-sm !text-blue-500">Sign Up</a>
+    <a href="#" class="underline underline-offset-2 text-sm !text-blue-500 ml-[0.5rem]">forgot Password</a>
 </form>
 
 </div>

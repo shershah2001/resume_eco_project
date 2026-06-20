@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from account.forms import user_register,user_login
 from account.models import MyUser
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 # Create your views here.
 
@@ -10,6 +10,9 @@ def registerView(request):
     if request.method == "POST":
         form = user_register(request.POST)
         if form.is_valid():
+            messages.success(request,"User registered successfully")
+            messages.info(request,"Please login to continue")
+            messages.error(request,error)
             form.save()
     else:
         form = user_register()
@@ -56,6 +59,12 @@ def userlogin(request):
         'accounts/login.html',
         {'form': form}
     )
+
+
+def userlogout(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect('login')
 
 def userprofile(request):
     return render(request,"accounts/userprofile.html")
