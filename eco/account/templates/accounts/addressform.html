@@ -1,4 +1,3 @@
-
 <div class="max-w-5xl mx-auto mt-[1.5rem] px-4 md:px-8 hidden " id="addressform">
 
     <!-- Main Box -->
@@ -23,8 +22,7 @@
 
             <!-- Current Location -->
 
-            <button
-                class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded mb-6">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded mb-6">
 
                 <i class="fa-solid fa-location-crosshairs mr-2"></i>
 
@@ -32,21 +30,18 @@
 
             </button>
 
-            <form>
-
+            <form action="{% url 'address' %}" method="POST">
+                {% csrf_token %}
                 <!-- Name & Mobile -->
 
                 <div class="grid md:grid-cols-2 gap-4">
 
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        class="border p-3 rounded outline-none focus:border-blue-500">
+                    <input type="text" placeholder="Name" class="border p-3 rounded outline-none focus:border-blue-500"
+                        name="name" value="{{form.name.value|default:''}}">
 
-                    <input
-                        type="text"
-                        placeholder="10-digit mobile number"
-                        class="border p-3 rounded outline-none focus:border-blue-500">
+                    <input type="text" placeholder="10-digit mobile number"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="mobile"
+                        value="{{form.mobile.value|default:''}}">
 
                 </div>
 
@@ -54,15 +49,13 @@
 
                 <div class="grid md:grid-cols-2 gap-4 mt-4">
 
-                    <input
-                        type="text"
-                        placeholder="Pincode"
-                        class="border p-3 rounded outline-none focus:border-blue-500">
+                    <input type="text" placeholder="Pincode"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="pincode"
+                        value="{{form.pincode.value|default:''}}">
 
-                    <input
-                        type="text"
-                        placeholder="Locality"
-                        class="border p-3 rounded outline-none focus:border-blue-500">
+                    <input type="text" placeholder="Locality"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="locality"
+                        value="{{form.locality.value|default:''}}">
 
                 </div>
 
@@ -70,10 +63,9 @@
 
                 <div class="mt-4">
 
-                    <textarea
-                        rows="4"
-                        placeholder="Address (Area and Street)"
-                        class="w-full border p-3 rounded resize-none outline-none focus:border-blue-500"></textarea>
+                    <textarea rows="4" placeholder="Address (Area and Street)"
+                        class="w-full border p-3 rounded resize-none outline-none focus:border-blue-500"
+                        name="address">{{form.address.value|default:""}}</textarea>
 
                 </div>
 
@@ -81,51 +73,34 @@
 
                 <div class="grid md:grid-cols-2 gap-4 mt-4">
 
-                    <input
-                        type="text"
-                        placeholder="City / District / Town"
-                        class="border p-3 rounded outline-none focus:border-blue-500">
+                    <input type="text" placeholder="City / District / Town"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="city"
+                        value="{{form.city.value|default:''}}">
 
-                    <select
-                        class="border p-3 rounded outline-none focus:border-blue-500">
+                    <select class="border p-3 rounded outline-none focus:border-blue-500" name="state">
 
-                        <option>
-                            --Select State--
+                        <!-- {{ form.state }} -->
+
+                        {% for value, label in form.state.field.choices %}
+                        <option value="{{ value }}" {% if form.state.value == value %}selected{% endif %}>
+                            {{ label }}
                         </option>
-
-                        <option>
-                            Bihar
-                        </option>
-
-                        <option>
-                            Uttar Pradesh
-                        </option>
-
-                        <option>
-                            Delhi
-                        </option>
-
-                        <option>
-                            Maharashtra
-                        </option>
+                        {% endfor %}
 
                     </select>
-
                 </div>
 
                 <!-- Landmark -->
 
                 <div class="grid md:grid-cols-2 gap-4 mt-4">
 
-                    <input
-                        type="text"
-                        placeholder="Landmark (Optional)"
-                        class="border p-3 rounded outline-none focus:border-blue-500">
+                    <input type="text" placeholder="Landmark (Optional)"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="landmark"
+                        value="{{form.landmark.value|default:''}}">
 
-                    <input
-                        type="text"
-                        placeholder="Alternate Phone (Optional)"
-                        class="border p-3 rounded outline-none focus:border-blue-500">
+                    <input type="text" placeholder="Alternate Phone (Optional)"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="alternate_mobile"
+                        value="{{form.alternate_mobile.value|default:''}}">
 
                 </div>
 
@@ -141,8 +116,7 @@
 
                         <label class="flex items-center gap-2">
 
-                            <input type="radio"
-                                name="address_type">
+                            <input type="radio" name="address_type" value="home" checked>
 
                             Home
 
@@ -150,8 +124,7 @@
 
                         <label class="flex items-center gap-2">
 
-                            <input type="radio"
-                                name="address_type">
+                            <input type="radio" name="address_type" value="work">
 
                             Work
 
@@ -163,20 +136,16 @@
 
                 <!-- Buttons -->
 
-                <div
-                    class="flex flex-wrap items-center gap-5 mt-8">
+                <div class="flex flex-wrap items-center gap-5 mt-8">
 
-                    <button
-                        type="submit"
+                    <button type="submit"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded font-medium">
 
                         SAVE
 
                     </button>
 
-                    <button
-                        type="button"
-                        class="text-blue-600 font-medium">
+                    <button type="button" class="text-blue-600 font-medium">
 
                         CANCEL
 

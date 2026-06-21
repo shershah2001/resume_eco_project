@@ -81,7 +81,10 @@ class MyUser(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
     
-STATE_CHOICES = [
+
+
+class AddressModel(models.Model):
+    STATE_CHOICES = [
     ('Andhra Pradesh', 'Andhra Pradesh'),
     ('Arunachal Pradesh', 'Arunachal Pradesh'),
     ('Assam', 'Assam'),
@@ -121,8 +124,6 @@ STATE_CHOICES = [
     ('Lakshadweep', 'Lakshadweep'),
     ('Puducherry', 'Puducherry'),
 ]
-
-class AddressModel(models.Model):
     user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     mobile = models.CharField(max_length=10)
@@ -135,14 +136,21 @@ class AddressModel(models.Model):
     alternate_mobile = models.CharField(max_length=10,blank=True,null=True)
     address_type = models.CharField(max_length=10,choices=(('home','Home'),('work','Work')),default='home')
 
+    def __str__(self):
+        return f"{self.name} - {self.mobile} - {self.pincode} - {self.city} - {self.state}"
+    
 SELECT_GENDER=[
     ('male','MALE'),
     ('female','FEMALE')
 ]
 class UserProfileModel(models.Model):
+    user = models.OneToOneField(MyUser,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100,blank=True,null=True)
     last_name = models.CharField(max_length=100,blank=True,null=True)
     gender = models.CharField(max_length=100,choices=SELECT_GENDER)
     email=models.EmailField(max_length=250,unique=True)
     mobile=models.CharField(max_length=10)
+
+    def __str_(self):
+        return f"{self.user} - {self.first_name} - {self.last_name} - {self.email} "
     

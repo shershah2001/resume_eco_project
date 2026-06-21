@@ -94,12 +94,12 @@ class address_form(forms.ModelForm):
                     'class':'border p-3 rounded outline-none focus:border-blue-500'
                 }
             ),
-            'mobile':forms.NumberInput(
+            'mobile':forms.TextInput(
                 attrs={
                     'class':'border p-3 rounded outline-none focus:border-blue-500'
                 }
             ),
-            'pincode':forms.NumberInput(
+            'pincode':forms.TextInput(
                 attrs={
                     'class':'border p-3 rounded outline-none focus:border-blue-500'
                 }
@@ -130,7 +130,7 @@ class address_form(forms.ModelForm):
                     'class':'border p-3 rounded outline-none focus:border-blue-500'
                 }
             ),
-            'alternate_mobile':forms.NumberInput(
+            'alternate_mobile':forms.TextInput(
                 attrs={
                     'class':'border p-3 rounded outline-none focus:border-blue-500'
                 }

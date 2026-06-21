@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
-from account.forms import user_register,user_login
-from account.models import MyUser
+from account.forms import user_register,user_login,address_form,UserProfileForm
+from account.models import MyUser,UserProfileModel,AddressModel
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from .forms import address_form,UserProfileForm
 # Create your views here.
 
 
@@ -12,7 +13,7 @@ def registerView(request):
         if form.is_valid():
             messages.success(request,"User registered successfully")
             messages.info(request,"Please login to continue")
-            messages.error(request,error)
+            # messages.error(request,error)
             form.save()
     else:
         form = user_register()
@@ -66,7 +67,99 @@ def userlogout(request):
         logout(request)
     return redirect('login')
 
+
+# def addressView(request):
+#     if  request.method  == "POST":
+#         # address_update = AddressModel.objects.get(user=request.user)
+#         form = address_form(request.POST)
+#         if form.is_valid():
+#             address =  form.save(commit=False)
+#             address.user  = request.user
+#             address.save()
+#             messages.success(request,'Address added successfully')
+#             return redirect('address')
+
+#     else:
+#         form = address_form()
+#         print(form.fields['state'].choices)
+#     context={
+#         "form":form
+#     }
+#     return render(request,"accounts/addressform.html",context)
+                                                                                                        
+# def addressView(request):
+#     if request.method == "POST":
+#         form = address_form(request.POST)
+#         if form.is_valid():
+#             address = form.save(commit=False)
+#             address.user = request.user
+#             address.save()
+#             messages.success(request, 'Address added successfully')
+#             return redirect('address')
+#         else:
+#             print("Form errors:", form.errors)  # ← add this
+#     else:
+#         form = address_form()
+#         print("Form fields:", form)  # ← add this
+#         print(form.fields['state'].choices)
+
+#     context = {"form": form}
+#     return render(request, "accounts/addressform.html", context)                                                                                                       
+
+
+# ✅ Sahi code
+def addressView(request):
+    if request.method == "POST":
+        form = address_form(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            messages.success(request, 'Address added successfully')
+            return redirect('userprofile')
+        else:
+            print("Form errors:", form.errors)
+    else:                          # ← SIRF GET pe blank form
+        form = address_form()
+
+    context = {"form": form}
+    return render(request, "accounts/addressform.html", context)
+
+# def userprofile(request):   
+
+#     if request.method=="POST":
+#         profile = UserProfileModel.objects.filter(user=request.user).first()
+#         form = UserProfileForm(request.POST,instance = profile)
+#         if form.is_valid():
+#             profile_form = form.save(commit=False)
+#             profile_form.user = request.user
+#             profile_form.save()
+#     else:
+#         form = UserProfileForm()
+#     context={
+#         "form":form
+#     }
+#     return render(request,"accounts/userprofile.html",context)
+
+
 def userprofile(request):
-    return render(request,"accounts/userprofile.html")
+    if request.method == "POST":
+        profile = UserProfileModel.objects.filter(user=request.user).first()
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            profile_form = form.save(commit=False)
+            profile_form.user = request.user
+            profile_form.save()
+    else:
+        form = UserProfileForm()
+
+    # ← address_form bhi pass karo
+    addr_form = address_form()
+
+    context = {
+        "form": form,
+        "addr_form": addr_form,   # ← naya
+    }
+    return render(request, "accounts/userprofile.html", context)
 
 
