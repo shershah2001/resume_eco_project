@@ -80,3 +80,69 @@ class MyUser(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+    
+STATE_CHOICES = [
+    ('Andhra Pradesh', 'Andhra Pradesh'),
+    ('Arunachal Pradesh', 'Arunachal Pradesh'),
+    ('Assam', 'Assam'),
+    ('Bihar', 'Bihar'),
+    ('Chhattisgarh', 'Chhattisgarh'),
+    ('Goa', 'Goa'),
+    ('Gujarat', 'Gujarat'),
+    ('Haryana', 'Haryana'),
+    ('Himachal Pradesh', 'Himachal Pradesh'),
+    ('Jharkhand', 'Jharkhand'),
+    ('Karnataka', 'Karnataka'),
+    ('Kerala', 'Kerala'),
+    ('Madhya Pradesh', 'Madhya Pradesh'),
+    ('Maharashtra', 'Maharashtra'),
+    ('Manipur', 'Manipur'),
+    ('Meghalaya', 'Meghalaya'),
+    ('Mizoram', 'Mizoram'),
+    ('Nagaland', 'Nagaland'),
+    ('Odisha', 'Odisha'),
+    ('Punjab', 'Punjab'),
+    ('Rajasthan', 'Rajasthan'),
+    ('Sikkim', 'Sikkim'),
+    ('Tamil Nadu', 'Tamil Nadu'),
+    ('Telangana', 'Telangana'),
+    ('Tripura', 'Tripura'),
+    ('Uttar Pradesh', 'Uttar Pradesh'),
+    ('Uttarakhand', 'Uttarakhand'),
+    ('West Bengal', 'West Bengal'),
+
+    # Union Territories
+    ('Andaman and Nicobar Islands', 'Andaman and Nicobar Islands'),
+    ('Chandigarh', 'Chandigarh'),
+    ('Dadra and Nagar Haveli and Daman and Diu', 'Dadra and Nagar Haveli and Daman and Diu'),
+    ('Delhi', 'Delhi'),
+    ('Jammu and Kashmir', 'Jammu and Kashmir'),
+    ('Ladakh', 'Ladakh'),
+    ('Lakshadweep', 'Lakshadweep'),
+    ('Puducherry', 'Puducherry'),
+]
+
+class AddressModel(models.Model):
+    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    mobile = models.CharField(max_length=10)
+    pincode =  models.CharField(max_length=6)
+    locality = models.CharField(max_length=100)
+    address = models.TextField()
+    city =  models.CharField(max_length=100)
+    state=models.CharField(max_length=100,choices=STATE_CHOICES)
+    landmark = models.CharField(max_length=100,blank=True,null=True)
+    alternate_mobile = models.CharField(max_length=10,blank=True,null=True)
+    address_type = models.CharField(max_length=10,choices=(('home','Home'),('work','Work')),default='home')
+
+SELECT_GENDER=[
+    ('male','MALE'),
+    ('female','FEMALE')
+]
+class UserProfileModel(models.Model):
+    first_name = models.CharField(max_length=100,blank=True,null=True)
+    last_name = models.CharField(max_length=100,blank=True,null=True)
+    gender = models.CharField(max_length=100,choices=SELECT_GENDER)
+    email=models.EmailField(max_length=250,unique=True)
+    mobile=models.CharField(max_length=10)
+    

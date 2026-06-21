@@ -1,5 +1,5 @@
 from django import forms
-from account.models import MyUser
+from account.models import MyUser,AddressModel,UserProfileModel
 
 
 class user_register(forms.ModelForm):
@@ -82,4 +82,68 @@ class user_login(forms.Form):
     )
         
 
+
+class address_form(forms.ModelForm):
+    class Meta:
+        model =  AddressModel
+        fields =['name','mobile','pincode','locality','address','city','state','landmark','alternate_mobile','address_type']
+
+        widgets={
+            'name':forms.TextInput(
+                attrs={
+                    'class':'border p-3 rounded outline-none focus:border-blue-500'
+                }
+            ),
+            'mobile':forms.NumberInput(
+                attrs={
+                    'class':'border p-3 rounded outline-none focus:border-blue-500'
+                }
+            ),
+            'pincode':forms.NumberInput(
+                attrs={
+                    'class':'border p-3 rounded outline-none focus:border-blue-500'
+                }
+            ),
+            'locality':forms.TextInput(
+                attrs={
+                    'class':"border p-3 rounded outline-none focus:border-blue-500"
+                }
+            ),
+            'address':forms.Textarea(
+                attrs={
+                    'class':'border p-3 rounded outline-none focus:border-blue-500',
+                    'rows':4
+                }
+            ),
+            'city':forms.TextInput(
+                attrs={
+                    'class':'border p-3 rounded outline-none focus:border-blue-500'
+                }
+            ),
+            'state':forms.Select(
+                attrs={
+                    'class':'border p-3 rounded outline-none focus:border-blue-500'
+                }
+            ),
+            'landmark':forms.TextInput(
+                attrs={
+                    'class':'border p-3 rounded outline-none focus:border-blue-500'
+                }
+            ),
+            'alternate_mobile':forms.NumberInput(
+                attrs={
+                    'class':'border p-3 rounded outline-none focus:border-blue-500'
+                }
+            ),
+            'address_type':forms.RadioSelect(
+              attrs={
+                  'class':'border border-gray-400'
+              }
+            )
+        }
     
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model=UserProfileModel
+        fields="__all__"
