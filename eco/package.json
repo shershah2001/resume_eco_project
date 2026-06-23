@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch:css":"tailwindcss -i ./assets/static/src/input.css -o ./assets/static/src/output.css --watch"
+    "watch:css": "tailwindcss -i ./assets/static/src/input.css -o ./assets/static/src/output.css --watch"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "type": "commonjs",
   "dependencies": {
     "@tailwindcss/cli": "^4.2.4",
+    "axios": "^1.18.1",
     "tailwindcss": "^4.2.4"
   }
 }

@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .forms import address_form,UserProfileForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+
 # Create your views here.
 
 
@@ -71,7 +74,6 @@ def userlogout(request):
 
 @login_required
 def addressView(request):
-    
     if request.method == "POST":
         form = address_form(request.POST)
         if form.is_valid():
@@ -85,11 +87,52 @@ def addressView(request):
             print("Form errors:", form.errors)
     else:                          # ← SIRF GET pe blank form
         form = address_form()
-
     context = {"form": form}
     return render(request, "accounts/addressform.html", context)
 
 
+@login_required
+def editAddressView(request,id):
+    address = get_object_or_404(
+        AddressModel,
+        user=request.user,
+        id=id
+    )
+    #GET
+    if request.method == 'GET':
+        data={
+            "name":address.name,
+            "mobile":address.mobile,
+            "pincode":address.pincode,
+            "locality":address.locality,
+            "address":address.address,
+            "city":address.city,
+            "state":address.state,
+            "landmark":address.landmark,
+            "alternate_mobile":address.alternate_mobile,
+            "address_type":address.address_type
+        }
+
+        return JsonResponse(data)
+    
+    # POST (UPDATE)
+    if request.method == 'POST':
+        form=address_form(
+            request.POST,
+            instance=address
+        )
+        if form.is_valid():
+            update_address=form.save(commit=False)
+            update_address.user=request.user
+            update_address.save()
+
+            return JsonResponse({
+                "success":True
+            })
+        return JsonResponse({
+            "success":False,
+            "errors":form.errors
+        })
 
 @login_required
 def userprofile(request):

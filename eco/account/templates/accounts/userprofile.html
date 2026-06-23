@@ -134,7 +134,6 @@ input:read-only {
                 <div class="profile_content_section personal_information_section">
                      <!-- Personal Info -->
 
-                    {% block user_profile_address_form %}
                     <form action="{% url 'userprofile' %}" method="POST">
                         {% csrf_token %}
                             <div class="mb-8">
@@ -275,7 +274,7 @@ input:read-only {
                          <button type="submit" class="bg-blue-500 !text-white font-semibold px-4 py-2 rounded-lg mb-[0.5rem] cursor-pointer ">Submit</button>
                         <!--  submit button end here  -->
                     </form>
-                    {% endblock user_profile_address_form %}
+                  
                     <!-- FAQ -->
 
                         <div>
@@ -368,7 +367,9 @@ input:read-only {
         }
     })
 
-    // editable codes start here
+    
+
+    // userprofile codes editable codes start here 
        const editable_btn = document.querySelector("#editable");
        const editableInputs = document.querySelectorAll(".editable_inputs")
        editable_btn.onclick =() =>{
@@ -380,8 +381,83 @@ input:read-only {
 
        }
        
+    // userprofile codes editable codes end  here
+   
+    // address_form codes editable codes start 
+    
+       const nameInput = document.querySelector("#name_input");
+       const mobileInput = document.querySelector("#mobile_input");
+       const pincodeInput = document.querySelector("#pincode_input");
+       const localityInput =  document.querySelector("#locality_input");
+       const addressInput = document.querySelector("#address_input");
+       const cityInput = document.querySelector("#city_input");
+       const stateInput = document.querySelector("#state_input");
+       const landmarkInput = document.querySelector("#landmark_input");
+       const alternateMobile = document.querySelector("#alternate_mobile");
+      
        
-    // editable codes end  here
+       let user_id = null
+
+    // const fetchData = (id) =>{
+    //   console.log("=>",id);
+      
+    // }
+       window.fetchData = async (id)=>{
+        user_id = id;
+        try{
+            const res = await axios.get(`/accounts/address/${id}/`)
+
+            nameInput.value=res.data.name;
+            mobileInput.value=res.data.mobile;
+            pincodeInput.value=res.data.pincode;
+            localityInput.value=res.data.locality;
+            addressInput.value=res.data.address;
+            cityInput.value=res.data.city;
+            stateInput.value=res.data.state;
+            landmarkInput.value=res.data.landmark;
+            alternateMobile.value=res.data.alternate_mobile;
+            if(res.data.address_type == "home"){
+                document.querySelector('input[value="home"]').checked=true;
+            }else{
+                document.querySelector('input[value="work"]').checked=true;
+            }
+            add_new_address.style.display = "none";
+            address_form.style.display = "block";
+            hide_heading.style.display = "none";
+        }catch(error){
+            console.log(error);
+        }
+       }
+
+       const pushData = async ()=>{
+         const selectedType = document.querySelector('input[name="address_type"]:checked');
+        const payload = {
+            name:nameInput.value,
+            mobile:mobileInput.value,
+            pincode:pincodeInput.value,
+            locality:localityInput.value,
+            address:addressInput.value,
+            city:cityInput.value,
+            state:stateInput.value,
+            landmark:landmarkInput.value,
+            alternate_mobile:alternateMobile.value,
+            address_type:selectedType.value,
+        };
+        try{
+            const res = await axios.post(`/accounts/address/${user_id}/`,payload,{
+                headers:{
+                    "X-CSRFToken":csrftoken
+                }
+            })
+            console.log(res.data)
+        }catch(error){
+            console.log(error.message);
+            
+        }
+       }
+    // address_form codes editable codes end here 
+
+
 </script>
 
 {% endblock script %}

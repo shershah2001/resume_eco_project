@@ -37,10 +37,10 @@
                 <div class="grid md:grid-cols-2 gap-4">
 
                     <input type="text" placeholder="Name" class="border p-3 rounded outline-none focus:border-blue-500"
-                        name="name" value="{{form.name.value|default:''}}">
+                        name="name" id="name_input" value="{{form.name.value|default:''}}">
 
                     <input type="text" placeholder="10-digit mobile number"
-                        class="border p-3 rounded outline-none focus:border-blue-500" name="mobile"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="mobile" id="mobile_input"
                         value="{{form.mobile.value|default:''}}">
 
                 </div>
@@ -50,11 +50,11 @@
                 <div class="grid md:grid-cols-2 gap-4 mt-4">
 
                     <input type="text" placeholder="Pincode"
-                        class="border p-3 rounded outline-none focus:border-blue-500" name="pincode"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="pincode" id="pincode_input"
                         value="{{form.pincode.value|default:''}}">
 
                     <input type="text" placeholder="Locality"
-                        class="border p-3 rounded outline-none focus:border-blue-500" name="locality"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="locality" id="locality_input"
                         value="{{form.locality.value|default:''}}">
 
                 </div>
@@ -65,7 +65,7 @@
 
                     <textarea rows="4" placeholder="Address (Area and Street)"
                         class="w-full border p-3 rounded resize-none outline-none focus:border-blue-500"
-                        name="address">{{form.address.value|default:""}}</textarea>
+                        name="address" id="address_input">{{form.address.value|default:""}}</textarea>
 
                 </div>
 
@@ -75,9 +75,9 @@
 
                     <input type="text" placeholder="City / District / Town"
                         class="border p-3 rounded outline-none focus:border-blue-500" name="city"
-                        value="{{form.city.value|default:''}}">
+                        value="{{form.city.value|default:''}}" id="city_input">
 
-                    <select class="border p-3 rounded outline-none focus:border-blue-500" name="state">
+                    <select class="border p-3 rounded outline-none focus:border-blue-500" name="state" id="state_input">
 
                         <!-- {{ form.state }} -->
 
@@ -95,11 +95,11 @@
                 <div class="grid md:grid-cols-2 gap-4 mt-4">
 
                     <input type="text" placeholder="Landmark (Optional)"
-                        class="border p-3 rounded outline-none focus:border-blue-500" name="landmark"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="landmark" id="landmark_input"
                         value="{{form.landmark.value|default:''}}">
 
                     <input type="text" placeholder="Alternate Phone (Optional)"
-                        class="border p-3 rounded outline-none focus:border-blue-500" name="alternate_mobile"
+                        class="border p-3 rounded outline-none focus:border-blue-500" name="alternate_mobile" id="alternate_mobile"
                         value="{{form.alternate_mobile.value|default:''}}">
 
                 </div>
@@ -116,7 +116,10 @@
 
                         <label class="flex items-center gap-2">
 
-                            <input type="radio" name="address_type" value="home" checked>
+                            <input type="radio" name="address_type" value="home" 
+                            {% if form.address_type.value == "home" %} checked id="address_type_input" {% endif %}
+
+                            >
 
                             Home
 
@@ -124,7 +127,9 @@
 
                         <label class="flex items-center gap-2">
 
-                            <input type="radio" name="address_type" value="work">
+                            <input type="radio" name="address_type" value="work"
+                            {% if form.address_type.value == 'work' %} checked id="address_type_input" {% endif %}
+                            >
 
                             Work
 

@@ -58,11 +58,11 @@
                                 <path d="M12 10a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0 6a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0-12a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path>
                             </svg>
                            <ul class="shadow-sm bg-white px-4 py-2  h-[max-content] rounded-sm hidden group-hover:block absolute top-0 right-0">
-                            <li class="flex justify-center py-1">
-                                <a href="#" class="!text-gray-400">Edit</a>
+                            <li class="flex justify-center py-1 !text-gray-400 cursor-pointer" onclick="fetchData('{{ item.id }}')">
+                                Edit
                             </li>
-                            <li class="flex justify-center py-1">
-                                <a href="#" class="!text-gray-400">Delete</a>
+                            <li class="flex justify-center py-1 !text-gray-400 cursor-pointer">
+                                Delete
                             </li>
                            </ul>
                          </div>    
