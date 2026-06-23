@@ -146,4 +146,4 @@ class address_form(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model=UserProfileModel
-        fields="__all__"
+        fields=['first_name','last_name','gender','email','mobile']

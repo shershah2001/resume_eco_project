@@ -10,6 +10,11 @@
         background-color: rgba(59, 130, 246, 1);
         color:white;
     }
+input:read-only {
+  background-color: #f0f0f0;
+  color: #666666;
+  border: 1px solid #ccc;
+}
  </style>
 {% endblock globlestyle %}
 
@@ -87,34 +92,6 @@
                         </ul>
 
                     </div>
-
-                    <!-- <div class="mb-4">
-
-                        <div  class="font-semibold text-gray-500 text-xs mb-2 flex items-center gap-x-1">
-                            
-                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22"><g fill="none" fill-rule="evenodd" transform="translate(-9.694 -9)"><ellipse cx="20.557" cy="20" rx="20.557" ry="20"/><path d="M7 6h28v28H7z"/><path fill="#2874F0" fill-rule="nonzero" d="M31.5 27v1.167a2.34 2.34 0 0 1-2.333 2.333H12.833a2.333 2.333 0 0 1-2.333-2.333V11.833A2.333 2.333 0 0 1 12.833 9.5h16.334a2.34 2.34 0 0 1 2.333 2.333V13H21a2.333 2.333 0 0 0-2.333 2.333v9.334A2.333 2.333 0 0 0 21 27h10.5zM21 24.667h11.667v-9.334H21v9.334zm4.667-2.917c-.97 0-1.75-.782-1.75-1.75s.78-1.75 1.75-1.75c.968 0 1.75.782 1.75 1.75s-.782 1.75-1.75 1.75z"/></g></svg>
-
-                            <h3 class="font-semibold text-[0.8rem]">PAYMENTS</h3>
-
-                        </div>
-
-                        <ul class="space-y-2">
-
-                            <li class="px-3 py-2 hover:bg-gray-100 rounded">
-                                Gift Cards
-                            </li>
-
-                            <li class="px-3 py-2 hover:bg-gray-100 rounded">
-                                Saved UPI
-                            </li>
-
-                            <li class="px-3 py-2 hover:bg-gray-100 rounded">
-                                Saved Cards
-                            </li>
-
-                        </ul>
-
-                    </div> -->
                      
                      <div class="mt-4">
 
@@ -126,17 +103,9 @@
 
                         <ul class="space-y-2">
 
-                            <!-- <li class="userprofile_list px-3 py-2 hover:bg-gray-100 rounded text-[0.9rem] cursor-pointer">
-                                My Coupons
-                            </li> -->
-
                             <li class="userprofile_list px-3 py-2  rounded text-[0.9rem] cursor-pointer">
                                 My Reviews & Ratings
                             </li>
-
-                            <!-- <li class="userprofile_list px-3 py-2 hover:bg-gray-100 rounded text-[0.9rem] cursor-pointer">
-                                All Notifications
-                            </li> -->
                             
                               <li class="userprofile_list px-3 py-2  rounded text-[0.9rem] cursor-pointer">
                                 My Wishlist
@@ -166,129 +135,145 @@
                      <!-- Personal Info -->
 
                     {% block user_profile_address_form %}
-                    <form action="" method="POST">
-                            {% csrf_token %}
+                    <form action="{% url 'userprofile' %}" method="POST">
+                        {% csrf_token %}
                             <div class="mb-8">
-                            <div
-                                class="flex items-center gap-4 mb-5">
+                                <div
+                                    class="flex items-center gap-4 mb-5">
 
-                                <h2
-                                    class="text-xl font-semibold">
-                                    Personal Information
-                                </h2>
+                                    <h2
+                                        class="text-xl font-semibold">
+                                        Personal Information
+                                    </h2>
 
-                                <button
-                                    class="text-blue-600 text-sm">
-                                    Edit
-                                </button>
-
-                            </div>
-                       
-                            <div
-                                class="flex flex-col lg:flex-row gap-x-4 gap-y-4">
-
-                                <input
-                                    type="text"
-                                    placeholder="First Name"
-                                    class="border p-3 rounded outline-none focus:border-blue-500 w-full md:w-80"
-                                    name="first_name"
-                                    value="{{form.first_name.value}}"
-                                    >
-
-                                <input
-                                    type="text"
-                                    placeholder="Last Name"
-                                    class="border p-3 rounded outline-none focus:border-blue-500 w-full md:w-80
-                                    name="last_name"
-                                    value="{{form.last_name.value}}">
-
-                            </div>
-
-                            <div class="mt-5">
-
-                                <p
-                                    class="font-medium mb-3">
-                                    Your Gender
-                                </p>
-
-                                <div class="flex gap-6">
-
-                                    <label class="flex items-center gap-2">
-                                        <input type="radio" name="gender"
-                                          value="male" checked
-                                        >
-                                        Male
-                                    </label>
-
-                                    <label class="flex items-center gap-2">
-                                        <input type="radio" name="gender" value="female">
-                                        Female
-                                    </label>
+                                    <button
+                                        type="button"
+                                        class="text-blue-600 text-sm cursor-pointer" id="editable">
+                                        Edit
+                                    </button>
 
                                 </div>
-
-                            </div>
-
-                        </div>
-
-                    <!-- Email -->
-                        <div class="flex flex-col lg:flex-row gap-x-4">
-                                <div class="mb-8">
-
-                                    <div
-                                        class="flex items-center gap-4 mb-4">
-
-                                        <h3
-                                            class="text-lg font-semibold">
-                                            Email Address
-                                        </h3>
-
-                                        <button
-                                            class="text-blue-600 text-sm">
-                                            Edit
-                                        </button>
-
-                                    </div>
-
-                                    <input
-                                        type="email"
-                                        placeholder="Enter Email"
-                                        class="border p-3 rounded w-full md:w-80"
-                                        name="email"
-                                        value ={{form.email.value}}
-                                        >
-
-                                </div>
-
-                                <!-- Mobile -->
-
-                                <div class="mb-8">
-
-                                    <div
-                                        class="flex items-center gap-4 mb-4">
-
-                                        <h2
-                                            class="text-lg font-semibold">
-                                            Mobile Number
-                                        </h2>
-
-                                        <button
-                                            class="text-blue-600 text-sm">
-                                            Edit
-                                        </button>
-
-                                    </div>
+                        
+                                <div
+                                    class="flex flex-col lg:flex-row gap-x-4 gap-y-4">
 
                                     <input
                                         type="text"
-                                        placeholder="+91 9876543210"
-                                        class="border p-3 rounded w-full md:w-80"
-                                        name="mobile"
-                                        value="{{form.mobile.value}}"
+                                        placeholder="First Name"
+                                        class="border p-3 rounded outline-none focus:border-blue-500 w-full md:w-80 cursor-not-allowed editable_inputs"
+                                        name="first_name"
+                                        value="{{form.first_name.value|default:''}}"
+                                        disabled
+                                        
+                                        >
+
+                                    <input
+                                        type="text"
+                                        placeholder="Last Name"
+                                        class="border p-3 rounded outline-none focus:border-blue-500 w-full md:w-80 cursor-not-allowed editable_inputs"
+                                        name="last_name"
+                                        value="{{form.last_name.value|default:''}}"
+                                        disabled
                                         >
 
                                 </div>
-                        </div>
+
+                                <div class="mt-5">
+
+                                    <p
+                                        class="font-medium mb-3">
+                                        Your Gender
+                                    </p>
+
+                                    <div class="flex gap-6">
+
+                                        <label class="flex items-center gap-2">
+                                            <input type="radio" name="gender"
+                                            value="male" 
+                                            class="cursor-not-allowed editable_inputs"
+                                            disabled
+                                            {% if form.gender.value == "male" %} checked {% endif %}
+                                            >
+                                            Male
+                                        </label>
+
+                                        <label class="flex items-center gap-2">
+                                            <input type="radio" name="gender" value="female" disabled class="cursor-not-allowed editable_inputs"
+                                            {% if form.gender.value == "female" %} checked {% endif %}
+                                            >
+                                            Female
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <!-- Email -->
+                            <div class="flex flex-col lg:flex-row gap-x-4">
+                                    <div class="mb-8">
+
+                                        <div
+                                            class="flex items-center gap-4 mb-4">
+
+                                            <h3
+                                                class="text-lg font-semibold">
+                                                Email Address
+                                            </h3>
+
+                                            <!-- <button
+                                                class="text-blue-600 text-sm cursor-pointer">
+                                                Edit
+                                            </button> -->
+
+                                        </div>
+
+                                        <input
+                                            type="email"
+                                            placeholder="Enter Email"
+                                            class="border p-3 rounded w-full md:w-80 cursor-not-allowed editable_inputs"
+                                            name="email"
+                                            value ="{{form.email.value|default:''}}"
+                                            disabled
+                                            
+                                            >
+
+                                    </div>
+
+                                    <!-- Mobile -->
+
+                                    <div class="mb-8">
+
+                                        <div
+                                            class="flex items-center gap-4 mb-4">
+
+                                            <h2
+                                                class="text-lg font-semibold">
+                                                Mobile Number
+                                            </h2>
+
+                                            <!-- <button
+                                                class="text-blue-600 text-sm cursor-pointer">
+                                                Edit
+                                            </button> -->
+
+                                        </div>
+
+                                        <input
+                                            type="text"
+                                            placeholder="+91 9876543210"
+                                            class="border p-3 rounded w-full md:w-80 cursor-not-allowed editable_inputs"
+                                            name="mobile"
+                                            value="{{form.mobile.value|default:''}}"
+                                            disabled
+                                            >
+
+                                    </div>
+                            </div>
+                        <!-- submit button start here -->
+                         <button type="submit" class="bg-blue-500 !text-white font-semibold px-4 py-2 rounded-lg mb-[0.5rem] cursor-pointer ">Submit</button>
+                        <!--  submit button end here  -->
                     </form>
                     {% endblock user_profile_address_form %}
                     <!-- FAQ -->
@@ -382,6 +367,21 @@
           profileContentSection[index].style.display="block"
         }
     })
+
+    // editable codes start here
+       const editable_btn = document.querySelector("#editable");
+       const editableInputs = document.querySelectorAll(".editable_inputs")
+       editable_btn.onclick =() =>{
+        editableInputs.forEach((item)=>{
+            item.classList.replace('cursor-not-allowed','cursor-pointer')
+            item.disabled = false;
+        })
+        console.log("hello world");
+
+       }
+       
+       
+    // editable codes end  here
 </script>
 
 {% endblock script %}

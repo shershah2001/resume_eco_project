@@ -131,7 +131,7 @@ class AddressModel(models.Model):
     locality = models.CharField(max_length=100)
     address = models.TextField()
     city =  models.CharField(max_length=100)
-    state=models.CharField(max_length=100,choices=STATE_CHOICES)
+    state = models.CharField(max_length=100,choices=STATE_CHOICES)
     landmark = models.CharField(max_length=100,blank=True,null=True)
     alternate_mobile = models.CharField(max_length=10,blank=True,null=True)
     address_type = models.CharField(max_length=10,choices=(('home','Home'),('work','Work')),default='home')
@@ -148,9 +148,9 @@ class UserProfileModel(models.Model):
     first_name = models.CharField(max_length=100,blank=True,null=True)
     last_name = models.CharField(max_length=100,blank=True,null=True)
     gender = models.CharField(max_length=100,choices=SELECT_GENDER)
-    email=models.EmailField(max_length=250,unique=True)
-    mobile=models.CharField(max_length=10)
+    email = models.EmailField(max_length=250,unique=True)
+    mobile = models.CharField(max_length=10)
 
-    def __str_(self):
+    def __str__(self):
         return f"{self.user} - {self.first_name} - {self.last_name} - {self.email} "
     
