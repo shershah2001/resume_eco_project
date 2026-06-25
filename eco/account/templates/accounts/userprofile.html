@@ -343,11 +343,19 @@ input:read-only {
 
 {% block script %}
 <script>
+
     const add_new_address = document.querySelector("#add_new_address");
     const address_form = document.querySelector("#addressform");
     const hide_heading = document.querySelector("#hide_heading")
     const userProfileList = document.querySelectorAll(".userprofile_list")
     const profileContentSection = document.querySelectorAll('.profile_content_section');
+
+    // addressData variables
+    const addressName = document.querySelector("#address_name");
+    const addressMobile = document.querySelector("#address_mobile");
+    const addressAddress = document.querySelector("#address_address");
+    const addressPincode = document.querySelector("#address_pincode");
+    const addressType = document.querySelector("#addressType")
 
     add_new_address.onclick  = () =>{
       add_new_address.style.display="none"
@@ -397,13 +405,11 @@ input:read-only {
       
        
        let user_id = null
-
-    // const fetchData = (id) =>{
-    //   console.log("=>",id);
-      
-    // }
-       window.fetchData = async (id)=>{
+ 
+   async function fetchData (event,id){
+        event.preventDefault()
         user_id = id;
+        console.log(user_id)
         try{
             const res = await axios.get(`/accounts/address/${id}/`)
 
@@ -427,36 +433,141 @@ input:read-only {
         }catch(error){
             console.log(error);
         }
-       }
 
-       const pushData = async ()=>{
-         const selectedType = document.querySelector('input[name="address_type"]:checked');
-        const payload = {
-            name:nameInput.value,
-            mobile:mobileInput.value,
-            pincode:pincodeInput.value,
-            locality:localityInput.value,
-            address:addressInput.value,
-            city:cityInput.value,
-            state:stateInput.value,
-            landmark:landmarkInput.value,
-            alternate_mobile:alternateMobile.value,
-            address_type:selectedType.value,
-        };
+      
+       }
+      
+
+
+const updateForm = document.querySelector("#updateform");
+
+const csrftoken = document.querySelector(
+    '[name=csrfmiddlewaretoken]'
+).value;
+
+updateForm.addEventListener("submit", async (event) => {
+
+    console.log("FORM SUBMITTED");
+    console.log("user_id =", user_id);
+
+    // CREATE MODE
+    if (!user_id) {
+        console.log("CREATE MODE");
+        return; // normal form submit hone do
+    }
+
+    // UPDATE MODE
+    event.preventDefault();
+
+    console.log("UPDATE MODE");
+
+    const selectedType = document.querySelector(
+        'input[name="address_type"]:checked'
+    );
+
+    const payload = {
+        name: nameInput.value,
+        mobile: mobileInput.value,
+        pincode: pincodeInput.value,
+        locality: localityInput.value,
+        address: addressInput.value,
+        city: cityInput.value,
+        state: stateInput.value,
+        landmark: landmarkInput.value,
+        alternate_mobile: alternateMobile.value,
+        address_type: selectedType.value,
+    };
+
+    try {
+
+        const res = await axios.post(
+            `/accounts/address/${user_id}/`,
+            payload,
+            {
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                },
+            }
+        );
+
+        console.log("res.data==>",res.data);
+
+        if (res.data.success) {
+
+            // form hide
+            address_form.style.display = "none";
+
+            // add address button show
+            add_new_address.style.display = "block";
+
+            // heading show
+            hide_heading.style.display = "block";
+            await addressData()
+            // edit mode reset
+            user_id = null;
+             
+            alert("Address Updated Successfully");
+
+        }
+
+    } catch (error) {
+
+        console.log("ERROR =", error);
+        console.log("RESPONSE =", error.response);
+        console.log("DATA =", error.response?.data);
+        console.log("STATUS =", error.response?.status);
+
+    }
+});
+    // address_form codes editable codes end here 
+
+    // list update through axios
+    console.log("addressName=>",addressName);
+    console.log("addressMobile=>",addressMobile);
+    console.log("addressAddress=>",addressAddress);
+    console.log("addressPincode=>",addressPincode);
+    console.log("addressType=>",addressType);
+
+    const addressData = async () =>{
+        const addressName=document.querySelector(`#address_name_${user_id}`);
+        const addressMobile=document.querySelector(`#address_mobile_${user_id}`);
+        const addressAdress=document.querySelector(`#address_address_${user_id}`);
+        const addressPincode=document.querySelector(`#address_pincode_${user_id}`);
+        const addressType=document.querySelector(`#addressType_${user_id}`);
+
         try{
-            const res = await axios.post(`/accounts/address/${user_id}/`,payload,{
-                headers:{
-                    "X-CSRFToken":csrftoken
-                }
-            })
-            console.log(res.data)
+            const res =  await axios.get(`/accounts/address/${user_id}/`)
+            const data = res.data
+            console.log("data==>",typeof(data));
+             
+            addressName.textContent=data.name;
+            addressMobile.textContent=data.mobile;
+            addressAddress.textContent=data.address;
+            addressPincode.textContent=data.pincode;
+            addressType.textContent=data.addressType;
+            
+           
+
         }catch(error){
             console.log(error.message);
             
         }
-       }
-    // address_form codes editable codes end here 
+    }
 
+    // delete data from the database
+
+    async function deleteData (id){
+       const payload={
+       }
+        try{
+           const res = await axios.post(`/accounts/address/delete/${id}/`,payload,{headers:{"X-CSRFToken":csrftoken}})
+           console.log("res.data==>",res.data);
+           
+        }catch(error){
+            console.log(error.message);
+            
+        }
+    }
 
 </script>
 

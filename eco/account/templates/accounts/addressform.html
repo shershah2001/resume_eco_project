@@ -30,7 +30,7 @@
 
             </button>
 
-            <form action="{% url 'address' %}" method="POST">
+            <form action="{% url 'address' %}" method="POST" id="updateform">
                 {% csrf_token %}
                 <!-- Name & Mobile -->
 

@@ -7,5 +7,6 @@ urlpatterns = [
     path('userprofile/',views.userprofile,name="userprofile"),
     path('address/',views.addressView,name="address"),
     path('address/<int:id>/', views.editAddressView, name='edit_address'),
+    path('address/delete/<int:id>/',views.deleteAddressView,name="delete_address"),
     path('logout/',views.userlogout,name="logout"),
 ]

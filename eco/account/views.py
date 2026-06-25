@@ -90,7 +90,7 @@ def addressView(request):
     context = {"form": form}
     return render(request, "accounts/addressform.html", context)
 
-
+import json
 @login_required
 def editAddressView(request,id):
     address = get_object_or_404(
@@ -116,9 +116,13 @@ def editAddressView(request,id):
         return JsonResponse(data)
     
     # POST (UPDATE)
+    print("request.post=>",request.POST)
+    print("request.body=>",request.body)
+    print(json.loads(request.body))
     if request.method == 'POST':
+        data = json.loads(request.body)
         form=address_form(
-            request.POST,
+            data,
             instance=address
         )
         if form.is_valid():
@@ -133,6 +137,19 @@ def editAddressView(request,id):
             "success":False,
             "errors":form.errors
         })
+   
+# delete view  start  here
+@login_required
+def deleteAddressView(request,id):
+    if request.method == 'POST':
+        address = get_object_or_404(AddressModel,user=request.user,id=id)
+        address.delete()
+        return JsonResponse({
+            "success":True
+        })
+    return JsonResponse({
+        "success":False
+    })
 
 @login_required
 def userprofile(request):

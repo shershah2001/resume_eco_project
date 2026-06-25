@@ -49,7 +49,7 @@
 
                     <!-- Top Row -->
                       <div class="flex justify-between w-full">
-                         <span class="inline-block px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded">{{item.address_type}}</span>
+                         <span class="inline-block px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded" id="addressType_{{item.id}}">{{item.address_type}}</span>
                         
                          <div class="group relative">
                             <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
@@ -58,10 +58,10 @@
                                 <path d="M12 10a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0 6a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0-12a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path>
                             </svg>
                            <ul class="shadow-sm bg-white px-4 py-2  h-[max-content] rounded-sm hidden group-hover:block absolute top-0 right-0">
-                            <li class="flex justify-center py-1 !text-gray-400 cursor-pointer" onclick="fetchData('{{ item.id }}')">
+                            <li class="flex justify-center py-1 !text-gray-400 cursor-pointer" onclick="fetchData(event,'{{ item.id }}')">
                                 Edit
                             </li>
-                            <li class="flex justify-center py-1 !text-gray-400 cursor-pointer">
+                            <li class="flex justify-center py-1 !text-gray-400 cursor-pointer"onclick="deleteData('{{item.id}}')">
                                 Delete
                             </li>
                            </ul>
@@ -79,12 +79,12 @@
                                     class="flex flex-col sm:flex-row sm:items-center gap-2 mt-4">
 
                                     <h3
-                                        class="font-semibold text-lg text-gray-900">
+                                        class="font-semibold text-lg text-gray-900" id="address_name_{{item.id}}">
                                         {{item.name}}
                                     </h3>
 
                                     <span
-                                        class="font-semibold text-gray-700">
+                                        class="font-semibold text-gray-700" id="address_mobile_{{item.id}}">
                                         {{item.mobile}}
                                     </span>
 
@@ -104,10 +104,10 @@
                     <!-- Address -->
 
                     <p
-                        class="mt-4 text-gray-700 leading-7">
+                        class="mt-4 text-gray-700 leading-7" id="address_address_{{item.id}}">
 
                         {{item.address}}
-                        <span class="font-semibold">
+                        <span class="font-semibold" id="address_pincode_{{item.id}}">
                             {{item.pincode}}
                         </span>
 
