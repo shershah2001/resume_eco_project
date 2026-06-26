@@ -68,6 +68,12 @@
                         name="address" id="address_input">{{form.address.value|default:""}}</textarea>
 
                 </div>
+                <div class="w-full">
+                    <input type="email" placeholder="Enter Email" 
+                           class="border p-3 mt-2 rounded w-full cursor-pointer editable_inputs"
+                           name="email"
+                           value ="{{form.email.value|default:''}}">
+                </div>
 
                 <!-- City & State -->
 
@@ -150,7 +156,7 @@
 
                     </button>
 
-                    <button type="button" class="text-blue-600 font-medium">
+                    <button type="button" class="text-blue-600 font-medium cursor-pointer" onclick="cacelFunction()">
 
                         CANCEL
 

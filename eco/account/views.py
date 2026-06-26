@@ -129,10 +129,12 @@ def editAddressView(request,id):
             update_address=form.save(commit=False)
             update_address.user=request.user
             update_address.save()
-
+            
             return JsonResponse({
-                "success":True
+                "success":True,
+                "message": "Address updated successfully"
             })
+            messages.success(request, 'Address updated successfully')
         return JsonResponse({
             "success":False,
             "errors":form.errors
@@ -145,7 +147,8 @@ def deleteAddressView(request,id):
         address = get_object_or_404(AddressModel,user=request.user,id=id)
         address.delete()
         return JsonResponse({
-            "success":True
+            "success":True,
+            "message": "Address delete successfully"
         })
     return JsonResponse({
         "success":False
@@ -161,6 +164,7 @@ def userprofile(request):
             profile_form = form.save(commit=False)
             profile_form.user = request.user
             profile_form.save()
+            messages.success(request, 'userprofile added successfully')
             print("Saved Successfully")
     else:
         form = UserProfileForm(instance=profile)

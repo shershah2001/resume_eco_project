@@ -21,87 +21,166 @@
             <div class="xl:col-span-2 space-y-6">
 
                 <!-- Shipping Address -->
-                <div class="bg-white rounded-lg shadow-sm">
+                <div class="max-w-6xl mx-auto px-4">
 
-                    <div
-                        class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 p-6 border-b">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
 
-                        <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-truck text-orange-500 text-2xl"></i>
-                            <h2 class="text-2xl font-bold">
+                        <!-- Heading -->
+                        <div class="flex justify-between items-center border-b px-6 py-4">
+                            <h2 class="font-semibold text-lg">
                                 Shipping Address
                             </h2>
+
+                            <button class="text-blue-600 text-sm font-medium hover:underline">
+                                Change
+                            </button>
                         </div>
 
-                        <button
-                            class="text-blue-600 font-semibold hover:text-blue-700">
-                            Change
-                        </button>
+
+                        <!-- Content -->
+                        <div class="grid lg:grid-cols-2 gap-6 p-6">
+
+                            <!-- Left Side -->
+                            <div>
+
+                                <div class="space-y-4">
+
+                                    <div>
+                                        <div class="flex items-center gap-2">
+
+                                            <h3 class="font-semibold text-lg" id="user_name">
+                                                Sher Shah
+                                            </h3>
+
+                                            <span class="bg-blue-100 text-white-700 text-xs px-2 py-1 rounded" id="user_addresstype">
+                                                HOME
+                                            </span>
+
+                                        </div>
+
+                                        <p class="text-gray-600 text-sm mt-2" id="user_address">
+                                            Gali Number 7, Opp Bus Depot,
+                                            <br>
+                                            Virar, Thane, Maharashtra - 401301
+                                        </p>
+
+                                        <p class="mt-4 text-sm">
+                                            <span class="font-semibold">
+                                                Mobile:
+                                            </span>
+                                            <span id="user_mobile">8076588017</span>
+                                        </p>
+
+                                        <p class="text-sm">
+                                            <span class="font-semibold">
+                                                Email:
+                                            </span>
+                                            <span id="user_email"> ss2001shershah@gmail.com</span>
+                                        </p>
+
+                                    </div>
+
+
+                                    <div class="flex flex-wrap gap-6 pt-4">
+
+                                        <button class="flex items-center gap-2 text-blue-600 hover:text-blue-800">
+
+                                            <i class='bx bx-edit'></i>
+
+                                            Edit
+
+                                        </button>
+
+
+                                        <button class="flex items-center gap-2 text-blue-600 hover:text-blue-800">
+
+                                            <i class='bx bx-plus'></i>
+
+                                            Add New Address
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Right Side -->
+                             
+                            <div>
+
+                                <h3 class="text-xs font-semibold text-gray-500 uppercase mb-3">
+                                    Saved Addresses
+                                </h3>
+
+
+                                <div class="space-y-3">
+
+                                    <!-- Address Card -->
+                                     {% for address in user_address%}
+                                        <div class="border-2 border-blue-500 rounded-lg p-4 relative bg-blue-50">
+
+                                            <div class="absolute top-3 right-3">
+
+                                                <a  href="{% url 'userprofile' %}" class="text-blue-600 cursor-pointer">
+
+                                                    <i class='bx bx-edit'></i>
+
+                                                </a>
+
+                                            </div>
+
+                                            <div class="flex gap-3">
+
+                                                <input
+                                                    checked
+                                                    type="radio"
+                                                    name="address"
+                                                    class="mt-1 accent-blue-600 cursor-pointer" onclick="radioFunction('{{address.id}}')">
+
+                                                <div>
+
+                                                    <span class="bg-blue-600 !text-white text-[10px] px-2 py-1 rounded">
+                                                        {{address.address_type}}
+                                                    </span>
+
+                                                    <p class="mt-2 text-sm text-gray-700">
+                                                        {{address.address}},
+                                                        <br>
+                                                        {{address.landmark}}
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                     {% endfor %}
+                                    <!-- Add Button -->
+                                    <a href="{% url 'userprofile' %}"
+                                        class="w-full border border-dashed border-blue-400 rounded-lg py-3 flex justify-center items-center gap-2 text-blue-600 hover:bg-blue-50 transition">
+
+                                        <i class='bx bx-plus text-lg'></i>
+
+                                        Add New Address
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+                           
+                        </div>
+
                     </div>
 
-                    <div
-                        class="p-6 flex flex-col lg:flex-row gap-6 justify-between">
-
-                        <div class="space-y-3">
-
-                            <h3 class="text-xl font-semibold">
-                                Abhinav Chaudhry
-                            </h3>
-
-                            <p class="text-gray-600 leading-7">
-                                A-101, Unique Apartments <br>
-                                Opp Bus Depot <br>
-                                Virar, Thane, Maharashtra 401301
-                            </p>
-
-                            <p>
-                                <span class="font-semibold">Email:</span>
-                                abhinav@gmail.com
-                            </p>
-
-                            <div class="flex gap-5 pt-4">
-                                <a href="#"
-                                    class="text-blue-600 font-medium">
-                                    Edit
-                                </a>
-
-                                <a href="#"
-                                    class="text-blue-600 font-medium">
-                                    + Add New Address
-                                </a>
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="border rounded-lg p-4 w-full lg:w-72 space-y-4">
-
-                            <h4
-                                class="font-semibold text-gray-500 uppercase text-sm">
-                                Saved Address
-                            </h4>
-
-                            <div>
-                                <p class="font-semibold">401301</p>
-                                <p class="text-gray-600">
-                                    9-201 Flower Apartment
-                                </p>
-                            </div>
-
-                            <div>
-                                <p class="font-semibold">110068</p>
-                                <p class="text-gray-600">
-                                    81 Nehaj Subhash Nagar
-                                </p>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
+                 </div>
 
                 <!-- Payment Method -->
-                <div class="bg-white rounded-lg shadow-sm">
+                <!-- <div class="bg-white rounded-lg shadow-sm">
 
                     <div
                         class="flex items-center justify-between p-6 border-b">
@@ -125,7 +204,7 @@
                     <div
                         class="flex flex-col md:flex-row min-h-[350px]">
 
-                        <!-- Menu -->
+                        
 
                         <div
                             class="md:w-72 border-b md:border-b-0 md:border-r">
@@ -161,7 +240,7 @@
 
                         </div>
 
-                        <!-- Cards -->
+                        
 
                         <div class="flex-1 p-6 space-y-6">
 
@@ -219,7 +298,7 @@
 
                     </div>
 
-                </div>
+                </div> -->
 
             </div>
 
@@ -323,4 +402,33 @@
     </div>
 
 {% endblock content %}
+
+{% block script %}
+
+<script>
+async function radioFunction (id){
+   const UserName = document.querySelector("#user_name");
+   const UserAddressType = document.querySelector("#user_addresstype")
+   const UserAddress = document.querySelector("#user_address");
+   const UserMobile = document.querySelector("#user_mobile");
+   const UserEmail = document.querySelector("#user_email");
+   console.log("useremail==>",UserEmail)
+   try {
+    const res = await axios.get(`/accounts/address/${id}/`)
+    console.log("res.data==>",res.data);
+    UserName.innerHTML = res.data.name;
+    UserAddressType.innerHTML = res.data.address_type;
+    UserMobile.innerHTML = res.data.mobile;
+    UserEmail.innerHTML = res.data.email
+   }catch(error){
+      console.log(error.message)
+   }
+}
+</script>
+{% endblock %}
+
+
+
+
+
 

@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 from .utilis import _cart_id_
 from django.contrib.auth.decorators import login_required
+from account.models import AddressModel
 
 def cartView(request):
     if request.user.is_authenticated:
@@ -106,4 +107,10 @@ def decreaseView(request,product_slug):
 
 @login_required
 def checkout(request):
-    return render(request,'checkout.html')
+    # user_address = get_object_or_404(AddressModel,user=request.user)
+    user_address=AddressModel.objects.filter(user=request.user)
+    context={
+        "user_address":user_address
+    }
+    print("==>",user_address)
+    return render(request,'checkout.html',context)

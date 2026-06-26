@@ -221,11 +221,6 @@ input:read-only {
                                                 Email Address
                                             </h3>
 
-                                            <!-- <button
-                                                class="text-blue-600 text-sm cursor-pointer">
-                                                Edit
-                                            </button> -->
-
                                         </div>
 
                                         <input
@@ -356,6 +351,9 @@ input:read-only {
     const addressAddress = document.querySelector("#address_address");
     const addressPincode = document.querySelector("#address_pincode");
     const addressType = document.querySelector("#addressType")
+    
+    // address_form variables
+    
 
     add_new_address.onclick  = () =>{
       add_new_address.style.display="none"
@@ -422,6 +420,7 @@ input:read-only {
             stateInput.value=res.data.state;
             landmarkInput.value=res.data.landmark;
             alternateMobile.value=res.data.alternate_mobile;
+            
             if(res.data.address_type == "home"){
                 document.querySelector('input[value="home"]').checked=true;
             }else{
@@ -502,11 +501,20 @@ updateForm.addEventListener("submit", async (event) => {
 
             // heading show
             hide_heading.style.display = "block";
+            
+            // address message show
+            Swal.fire({
+                title:res.data.message,
+                icon: "success",
+                timer: 1000,
+                showConfirmButton: false
+                });
+
             await addressData()
             // edit mode reset
             user_id = null;
-             
-            alert("Address Updated Successfully");
+            updateForm.reset()
+            // alert("Address Updated Successfully");
 
         }
 
@@ -522,11 +530,11 @@ updateForm.addEventListener("submit", async (event) => {
     // address_form codes editable codes end here 
 
     // list update through axios
-    console.log("addressName=>",addressName);
-    console.log("addressMobile=>",addressMobile);
-    console.log("addressAddress=>",addressAddress);
-    console.log("addressPincode=>",addressPincode);
-    console.log("addressType=>",addressType);
+    // console.log("addressName=>",addressName);
+    // console.log("addressMobile=>",addressMobile);
+    // console.log("addressAddress=>",addressAddress);
+    // console.log("addressPincode=>",addressPincode);
+    // console.log("addressType=>",addressType);
 
     const addressData = async () =>{
         const addressName=document.querySelector(`#address_name_${user_id}`);
@@ -557,18 +565,33 @@ updateForm.addEventListener("submit", async (event) => {
     // delete data from the database
 
     async function deleteData (id){
-       const payload={
-       }
+       const payload={}
+       const addressCard = document.querySelector(`#address_card_${id}`)
         try{
            const res = await axios.post(`/accounts/address/delete/${id}/`,payload,{headers:{"X-CSRFToken":csrftoken}})
            console.log("res.data==>",res.data);
-           
+           if(res.data.success){
+            addressCard.style.display="none";
+            Swal.fire({
+                title:res.data.message,
+                icon: "success",
+                timer: 1000,
+                showConfirmButton: false
+                });
+           }
         }catch(error){
             console.log(error.message);
             
         }
     }
 
+// cancel form start here
+const cacelFunction = () =>{
+    address_form.style.display='none';
+    hide_heading.style.display="block";
+    add_new_address.style.display="block";
+}
+// cancel form end here 
 </script>
 
 {% endblock script %}

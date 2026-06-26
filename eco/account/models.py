@@ -124,25 +124,26 @@ class AddressModel(models.Model):
     ('Lakshadweep', 'Lakshadweep'),
     ('Puducherry', 'Puducherry'),
 ]
+    
     user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     mobile = models.CharField(max_length=10)
     pincode =  models.CharField(max_length=6)
     locality = models.CharField(max_length=100)
     address = models.TextField()
+    email = models.EmailField(max_length=250,unique=True,null=False,blank=False)
     city =  models.CharField(max_length=100)
     state = models.CharField(max_length=100,choices=STATE_CHOICES)
     landmark = models.CharField(max_length=100,blank=True,null=True)
     alternate_mobile = models.CharField(max_length=10,blank=True,null=True)
     address_type = models.CharField(max_length=10,choices=(('home','Home'),('work','Work')),default='home')
 
-    def __str__(self):
-        return f"{self.name} - {self.mobile} - {self.pincode} - {self.city} - {self.state}"
     
 SELECT_GENDER=[
     ('male','MALE'),
     ('female','FEMALE')
 ]
+
 class UserProfileModel(models.Model):
     user = models.OneToOneField(MyUser,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100,blank=True,null=True)
