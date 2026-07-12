@@ -8,4 +8,5 @@ urlpatterns = [
     path('increase/<slug:product_slug>/',views.increaseView,name="increase"),
     path('decrease/<slug:product_slugs>/',views.decreaseView,name="decrease"),
     path('checkout/',views.checkout,name="checkout"),
+    path('checkout/address/<int:id>/',views.checkout_address,name='checkout_address'),
 ]

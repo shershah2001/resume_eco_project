@@ -1,19 +1,27 @@
 from django.shortcuts import render,get_object_or_404
 from products.models import Product
-
-# Create your views here.
-
+from  wishlist.models import Wishlist
 
 
 def home(request):
-    data = Product.objects.all()
-    # print("==>",data)
+    
+    product_data = Product.objects.all()
+    wish_id = set()
+    if request.user.is_authenticated:
+        wish_id = set(
+            Wishlist.objects.filter(
+                user=request.user
+            ).values_list("product_id", flat=True)
+        )
     context={
-        "data":data
+        "product_data":product_data,
+        "wish_id":wish_id,
     }
+
     return render(request,"home.html",context)
 
 def single_product(request,product_slug):
+
     single_product = get_object_or_404(Product,slug=product_slug)
     images = single_product.sub_productImages.all()
 

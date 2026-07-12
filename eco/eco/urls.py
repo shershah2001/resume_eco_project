@@ -11,7 +11,8 @@ urlpatterns = [
     path('accounts/',include('account.urls')),
     path('cart/',include('carts.urls')),
     path('',views.home,name='home'),
-    path('store/',include('products.urls'))
+    path('store/',include('products.urls')),
+    path('wishlist/',include('wishlist.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,6 @@
 from django.urls import path
 from account import views
-
+from carts.views import checkout
 urlpatterns = [
     path('register/',views.registerView,name="register"),
     path('login/',views.userlogin,name='login'),

@@ -27,7 +27,15 @@ box-shadow: 0px 7px 22px 3px rgba(207,207,207,0.25);">
                         <path d="M12 6c-2.28 0-4 1.72-4 4s1.72 4 4 4 4-1.72 4-4-1.72-4-4-4m0 6c-1.18 0-2-.82-2-2s.82-2 2-2 2 .82 2 2-.82 2-2 2"></path>
                         <path d="M12 2C6.49 2 2 6.49 2 12c0 3.26 1.58 6.16 4 7.98V20h.03c1.67 1.25 3.73 2 5.97 2s4.31-.75 5.97-2H18v-.02c2.42-1.83 4-4.72 4-7.98 0-5.51-4.49-10-10-10M8.18 19.02C8.59 17.85 9.69 17 11 17h2c1.31 0 2.42.85 2.82 2.02-1.14.62-2.44.98-3.82.98s-2.69-.35-3.82-.98m9.3-1.21c-.81-1.66-2.51-2.82-4.48-2.82h-2c-1.97 0-3.66 1.16-4.48 2.82A7.96 7.96 0 0 1 4 11.99c0-4.41 3.59-8 8-8s8 3.59 8 8c0 2.29-.97 4.36-2.52 5.82"></path>
                 </svg>
-                <span class="!text-white font-semibold">Login</span>
+                {% if request.user.is_authenticated %}
+                <span class="!text-white font-semibold">
+                    <a href="{% url 'logout' %}" class="!text-white">Logout</a>
+                </span>
+                {% else %}
+                <span class="!text-white font-semibold">
+                    <a href="{% url 'login' %}" class="!text-white">Login</a>
+                </span>
+                {% endif %}
                 <svg class="mt-[0.1rem]"  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
                     fill="#fff" viewBox="0 0 24 24" >
                     <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
@@ -80,6 +88,7 @@ box-shadow: 0px 7px 22px 3px rgba(207,207,207,0.25);">
                 </li>
                 <li>
                     <a href="#" class="flex items-center gap-x-[0.5rem]">
+
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 20.249C12 20.249 2.625 14.999 2.625 8.62403C2.625 7.49705 3.01546 6.40488 3.72996 5.53334C4.44445 4.66179 5.43884 4.06472 6.54393 3.8437C7.64903 3.62268 8.79657 3.79137 9.79131 4.32106C10.7861 4.85076 11.5665 5.70874 12 6.74903V6.74903C12.4335 5.70874 13.2139 4.85076 14.2087 4.32106C15.2034 3.79137 16.351 3.62268 17.4561 3.8437C18.5612 4.06472 19.5555 4.66179 20.27 5.53334C20.9845 6.40488 21.375 7.49705 21.375 8.62403C21.375 14.999 12 20.249 12 20.249Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -100,15 +109,19 @@ box-shadow: 0px 7px 22px 3px rgba(207,207,207,0.25);">
                 </svg>
         
         </li>
-        <li>
-            <a href="#" class="!text-white cursor-pointer">
+        <li class="relative">
+            <a href="{% url 'wishlistproduct' %}" class="!text-white cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24">
                     <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
                     <path
                         d="M11.29 20.66c.2.2.45.29.71.29s.51-.1.71-.29l7.5-7.5c2.35-2.35 2.35-6.05 0-8.41-2.3-2.28-5.85-2.35-8.21-.2-2.36-2.15-5.91-2.09-8.21.2-2.35 2.36-2.35 6.06 0 8.41zM5.21 6.16C6 5.38 7 4.99 8.01 4.99s2.01.39 2.79 1.17l.5.5c.39.39 1.02.39 1.41 0l.5-.5c1.56-1.56 4.02-1.56 5.59 0 1.56 1.57 1.56 4.02 0 5.58l-6.79 6.79-6.79-6.79a3.91 3.91 0 0 1 0-5.58Z">
                     </path>
                 </svg>
-                
+                <span
+                    id="wishlist_count"
+                    class="absolute top-[-0.2rem] right-[-0.2rem] bg-white w-[1rem] h-[1rem] rounded-full !text-black flex justify-center items-center text-[0.5rem]">
+                    {{wishlist_count}}
+                </span>
             </a>
         </li>
         <li class="relative">

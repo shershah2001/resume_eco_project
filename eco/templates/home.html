@@ -6,3 +6,62 @@
     {% include 'include/card.html' %}
 </div>
 {% endblock content %} 
+
+{% block script %}
+
+ <!-- wishlist axios start here -->
+<Script>
+
+    function getCookie(name) {
+    let cookieValue = null;
+
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+
+            if (cookie.startsWith(name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+
+    return cookieValue;
+}
+
+const csrftoken = getCookie("csrftoken");
+
+    async function whishlist(id, element) {
+
+    const wishlistCountElement = document.querySelector("#wishlist_count");
+
+    try {
+        const res = await axios.post(
+            `/wishlist/toggle/${id}/`,
+            {},
+            {
+                headers: {
+                    "X-CSRFToken": csrftoken
+                }
+            }
+        );
+
+        wishlistCountElement.innerHTML = res.data.wishlist_count;
+
+        if (res.data.status === "added") {
+            element.classList.remove("bg-black/60");
+            element.classList.add("bg-[#c49b66]");
+        } else {
+            element.classList.remove("bg-[#c49b66]");
+            element.classList.add("bg-black/60");
+        }
+
+    } catch (error) {
+        console.log(error.response);
+    }
+}
+</Script>
+    <!-- wishlist axios end here  -->
+{% endblock %}

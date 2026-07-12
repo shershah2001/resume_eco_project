@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'products',
     'widget_tweaks',
     'carts',
+    'orders',
+    'wishlist',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +69,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'carts.context_processors.cart_value',
+                'wishlist.context_processors.wishlist_processor',
             ],
         },
     },
@@ -134,3 +137,6 @@ AUTH_USER_MODEL = 'account.MyUser'
 LOGIN_REDIRECT_URL='home'
 LOGOUT_REDIRECT_URL='login'
 LOGIN_URL='/accounts/login/'
+
+RAZORPAY_KEY_ID = "rzp_test_T7FZ0ubXhu1gmb"
+RAZORPAY_KEY_SECRET = "qyJwog4Qu0pVdM6N8v3LvOOg"
