@@ -1,7 +1,7 @@
 from django.db import models
 from account.models import MyUser,AddressModel
 from products.models import Product
-
+import uuid
 
 class Order(models.Model):
 
@@ -114,9 +114,26 @@ class Order(models.Model):
         null=True
     )
 
+    discount = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    default=0
+)
+    payment_id = models.CharField(
+    max_length=255,
+    blank=True,
+    null=True
+)
+
     def __str__(self):
         return self.order_id
     
+    # yaha chora hai maine
+
+    def save(self,*args,**kwargs):
+        if not self.order_id:
+             self.order_id = f"ORD-{str(uuid.uuid4())[0:8].upper()}"
+        super().save(*args,**kwargs)
 
 class OrderItem(models.Model):
 
