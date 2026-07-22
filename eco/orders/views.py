@@ -11,39 +11,66 @@ import uuid
 
 @login_required
 def PlaceOrder(request):
-    cart_item = CartItem.objects.filter(cart__user = request.user)
-    if not cart_item.exists():
-        messages.error(request,"please select the items")
-        return redirect("cart")
-    else:
-        address = AddressModel.objects.filter(user = request.user).first()
-        if address is None:
-            messages.error(request,"please give your address")
-            return redirect('address')
-        for item in cart_item:
-            stock = item.product.stock
-            if item.quantity > stock:
-                messages.error(request,"Stock not Available")
-            total_price += item.sub_total
-            tax_percentage = 10
-            under_distance = 500
-            above_distance  = 500
+    cart_item = CartItem.objects.filter(cart__user=request.user)
 
-            if above_distance:
-                shipping_charge = 100
-            elif under_distance:
-                shipping_charge = 200
-            else:
-                shipping_charge = 0
-            tax_cal = (total_price  * 10) / 100
-            totalAmount = total_price + tax_cal + shipping_charge
+    if not cart_item.exists():
+        messages.error(request, "Please select the items.")
+        return redirect("cart")
+
+    address = AddressModel.objects.filter(user=request.user).first()
+
+    if address is None:
+        messages.error(request, "Please add your address.")
+        return redirect("address")
+
+    total_price = 0
+    tax_percentage = 10
+  
+    # Calculate subtotal and check stock
+    for item in cart_item:
+        if item.quantity > item.product.stock:
+            messages.error(request, f"{item.product.name} is out of stock.")
+            return redirect("cart")
         
-        Order_create = Order.objects.create(
-            user=request.user,
-            shipping_address = address,
-            subtotal = total_price,
-            tax = tax_cal,
-            total_amount = totalAmount
-            payment_method = request.POST.get("payment_method")
-            order_id = 
+
+        total_price += item.sub_total
+        
+
+    # Shipping Charge
+    shipping_charge = 100
+
+    # Tax Calculation
+    tax_cal = (total_price * tax_percentage) / 100
+
+    # Grand Total
+    totalAmount = total_price + tax_cal + shipping_charge
+
+    # Create Order
+    order = Order.objects.create(
+        user=request.user,
+        shipping_address=address,
+        subtotal=total_price,
+        tax=tax_cal,
+        shipping_charge=shipping_charge,
+        total_amount=totalAmount,
+        payment_method=request.POST.get("RAZORPAY"),
+    )
+    for item in cart_item:
+        OrderItem.objects.create(
+            order = order,
+            product = item.product,
+            product_name = item.product.name,
+            quantity = item.quantity,
+            price = item.product.price,
+            total_price = item.sub_total
         )
+        item.product.stock -= item.quantity
+        item.product.save()
+        item.delete()
+
+    messages.success(request, "Order created successfully.")
+
+    return redirect("checkout")
+
+
+def verify_payment(request):

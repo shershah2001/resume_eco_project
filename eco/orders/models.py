@@ -135,6 +135,7 @@ class Order(models.Model):
              self.order_id = f"ORD-{str(uuid.uuid4())[0:8].upper()}"
         super().save(*args,**kwargs)
 
+
 class OrderItem(models.Model):
 
     order = models.ForeignKey(
