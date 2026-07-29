@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser,PermissionsMixin
 
 class MyUserManager(BaseUserManager):
 
@@ -45,16 +44,16 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-class MyUser(AbstractBaseUser):
+class MyUser(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField(max_length=250, unique=True)
-    email = models.EmailField(max_length=250, unique=True)
+    email = models.EmailField(unique=True)
 
-    first_name = models.CharField(max_length=250, null=True, blank=True)
-    last_name = models.CharField(max_length=250, null=True, blank=True)
+    first_name = models.CharField(max_length=250, blank=True, null=True)
+    last_name = models.CharField(max_length=250, blank=True, null=True)
 
     profile_image = models.ImageField(
-        upload_to='profile_images/',
+        upload_to="profile_images/",
         blank=True,
         null=True
     )
@@ -62,24 +61,14 @@ class MyUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
 
-    
-
-    USERNAME_FIELD = 'email'
-
-    REQUIRED_FIELDS = ['username','first_name','last_name']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username", "first_name", "last_name"]
 
     objects = MyUserManager()
 
     def __str__(self):
         return self.email
-
-    def has_perm(self, perm, obj=None):
-        return self.is_admin
-
-    def has_module_perms(self, app_label):
-        return True
     
 
 

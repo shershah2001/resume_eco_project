@@ -3,246 +3,241 @@
 
 {% block globlestyle %}
 <style>
-    *,*::before,*::after{
-        color:black !important;
-        border-color:rgba(211,211,211,1);
+    *,
+    *::before,
+    *::after {
+        color: black !important;
+        border-color: rgba(211, 211, 211, 1);
     }
 </style>
 {% endblock globlestyle %}
 
 {% block content %}
-    <!-- Checkout Section -->
+<!-- Checkout Section -->
 
-    <div class="max-w-7xl mx-auto px-4 py-8">
+<div class="max-w-7xl mx-auto px-4 py-8">
 
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-            <!-- LEFT SECTION -->
-            <div class="xl:col-span-2 space-y-6">
+        <!-- LEFT SECTION -->
+        <div class="xl:col-span-2 space-y-6">
 
-                <!-- Shipping Address -->
-                <div class="max-w-6xl mx-auto px-4">
+            <!-- Shipping Address -->
+            <div class="max-w-6xl mx-auto">
 
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
 
-                        <!-- Heading -->
-                        <div class="flex justify-between items-center border-b px-6 py-4">
-                            <h2 class="font-semibold text-lg">
-                                Shipping Address
-                            </h2>
+                    <!-- Heading -->
+                    <div class="flex justify-between items-center border-b px-6 py-4">
+                        <h2 class="font-semibold text-lg">
+                            Shipping Address
+                        </h2>
 
-                            <button class="text-blue-600 text-sm font-medium hover:underline">
-                                Change
-                            </button>
-                        </div>
+                        <button class="text-blue-600 text-sm font-medium hover:underline">
+                            Change
+                        </button>
+                    </div>
 
 
-                        <!-- Content -->
-                        <div class="grid lg:grid-cols-2 gap-6 p-6">
+                    <!-- Content -->
+                    <div class="grid lg:grid-cols-2 gap-6 p-6">
 
-                            <!-- Left Side -->
-                            <div>
+                        <!-- Left Side -->
+                        <div>
 
-                                <div class="space-y-4">
+                            <div class="space-y-4">
 
-                                    <div>
-                                        <div class="flex items-center gap-2">
+                                <div>
+                                    <div class="flex items-center gap-2">
 
-                                            <h3 class="font-semibold text-lg" id="user_name">
-                                                {{selected_add.name}}
-                                            </h3>
+                                        <h3 class="font-semibold text-lg" id="user_name">
+                                            {{selected_add.name}}
+                                        </h3>
 
-                                            <span class="bg-blue-100 text-white-700 text-xs px-2 py-1 rounded" id="user_addresstype">
-                                                {{selected_add.address_type}}
-                                            </span>
-
-                                        </div>
-
-                                        <p class="text-gray-600 text-sm mt-2" id="user_address">
-                                            {{selected_add.address}}
-                                        </p>
-
-                                        <p class="mt-4 text-sm">
-                                            <span class="font-semibold">
-                                                Mobile:
-                                            </span>
-                                            <span id="user_mobile">{{selected_add.mobile}}</span>
-                                        </p>
-
-                                        <p class="text-sm">
-                                            <span class="font-semibold">
-                                                Email:
-                                            </span>
-                                            <span id="user_email"> {{selected_add.email}}</span>
-                                        </p>
+                                        <span class="bg-blue-100 text-white-700 text-xs px-2 py-1 rounded"
+                                            id="user_addresstype">
+                                            {{selected_add.address_type}}
+                                        </span>
 
                                     </div>
 
+                                    <p class="text-gray-600 text-sm mt-2" id="user_address">
+                                        {{selected_add.address}}
+                                    </p>
 
-                                    <div class="flex flex-wrap gap-6 pt-4">
+                                    <p class="mt-4 text-sm">
+                                        <span class="font-semibold">
+                                            Mobile:
+                                        </span>
+                                        <span id="user_mobile">{{selected_add.mobile}}</span>
+                                    </p>
 
-                                        <button class="flex items-center gap-2 text-blue-600 hover:text-blue-800">
-
-                                            <i class='bx bx-edit'></i>
-
-                                            Edit
-
-                                        </button>
-
-
-                                        <button class="flex items-center gap-2 text-blue-600 hover:text-blue-800">
-
-                                            <i class='bx bx-plus'></i>
-
-                                            Add New Address
-
-                                        </button>
-
-                                    </div>
+                                    <p class="text-sm">
+                                        <span class="font-semibold">
+                                            Email:
+                                        </span>
+                                        <span id="user_email"> {{selected_add.email}}</span>
+                                    </p>
 
                                 </div>
 
-                            </div>
+
+                                <div class="flex flex-wrap gap-6 pt-4">
+
+                                    <button class="flex items-center gap-2 text-blue-600 hover:text-blue-800">
+
+                                        <i class='bx bx-edit'></i>
+
+                                        Edit
+
+                                    </button>
 
 
+                                    <button class="flex items-center gap-2 text-blue-600 hover:text-blue-800">
 
-                            <!-- Right Side -->
-                             
-                            <div>
-
-                                <h3 class="text-xs font-semibold text-gray-500 uppercase mb-3">
-                                    Saved Addresses
-                                </h3>
-
-
-                                <div class="space-y-3">
-
-                                    <!-- Address Card -->
-                                     {% for address in user_address%}
-                                        <div class="border-2 border-blue-500 rounded-lg p-4 relative bg-blue-50">
-
-                                            <div class="absolute top-3 right-3">
-
-                                                <a  href="{% url 'userprofile' %}" class="text-blue-600 cursor-pointer">
-
-                                                    <i class='bx bx-edit'></i>
-
-                                                </a>
-
-                                            </div>
-
-                                            <div class="flex gap-3">
-
-                                                <input
-                                                    type="radio"
-                                                    name="address"
-                                                    {% if forloop.first %}checked{% endif %}
-                                                    class="mt-1 accent-blue-600 cursor-pointer" onclick="radioFunction('{{address.id}}')"
-                                                    
-                                                    >
-
-                                                <div>
-
-                                                    <span class="bg-blue-600 !text-white text-[10px] px-2 py-1 rounded">
-                                                        {{address.address_type}}
-                                                    </span>
-
-                                                    <p class="mt-2 text-sm text-gray-700">
-                                                        {{address.address}},
-                                                        <br>
-                                                        {{address.landmark}}
-                                                    </p>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                     {% endfor %}
-                                    <!-- Add Button -->
-                                    <a href="{% url 'userprofile' %}"
-                                        class="w-full border border-dashed border-blue-400 rounded-lg py-3 flex justify-center items-center gap-2 text-blue-600 hover:bg-blue-50 transition">
-
-                                        <i class='bx bx-plus text-lg'></i>
+                                        <i class='bx bx-plus'></i>
 
                                         Add New Address
 
-                                    </a>
+                                    </button>
 
                                 </div>
 
                             </div>
-                           
+
+                        </div>
+
+
+
+                        <!-- Right Side -->
+
+                        <div>
+
+                            <h3 class="text-xs font-semibold text-gray-500 uppercase mb-3">
+                                Saved Addresses
+                            </h3>
+
+
+                            <div class="space-y-3">
+
+                                <!-- Address Card -->
+                                {% for address in user_address%}
+                                <div class="border-2 border-blue-500 rounded-lg p-4 relative bg-blue-50">
+
+
+                                    <div class="absolute top-3 right-3">
+
+                                        <a href="{% url 'userprofile' %}" class="text-blue-600 cursor-pointer">
+
+                                            <i class='bx bx-edit'></i>
+
+                                        </a>
+
+                                    </div>
+
+                                    <div class="flex gap-3">
+
+                                        <input type="radio" name="address" value="{{address.id}}" {% if forloop.first %}checked{% endif %}
+                                            class="mt-1 accent-blue-600 cursor-pointer"
+                                            onclick="radioFunction('{{address.id}}')">
+
+                                        <div>
+
+                                            <span class="bg-blue-600 !text-white text-[10px] px-2 py-1 rounded">
+                                                {{address.address_type}}
+                                            </span>
+
+                                            <p class="mt-2 text-sm text-gray-700">
+                                                {{address.address}},
+                                                <br>
+                                                {{address.landmark}}
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+                                <!-- Add Button -->
+                                <a href="{% url 'userprofile' %}"
+                                    class="w-full border border-dashed border-blue-400 rounded-lg py-3 flex justify-center items-center gap-2 text-blue-600 hover:bg-blue-50 transition">
+
+                                    <i class='bx bx-plus text-lg'></i>
+
+                                    Add New Address
+
+                                </a>
+
+                            </div>
+
                         </div>
 
                     </div>
 
-                 </div>
+                </div>
 
-                <!-- Payment Method -->
-                <!-- <div class="bg-white rounded-lg shadow-sm">
+            </div>
 
-                    <div
-                        class="flex items-center justify-between p-6 border-b">
+            <!-- Payment Method -->
+            <div class="bg-white rounded-lg shadow-sm">
 
-                        <div class="flex items-center gap-3">
-                            <i
-                                class="fa-regular fa-credit-card text-orange-500 text-xl"></i>
+                <div class="flex items-center justify-between p-6 border-b">
 
-                            <h2 class="text-2xl font-bold">
-                                Payment Method
-                            </h2>
-                        </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-regular fa-credit-card text-orange-500 text-xl"></i>
 
-                        <a href="#"
-                            class="text-blue-600 font-semibold">
-                            Add New Payment
-                        </a>
-
+                        <h2 class="text-2xl font-bold">
+                            Payment Method
+                        </h2>
                     </div>
 
-                    <div
-                        class="flex flex-col md:flex-row min-h-[350px]">
+                    <a href="#" class="text-blue-600 font-semibold">
+                        Add New Payment
+                    </a>
 
-                        
+                </div>
 
-                        <div
-                            class="md:w-72 border-b md:border-b-0 md:border-r">
+                <div class="flex flex-col md:flex-row min-h-[350px]">
 
-                            <ul>
 
-                                <li
-                                    class="p-4 bg-blue-50 text-blue-600 border-l-4 border-blue-600 font-semibold">
-                                    Saved Method
-                                </li>
 
-                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
-                                    PhonePe / Wallet
-                                </li>
+                    <div class="md:w-72 border-b md:border-b-0 md:border-r">
 
-                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
-                                    Credit / Debit Card
-                                </li>
+                        <ul>
 
-                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
-                                    Net Banking
-                                </li>
+                            <li
+                                class="p-4 bg-blue-50 text-blue-600 border-l-4 border-blue-600 font-semibold cursor-pointer">
 
-                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
-                                    EMI
-                                </li>
+                                <label class="cursor-pointer">
 
-                                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                                    <input type="radio" name="payment_method" value="RAZORPAY" checked>
+
+                                    Razorpay
+
+                                </label>
+
+                            </li>
+
+                            <li class="p-4 hover:bg-gray-50 cursor-pointer">
+
+                                <label class="cursor-pointer">
+
+                                    <input type="radio" name="payment_method" value="COD">
+
                                     Cash On Delivery
-                                </li>
 
-                            </ul>
+                                </label>
 
-                        </div>
+                            </li>
 
-                        
+                        </ul>
 
-                        <div class="flex-1 p-6 space-y-6">
+                    </div>
+
+
+
+                    <!-- <div class="flex-1 p-6 space-y-6">
 
                             <div
                                 class="border rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -294,112 +289,100 @@
 
                             </div>
 
-                        </div>
+                        </div> -->
 
-                    </div>
-
-                </div> -->
+                </div>
 
             </div>
 
-            <!-- ORDER SUMMARY -->
-            <div>
+        </div>
 
-                <div class="bg-white rounded-lg shadow-sm sticky top-5">
+        <!-- ORDER SUMMARY -->
+        <div>
 
-                    <div
-                        class="flex items-center justify-between p-6 border-b">
+            <div class="bg-white rounded-lg shadow-sm sticky top-5">
 
-                        <div class="flex items-center gap-3">
-                            <i
-                                class="fa-solid fa-bag-shopping text-orange-500 text-xl"></i>
+                <div class="flex items-center justify-between p-6 border-b">
 
-                            <h2 class="text-2xl font-bold">
-                                Order Summary
-                            </h2>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-bag-shopping text-orange-500 text-xl"></i>
+
+                        <h2 class="text-2xl font-bold">
+                            Order Summary
+                        </h2>
+                    </div>
+
+                    <a href="#" class="text-blue-600 font-semibold">
+                        Edit Bag
+                    </a>
+
+                </div>
+
+                <div class="p-6 space-y-6">
+
+                    <!-- Product -->
+                    {% for item in cartItem %}
+                    <div class="flex gap-4">
+
+                        <img src="{{item.product.image.url}}" class="w-20 h-20 object-fill rounded border">
+
+                        <div class="flex-1">
+
+                            <h4 class="font-semibold">
+                                {{item.product.name}}
+                            </h4>
+
+                            <p class="text-sm text-gray-500">
+                                {{item.product.description|truncatechars:30 }}
+                            </p>
+
+                            <p class="text-sm text-gray-500">
+                                Quantity: {{item.quantity}}
+                            </p>
+
                         </div>
 
-                        <a href="#"
-                            class="text-blue-600 font-semibold">
-                            Edit Bag
-                        </a>
+                        <div class="text-right">
+                            <p class="font-bold text-lg">
+                                ₹{{item.product.price}}
+                            </p>
+                        </div>
 
                     </div>
-                    
-                    <div class="p-6 space-y-6">
+                    {% endfor %}
+                    <div class="border-t pt-4">
 
-                        <!-- Product -->
-                       {% for item in cartItem %}
-                            <div class="flex gap-4">
+                        <div class="flex justify-between py-2 text-gray-700">
+                            <span>Subtotal</span>
+                            <span>₹{{subtotal}}</span>
+                        </div>
 
-                                <img
-                                    src="{{item.product.image.url}}"
-                                    class="w-20 h-20 object-fill rounded border">
+                        <div class="flex justify-between py-2 text-gray-700">
+                            <span>Tax </span>
+                            <span>({{tax_percentage}}%)</span>
+                        </div>
 
-                                <div class="flex-1">
+                        <div class="flex justify-between py-2 text-gray-700">
+                            <span>Shipping charges</span>
+                            <span class="text-green-600">
+                                ₹{{shipping}}
+                            </span>
+                        </div>
 
-                                    <h4 class="font-semibold">
-                                        {{item.product.name}}
-                                    </h4>
+                        <div class="flex justify-between py-4 border-t mt-3 font-bold text-xl">
 
-                                    <p class="text-sm text-gray-500">
-                                        {{item.product.description|truncatechars:30 }}
-                                    </p>
+                            <span>Total</span>
+                            <span>₹{{grand_total}}</span>
 
-                                    <p class="text-sm text-gray-500">
-                                        Quantity: {{item.quantity}}
-                                    </p>
-
-                                </div>
-
-                                <div class="text-right">
-                                    <p class="font-bold text-lg">
-                                        ₹{{item.product.price}}
-                                    </p>
-                                </div>
-
-                            </div>
-                        {% endfor %}
-                            <div class="border-t pt-4">
-
-                                <div
-                                    class="flex justify-between py-2 text-gray-700">
-                                    <span>Subtotal</span>
-                                    <span>₹{{subtotal}}</span>
-                                </div>
-                               
-                                <div
-                                    class="flex justify-between py-2 text-gray-700">
-                                    <span>Tax </span>
-                                     <span>({{tax_percentage}}%)</span>
-                                </div>
-
-                                <div
-                                    class="flex justify-between py-2 text-gray-700">
-                                    <span>Shipping charges</span>
-                                    <span class="text-green-600">
-                                        ₹{{shipping}}
-                                    </span>
-                                </div>
-
-                                <div
-                                    class="flex justify-between py-4 border-t mt-3 font-bold text-xl">
-
-                                    <span>Total</span>
-                                    <span>₹{{grand_total}}</span>
-
-                                </div>
-
-                            </div>
-                       
-                        <button
-                            id="rzp-button"
-                            class="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-lg font-semibold text-lg transition cursor-pointer">
-                            PROCEED TO PAY
-                        </button>
+                        </div>
 
                     </div>
-                    
+
+                    <button id="rzp-button"
+                        class="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-lg font-semibold text-lg transition cursor-pointer">
+                        PROCEED TO PAY
+                    </button>
+
                 </div>
 
             </div>
@@ -408,71 +391,172 @@
 
     </div>
 
+</div>
+
 {% endblock content %}
 
 {% block script %}
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-async function radioFunction (id){
-   const UserName = document.querySelector("#user_name");
-   const UserAddressType = document.querySelector("#user_addresstype")
-   const UserAddress = document.querySelector("#user_address");
-   const UserMobile = document.querySelector("#user_mobile");
-   const UserEmail = document.querySelector("#user_email");
-   console.log("useremail==>",UserEmail,"UserAddressType=>",UserAddressType,"UserAddress=>",UserAddress,"UserMobile=>",UserMobile)
-   try {
-    const res = await axios.get(`/cart/checkout/address/${id}/`)
-    console.log("res.data==>",res.data);
-    UserName.innerHTML = res.data.name;
-    UserAddressType.innerHTML = res.data.address_type;
-    UserMobile.innerHTML = res.data.mobile;
-    UserEmail.innerHTML = res.data.email;
-    UserAddress.innerHTML = res.data.address;
-   }catch(error){
-      console.log(error.message)
-   }
-}
+        const chooseAddress = document.querySelector("input[name='address']:checked");
+        let address_id  = chooseAddress.value;
+        async function radioFunction(id) {
+            const UserName = document.querySelector("#user_name");
+            const UserAddressType = document.querySelector("#user_addresstype")
+            const UserAddress = document.querySelector("#user_address");
+            const UserMobile = document.querySelector("#user_mobile");
+            const UserEmail = document.querySelector("#user_email");
+            // console.log("useremail==>", UserEmail, "UserAddressType=>", UserAddressType, "UserAddress=>", UserAddress, "UserMobile=>", UserMobile)
+            address_id=id
+            try {
+                const res = await axios.get(`/cart/checkout/address/${id}/`)
+                // console.log("res.data==>", res.data);
+                UserName.innerHTML = res.data.name;
+                UserAddressType.innerHTML = res.data.address_type;
+                UserMobile.innerHTML = res.data.mobile;
+                UserEmail.innerHTML = res.data.email;
+                UserAddress.innerHTML = res.data.address;
+            } catch (error) {
+                console.log(error.message)
+            }
+        }
+         let paymentResponse = null 
+        const options = {
+            key: "{{ razorpay_key }}",
 
-const options = {
-    key: "{{ razorpay_key }}",
+            amount: "{{ payment.amount }}",
 
-    amount: "{{ payment.amount }}",
+            currency: "{{ payment.currency }}",
 
-    currency: "{{ payment.currency }}",
+            name: "Sher Store",
 
-    name: "Sher Store",
+            description: "Order Payment",
 
-    description: "Order Payment",
+            order_id: "{{ payment.id }}",
 
-    order_id: "{{ payment.id }}",
+            handler: async function (response) {
+                paymentResponse = response;
+                console.log("responise==>", response);
+                function getCookie(name) {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
 
-    handler: function (response) {
+                const csrftoken = getCookie('csrftoken');
+                try {
+                    const res = await axios.post(`/orders/verify_payment/`,
+                        response, { headers: { 'X-CSRFToken': csrftoken } })
 
-        console.log(response);
-        Swal.fire({
-                title:"Payment Successfull",
-                icon: "success",
-                timer: 1000,
-                showConfirmButton: false
-                });
+                    if (res.data.status === "success") {
+                        await placeorder()
+                        Swal.fire({
+                            title: "Payment Successfull",
+                            icon: "success",
+                            timer: 1000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Payment Failed",
+                            icon: "error",
+                            timer: 1000,
+                            showConfirmButton: false
+                        });
+                    }
+                } catch (error) {
+                    if (axios.isAxiosError < ApiError > (error)) {
+                        // error.response?.data is typed as ApiError
+                        console.error(error.response?.data.message);
+                        console.error(error.response?.status);
+                    } else {
+                        throw error;
+                    }
+                    Swal.fire({
+                        title: "Payment Verification Failed",
+                        text: "Please contact support if money was deducted.",
+                        icon: "error"
+                    });
+                }
+            },
 
-    },
+            theme: {
+                color: "#f97316"
+            }
+        };
 
-    theme: {
-        color: "#f97316"
-    }
-};
+        const checkedRadio = document.querySelector('input[name="payment_method"]:checked');
+        let paymentMethod = checkedRadio ? checkedRadio.value : "";
 
-const rzp = new Razorpay(options);
+        const radioButton = document.querySelectorAll('input[name="payment_method"]');
 
-document.getElementById("rzp-button").onclick = function (e) {
+        radioButton.forEach((item) => {
+            item.addEventListener('click', (event) => {
+                paymentMethod = event.target.value
+            })
 
-    rzp.open();
+        })
 
-    e.preventDefault();
+        const rzp = new Razorpay(options);
 
-};
+        async function placeorder() {
 
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            const csrftoken = getCookie('csrftoken');
+            const payload = {
+                "paymentMethod": paymentMethod,
+                "addressId":address_id,
+                "razorpay_payment_id":paymentResponse?.razorpay_payment_id || null,
+                "razorpay_order_id":paymentResponse?.razorpay_order_id || null,
+                "razorpay_signature":paymentResponse?.razorpay_signature || null,
+            }
+            try {
+
+                const res = await axios.post("/orders/placeorder/", payload, {
+                    headers: {
+                        "X-CSRFToken": csrftoken
+                    }
+                })
+                console.log(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        document.getElementById("rzp-button").onclick = async function (e) {
+
+            if (paymentMethod == "RAZORPAY") {
+                rzp.open();
+            } else if (paymentMethod == "COD") {
+            await placeorder()
+            }
+            e.preventDefault();
+
+        };
 
 
 </script>
@@ -480,9 +564,3 @@ document.getElementById("rzp-button").onclick = function (e) {
 
 
 {% endblock %}
-
-
-
-
-
-

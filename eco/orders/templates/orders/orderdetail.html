@@ -1,0 +1,575 @@
+
+
+<div class="max-w-7xl mx-auto p-6 orderdetails hidden">
+
+    <!-- Main Card -->
+
+    <div class="bg-white rounded-xl p-8">
+
+        <!-- Back Button -->
+
+        <button
+            class="text-blue-600 flex items-center gap-2 font-medium hover:underline cursor-pointer"  onclick="backToHandler()">
+
+            ← Back to My Orders
+
+    </button>
+
+        <!-- Header -->
+
+        <div class="flex justify-between items-start mt-4">
+
+            <div>
+
+                <h1 class="text-4xl font-bold text-gray-900">
+                    Order Details
+                </h1>
+
+                <p class="mt-4 text-lg text-gray-600">
+
+                    Order ID :
+
+                    <span class="text-blue-700 font-bold">
+                        ORD-F5D24871
+                    </span>
+
+                </p>
+
+                <p class="text-gray-500 mt-2">
+                    Placed on 27 Jul 2026, 02:35 PM
+                </p>
+
+            </div>
+
+            <span
+                class="px-5 py-2 rounded-full bg-yellow-100 text-yellow-700 font-semibold">
+
+                Pending
+
+            </span>
+
+        </div>
+
+
+        <!-- Tracking + Summary -->
+
+        <div
+            class="grid lg:grid-cols-3 gap-8 mt-8 border rounded-xl p-6">
+
+            <!-- Tracking -->
+
+            <div class="lg:col-span-2">
+
+                <h2 class="text-2xl font-semibold mb-8">
+
+                    Order Tracking
+
+                </h2>
+
+                <div class="flex justify-between relative">
+
+                    <!-- Line -->
+
+                    <div
+                        class="absolute top-6 left-10 right-10 h-1 bg-gray-300">
+
+                    </div>
+
+                    <div
+                        class="absolute top-6 left-10 w-20 h-1 bg-blue-600">
+
+                    </div>
+
+                    <!-- Step -->
+
+                    <div class="relative text-center">
+
+                        <div
+                            class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl">
+
+                            ✓
+
+                        </div>
+
+                        <p class="font-semibold text-blue-600 mt-4">
+                            Order Placed
+                        </p>
+
+                        <p class="text-gray-500 text-sm">
+                            27 Jul 2026
+                        </p>
+
+                        <p class="text-gray-500 text-sm">
+                            02:35 PM
+                        </p>
+
+                    </div>
+
+                    <!-- Step -->
+
+                    <div class="relative text-center">
+
+                        <div
+                            class="w-12 h-12 rounded-full bg-yellow-400 text-white flex items-center justify-center">
+
+                            📦
+
+                        </div>
+
+                        <p class="font-semibold mt-4">
+
+                            Confirmed
+
+                        </p>
+
+                        <p class="text-gray-500 text-sm">
+
+                            Pending
+
+                        </p>
+
+                    </div>
+
+                    <!-- Step -->
+
+                    <div class="relative text-center">
+
+                        <div
+                            class="w-12 h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center">
+
+                            📦
+
+                        </div>
+
+                        <p class="font-semibold mt-4">
+
+                            Packed
+
+                        </p>
+
+                        <p class="text-gray-500 text-sm">
+
+                            Pending
+
+                        </p>
+
+                    </div>
+
+                    <!-- Step -->
+
+                    <div class="relative text-center">
+
+                        <div
+                            class="w-12 h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center">
+
+                            🚚
+
+                        </div>
+
+                        <p class="font-semibold mt-4">
+
+                            Shipped
+
+                        </p>
+
+                        <p class="text-gray-500 text-sm">
+
+                            Pending
+
+                        </p>
+
+                    </div>
+
+                    <!-- Step -->
+
+                    <div class="relative text-center">
+
+                        <div
+                            class="w-12 h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center">
+
+                            👜
+
+                        </div>
+
+                        <p class="font-semibold mt-4">
+
+                            Delivered
+
+                        </p>
+
+                        <p class="text-gray-500 text-sm">
+
+                            Pending
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Order Summary -->
+
+            <div class="border-l pl-8">
+
+                <h2 class="text-2xl font-semibold mb-6">
+
+                    Order Summary
+
+                </h2>
+
+                <div class="space-y-5">
+
+                    <div class="flex justify-between">
+
+                        <span class="text-gray-600">
+
+                            Payment Method
+
+                        </span>
+
+                        <span class="font-semibold">
+
+                            Razorpay
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span class="text-gray-600">
+
+                            Payment Status
+
+                        </span>
+
+                        <span
+                            class="bg-green-100 text-green-700 px-4 py-1 rounded-full">
+
+                            Paid
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span class="text-gray-600">
+
+                            Order Status
+
+                        </span>
+
+                        <span
+                            class="bg-yellow-100 text-yellow-700 px-4 py-1 rounded-full">
+
+                            Pending
+
+                        </span>
+
+                    </div>
+
+                    <div class="border-t pt-5">
+
+                        <div class="flex justify-between">
+
+                            <span class="text-lg">
+
+                                Total Amount
+
+                            </span>
+
+                            <span
+                                class="text-3xl font-bold">
+
+                                ₹1,035.00
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="w-full border border-red-500 text-red-500 rounded-lg py-3 hover:bg-red-500 hover:text-white transition" onclick="cancelHandler()">
+
+                        Cancel Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+                <!-- Items in this Order -->
+
+        <div class="mt-8 border rounded-xl overflow-hidden">
+
+            <div class="px-6 py-4 border-b">
+
+                <h2 class="text-2xl font-semibold">
+                    Items in this Order
+                </h2>
+
+            </div>
+
+            <table class="w-full">
+
+                <thead class="bg-gray-50">
+
+                    <tr>
+
+                        <th class="text-left px-6 py-4 font-semibold">
+                            Product
+                        </th>
+
+                        <th class="text-center px-6 py-4 font-semibold">
+                            Price
+                        </th>
+
+                        <th class="text-center px-6 py-4 font-semibold">
+                            Quantity
+                        </th>
+
+                        <th class="text-center px-6 py-4 font-semibold">
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr class="border-t">
+
+                        <td class="px-6 py-5">
+
+                            <div class="flex items-center gap-4">
+
+                                <img
+                                    src="https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=120"
+                                    class="w-20 h-24 object-cover rounded-lg border">
+
+                                <div>
+
+                                    <h3 class="font-semibold text-lg">
+
+                                        Women Red Floral Printed Kurta
+
+                                    </h3>
+
+                                    <p class="text-gray-500 mt-2">
+
+                                        Size :
+                                        <span class="font-medium">M</span>
+
+                                        &nbsp; | &nbsp;
+
+                                        Color :
+                                        <span class="font-medium">Red</span>
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="text-center">
+
+                            ₹1,035.00
+
+                        </td>
+
+                        <td class="text-center">
+
+                            1
+
+                        </td>
+
+                        <td class="text-center font-semibold">
+
+                            ₹1,035.00
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <!-- Address + Price Details -->
+
+        <div class="grid lg:grid-cols-2 gap-8 mt-8">
+
+            <!-- Shipping Address -->
+
+            <div class="border rounded-xl p-6">
+
+                <h2 class="text-2xl font-semibold mb-6">
+
+                    📍 Shipping Address
+
+                </h2>
+
+                <div class="space-y-3 text-gray-700">
+
+                    <p class="font-semibold text-lg">
+
+                        Sher Shah
+
+                    </p>
+
+                    <p>
+
+                        A-34,
+
+                        Uttam Nagar,
+
+                        New Delhi,
+
+                    </p>
+
+                    <p>
+
+                        Delhi - 110059,
+
+                        India
+
+                    </p>
+
+                    <p>
+
+                        Phone :
+
+                        +91 9876543210
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Price Details -->
+
+            <div class="border rounded-xl p-6">
+
+                <h2 class="text-2xl font-semibold mb-6">
+
+                    💳 Price Details
+
+                </h2>
+
+                <div class="space-y-5">
+
+                    <div class="flex justify-between">
+
+                        <span class="text-gray-600">
+
+                            Price (1 Item)
+
+                        </span>
+
+                        <span>
+
+                            ₹1,035.00
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span class="text-gray-600">
+
+                            Shipping Charges
+
+                        </span>
+
+                        <span>
+
+                            ₹0.00
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span class="text-gray-600">
+
+                            Discount
+
+                        </span>
+
+                        <span class="text-green-600">
+
+                            -₹0.00
+
+                        </span>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="flex justify-between">
+
+                        <span class="text-2xl font-semibold">
+
+                            Total Amount
+
+                        </span>
+
+                        <span
+                            class="text-3xl font-bold text-blue-600">
+
+                            ₹1,035.00
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Info Message -->
+
+        <div
+            class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-5 flex items-center gap-4">
+
+            <div
+                class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center">
+
+                i
+
+            </div>
+
+            <p class="text-blue-700 font-medium">
+
+                You will receive an email/SMS update once your order is shipped.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+

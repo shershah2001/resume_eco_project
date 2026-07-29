@@ -3,5 +3,7 @@ from orders  import views
 
 
 urlpatterns = [
-    path('verify_payment/',views.verify_payment,name="verify_payment")
+    path("placeorder/",views.PlaceOrder,name="placeorder"),
+    path('verify_payment/',views.verify_payment,name="verify_payment"),
+    path('cancelorder/',views.cancelorder,name="cancelorder"),
 ]

@@ -1,0 +1,185 @@
+<!-- My Orders -->
+<section class="w-full bg-white rounded-lg  p-4 md:p-6 myorders">
+
+    <!-- Heading -->
+    <div
+        class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800">
+                My Orders
+            </h2>
+
+            <p class="text-gray-500 mt-1">
+                Track, view and manage all your orders.
+            </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+
+            <div class="relative">
+
+                <input
+                    type="text"
+                    placeholder="Search by Order ID..."
+                    class="w-full sm:w-72 border rounded-lg pl-4 pr-10 py-2 outline-none focus:ring-2 focus:ring-blue-500">
+
+                <i
+                    class='bx bx-search absolute right-3 top-3 text-xl text-gray-400'></i>
+
+            </div>
+
+            <select
+                class="border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500">
+
+                <option>All Orders</option>
+                <option>Pending</option>
+                <option>Delivered</option>
+                <option>Cancelled</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- Order Card -->
+    <div class="border rounded-xl p-5 mb-5">
+
+        <div class="flex items-center flex-col md:flex-row justify-between w-full">
+
+            <!-- Product -->
+            <div class="flex gap-4 items-left md:items-center flex-col md:flex-row w-full">
+
+                <img src="https://placehold.co/100x120" class="w-full md:w-24 h-28 rounded object-cover">
+
+                <div>
+
+                    <p class="text-sm text-gray-500">
+                        Order ID
+                    </p>
+
+                    <h3 class="text-blue-600 font-bold text-lg whitespace-wrap md:whitespace-nowrap">
+                        ORD-F5D24871
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        27 Jul 2026, 02:35 PM
+                    </p>
+
+                    <p class="text-sm text-gray-500">
+                        1 Item
+                    </p>
+
+                </div>
+
+            </div>
+
+           <div class="flex flex-col md:flex-row gap-x-[2rem] w-full justify-end">
+             
+            <!-- Payment -->
+                <div class="flex flex-col">
+
+                    <p class="text-gray-500 text-sm">
+                        Payment Method
+                    </p>
+
+                    <h4 class="font-semibold">
+                        Razorpay
+                    </h4>
+
+                    <p class="text-gray-500 text-sm mt-4">
+                        Payment Status
+                    </p>
+
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm w-[max-content] px-[1rem] cursor-pointer">
+                        Paid
+                    </span>
+
+                </div>
+
+            <!-- Order Status -->
+                <div class="flex flex-col">
+
+                    <p class="text-gray-500 text-sm">
+                        Order Status
+                    </p>
+
+                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm flex justify-center w-[max-content] px-[1rem]">
+                        Pending
+                    </span>
+
+                    <p class="text-gray-500 text-sm mt-4">
+                        Estimated Delivery
+                    </p>
+
+                    <p class="font-medium">
+                        31 Jul 2026
+                    </p>
+
+                </div>
+
+            <!-- Amount -->
+                <div class="lg:col-span-2">
+                <div>
+                        <p class="text-gray-500 text-sm">
+                            Total Amount
+                        </p>
+
+                        <h2 class="text-3xl font-bold">
+                            ₹1,035
+                        </h2>
+                </div>
+                <button class="border hover:border-blue-400 text-black hover:bg-blue-400 hover:text-white rounded-sm md:w-[max-content] px-[1rem] py-[0.5rem] cursor-pointer mt-[0.8rem] w-full flex flex-row items-center" onclick="orderDetailHandler()">
+                    <span>View More</span> <span class="font-bold mt-[0.2rem]">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
+                            fill="currentColor" viewBox="0 0 24 24" >
+                            <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                            <path d="M6 13h6v4l6-5-6-5v4H6z"></path>
+                            </svg>
+                    </span>
+                </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Pagination -->
+    <div
+        class="flex justify-between items-center mt-8">
+
+        <p class="text-gray-500">
+            Showing 1 to 3 of 3 orders
+        </p>
+
+        <div class="flex gap-2">
+
+            <button
+                class="w-10 h-10 border rounded hover:bg-gray-100">
+
+                ←
+
+            </button>
+
+            <button
+                class="w-10 h-10 bg-blue-600 text-white rounded">
+
+                1
+
+            </button>
+
+            <button
+                class="w-10 h-10 border rounded hover:bg-gray-100">
+
+                →
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
