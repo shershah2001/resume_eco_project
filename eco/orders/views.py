@@ -12,7 +12,7 @@ import json
 import razorpay
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from orders.models import orders
+from orders.models import Order,OrderItem
 @login_required
 def PlaceOrder(request):
     
@@ -136,16 +136,47 @@ def verify_payment(request):
             return JsonResponse({"error":"Invalid payment signature."},status=400)
     return JsonResponse({"error":"invalid request method"},status=405)
 
+
 @login_required
 def cancelorder(request):
-    order_data = json.load(request.body)
-    id  = order_data.id 
-    order = get_object_or_404(orders,id=id,user=request.user)
-    product_data = get_object_or_404(Product,user=request.user)
-    if order.status in ["Pending","Confirmed"]:
-        order.delete()
-        for item in product_data.all():
-            item.stock += 
+
+    if request.method != "POST":
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid request method"
+        }, status=405)
+
+    data = json.loads(request.body)
+
+    orderId = data.get("order_id")
+
+    order = get_object_or_404(
+        Order,
+        id=orderId,
+        user=request.user
+    )
+
+    if order.order_status not in ["Pending", "Confirmed"]:
+        return JsonResponse({
+            "status": "error",
+            "message": "This order cannot be cancelled."
+        }, status=400)
+
+    order_items = OrderItem.objects.filter(order=order)
+
+    for item in order_items:
+        if item.product:
+            item.product.stock += item.quantity
+            item.product.save()
+
+    order.order_status = "Cancelled"
+    order.save()
+
+    return JsonResponse({
+        "status": "success",
+        "message": "Your order has been cancelled successfully.",
+        "order_id": order.order_id
+    })
     
 
 

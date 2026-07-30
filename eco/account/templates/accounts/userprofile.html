@@ -588,21 +588,58 @@ const backToHandler = ()  =>{
 
 
 // cancel order start here
+
+
 const  cancelHandler = async (orderId) =>{
-    payload={
-        "order_id":orderId
+   const result = await Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Cancel it!"
+                });
+    if(!result.isConfirmed){
+        return 
+    }
+    const payload={
+        order_id:orderId
     }
     try{
-      const  res = await axios.post(`orders/cancelorder/`,payload,{
+      const  res = await axios.post(`/orders/cancelorder/`,payload,{
         headers:{
             "X-CSRFToken":csrftoken
         }})
        const data = res.data
        console.log(data)
+     if(res.data.status==="success"){
+        Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your Order Cancelled Successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+     }
+    }catch (error) {
+    
+    if (error.response) {
+      console.error("Server Error Data:", error.response.data); 
+      console.error("Status Code:", error.response.status); 
+    
+      const apiMessage = error.response.data?.message || "An error occurred on the server.";
+      alert(`Error: ${apiMessage}`);
 
-    }catch(error){
-        console.log(error)
+    } else if (error.request) {
+      console.error("Network Error Request:", error.request);
+      alert("No response from server. Please check your internet connection.");
+
+    } else {
+      console.error("Setup Error Message:", error.message);
+      alert(`Request configuration failed: ${error.message}`);
     }
+  }
 }
 // cancel order end here 
 </script>
