@@ -2,17 +2,26 @@
     
 
       <div class="flex items-center h-[5rem]">
-         <div class="search_box flex gap-x-[0.5rem] px-3 py-3 rounded-lg mx-3  border border-gray-200 w-[80%] lg:w-1/2 lg:mx-auto ">
-          <div class="search_input w-full">
-            <input type="text" placehoder="search here" class="text-white w-full h-full focus:outline-none px-2">
-          </div>
-           <div class="search_icon">
-                <svg  class="text-white cursor-pointer"  xmlns="http://www.w3.org/2000/svg" width="35" height="35"  
-                fill="currentColor" viewBox="0 0 24 24" >
-                <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
-                <path d="M18 10c0-4.41-3.59-8-8-8s-8 3.59-8 8 3.59 8 8 8c1.85 0 3.54-.63 4.9-1.69l5.1 5.1L21.41 20l-5.1-5.1A8 8 0 0 0 18 10M4 10c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6"></path>
-                </svg>
-          </div>
+         <div class="search_box flex gap-x-[0.5rem] px-3 py-3 rounded-lg mx-3  border border-gray-200 w-[80%] lg:w-1/2 lg:mx-auto">
+         <form method="get" action="{% url 'search' %}">
+            <div class="search_input w-full">
+               
+                  <input type="text" name="qs" 
+                  placehoder="search here" 
+                  class="text-white w-full h-full focus:outline-none px-2"
+                  value="{{request.GET.qs}}"
+                  >
+
+            </div>
+
+            <button class="search_icon  border-none" type="submit">
+                  <svg  class="text-white cursor-pointer"  xmlns="http://www.w3.org/2000/svg" width="35" height="35"  
+                  fill="currentColor" viewBox="0 0 24 24" >
+                  <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                  <path d="M18 10c0-4.41-3.59-8-8-8s-8 3.59-8 8 3.59 8 8 8c1.85 0 3.54-.63 4.9-1.69l5.1 5.1L21.41 20l-5.1-5.1A8 8 0 0 0 18 10M4 10c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6"></path>
+                  </svg>
+            </button>
+            </form>
        </div>
 
        

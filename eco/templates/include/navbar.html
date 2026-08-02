@@ -29,7 +29,7 @@ box-shadow: 0px 7px 22px 3px rgba(207,207,207,0.25);">
                 </svg>
                 {% if request.user.is_authenticated %}
                 <span class="!text-white font-semibold">
-                    <a href="{% url 'logout' %}" class="!text-white">Logout</a>
+                    <a href="{% url 'logoutconfirmationpage' %}" class="!text-white">Logout</a>
                 </span>
                 {% else %}
                 <span class="!text-white font-semibold">

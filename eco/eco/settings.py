@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'jazzmin',
+    'django_filters',   
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'carts',
     'orders',
     'wishlist',
+    'searchfunctionality',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +72,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'carts.context_processors.cart_value',
                 'wishlist.context_processors.wishlist_processor',
+                'searchfunctionality.context_processors.search_context'
             ],
         },
     },

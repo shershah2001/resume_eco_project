@@ -30,9 +30,10 @@
             </div>
 
             <select
+               id="orderSelection"
                 class="border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500">
 
-                <option>All Orders</option>
+                <option class="active">All Orders</option>
                 <option>Pending</option>
                 <option>Delivered</option>
                 <option>Cancelled</option>
@@ -183,3 +184,23 @@
     </div>
 
 </section>
+
+<script>
+     const orderSelection = document.querySelector("#orderSelection");
+    orderSelection.addEventListener('change',async (event)=>{
+        console.log(orderSelection.value);
+        
+       const payload = {
+         order_status:orderSelection.value
+       }
+      try{
+           const res = await axios.post('/orders/myorders/',payload,{
+           headers:{"X-CSRFToken":csrftoken}})
+           const data = res.data
+           console.log(data)
+
+      }catch(error){
+        console.log(error)
+      }
+    })   
+</script>

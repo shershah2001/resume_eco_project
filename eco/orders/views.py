@@ -13,6 +13,7 @@ import razorpay
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from orders.models import Order,OrderItem
+
 @login_required
 def PlaceOrder(request):
     
@@ -177,8 +178,63 @@ def cancelorder(request):
         "message": "Your order has been cancelled successfully.",
         "order_id": order.order_id
     })
-    
 
 
+@login_required
+def myorders(request):
 
-        
+    print("view thik  hai")
+    if request.method != "POST":
+        return JsonResponse(
+            {"error": "Method Not Allowed"},
+            status=405
+        )
+
+    try:
+        data = json.loads(request.body)
+
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {"error": "Invalid JSON"},
+            status=400
+        )
+
+    status = data.get("order_status")
+
+    valid_status = [
+        "all orders",
+        "Pending",
+        "Confirmed",
+        "Delivered",
+        "Cancelled",
+    ]
+
+    if status not in valid_status:
+        return JsonResponse(
+            {"error": "Invalid order status"},
+            status=400
+        )
+
+    if status == "all orders":
+        user_orders = Order.objects.filter(user=request.user)
+    else:
+        user_orders = Order.objects.filter(
+            user=request.user,
+            order_status=status
+        )
+
+    data_arr = []
+
+    for item in user_orders:
+        data_arr.append({
+            "orderId": item.order_id,
+            "shipping_address": item.shipping_address.address,
+            "subtotal": item.subtotal,
+            "tax": item.tax,
+            "shipping_charge": item.shipping_charge,
+            "total_amount": item.total_amount,
+            "payment_method": item.payment_method,
+            "order_status": item.order_status,
+        })
+
+    return JsonResponse(data_arr, safe=False)

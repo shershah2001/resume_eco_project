@@ -81,7 +81,9 @@ input:read-only {
                             </li>
                             
                               <li class="px-3 py-2  rounded text-[0.9rem] cursor-pointer">
-                                My Wishlist
+                                <a href="{% url  'wishlistproduct' %}">
+                                   My Wishlist
+                                </a>
                             </li>
                              <li class="px-3 py-2  rounded text-[0.9rem] cursor-pointer">
                                 Logout
@@ -291,10 +293,6 @@ input:read-only {
                 </div>
                 <div class="review_rating_section hidden">
                   {% include 'accounts/review_rating.html' %}
-                </div>
-                 
-                <div class="whislist_section hidden">
-                    {% include 'wishlist.html' %}
                 </div>
                  
             </div>
@@ -633,7 +631,7 @@ const  cancelHandler = async (orderId) =>{
 
     } else if (error.request) {
       console.error("Network Error Request:", error.request);
-      alert("No response from server. Please check your internet connection.");
+      alert("No response from server. Please check your internet connection."); 
 
     } else {
       console.error("Setup Error Message:", error.message);

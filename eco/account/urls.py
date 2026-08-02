@@ -9,4 +9,5 @@ urlpatterns = [
     path('address/<int:id>/', views.editAddressView, name='edit_address'),
     path('address/delete/<int:id>/',views.deleteAddressView,name="delete_address"),
     path('logout/',views.userlogout,name="logout"),
+    path('logoutconfirmation/',views.logoutconfirmationpage,name='logoutconfirmationpage')
 ]

@@ -1,7 +1,8 @@
 from django.shortcuts import render,get_object_or_404
 from products.models import Product
 from  wishlist.models import Wishlist
-
+from django.core.paginator import Paginator
+from searchfunctionality import search
 
 def home(request):
     
@@ -31,3 +32,6 @@ def single_product(request,product_slug):
     }
 
     return render(request,"product/single_product.html",context)
+
+
+

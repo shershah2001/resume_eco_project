@@ -69,7 +69,10 @@ def userlogin(request):
 def userlogout(request):
     if request.user.is_authenticated:
         logout(request)
-    return redirect('login')                                                                                                 
+    return redirect('login')
+
+def logoutconfirmationpage(request):
+    return render (request,'accounts/logout.html')                                                                                                 
 
 
 @login_required
