@@ -13,7 +13,7 @@ import razorpay
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from orders.models import Order,OrderItem
-
+from  django.templatetags.static import static
 @login_required
 def PlaceOrder(request):
     
@@ -183,7 +183,6 @@ def cancelorder(request):
 @login_required
 def myorders(request):
 
-    print("view thik  hai")
     if request.method != "POST":
         return JsonResponse(
             {"error": "Method Not Allowed"},
@@ -202,7 +201,7 @@ def myorders(request):
     status = data.get("order_status")
 
     valid_status = [
-        "all orders",
+        "All Orders",
         "Pending",
         "Confirmed",
         "Delivered",
@@ -217,15 +216,24 @@ def myorders(request):
 
     if status == "all orders":
         user_orders = Order.objects.filter(user=request.user)
+        
     else:
         user_orders = Order.objects.filter(
             user=request.user,
             order_status=status
         )
+        
 
     data_arr = []
 
     for item in user_orders:
+        data_img = item.items.first()
+        if data_img and data_img.product and data_img.product.image:
+            img = data_img.product.image.url
+        else:
+            img = static('default_product/pro_img.png')
+
+        orderQuantity = item.items.count()
         data_arr.append({
             "orderId": item.order_id,
             "shipping_address": item.shipping_address.address,
@@ -235,6 +243,42 @@ def myorders(request):
             "total_amount": item.total_amount,
             "payment_method": item.payment_method,
             "order_status": item.order_status,
+            'image':img,
+            'orderAt':item.ordered_at,
+            'orderQuantity':orderQuantity,
+            'deliveredAt':item.delivered_at,
+            'paymentStatus':item.payment_status
         })
 
     return JsonResponse(data_arr, safe=False)
+
+def orderdetail(request):
+    print("orderdetail hit")
+    ordId = request.GET.get("ordId")
+    print("orderdetail=>",ordId)
+    detail_data = get_object_or_404(Order,order_id=ordId)
+    Image = detail_data.items.all()
+    for item in Image:
+        img = item.product.image.url
+    print("Image=>",Image)
+    return JsonResponse({
+    "orderId": detail_data.order_id,
+    "shipping_address": detail_data.shipping_address.address,
+    "subtotal": detail_data.subtotal,
+    "tax": detail_data.tax,
+    "shipping_charge": detail_data.shipping_charge,
+    "total_amount": detail_data.total_amount,
+    "payment_method": detail_data.payment_method,
+    "payment_status": detail_data.payment_status,
+    "order_status": detail_data.order_status,
+    "ordered_at": detail_data.ordered_at.isoformat() if detail_data.ordered_at else None,
+    "delivered_at": detail_data.delivered_at.isoformat() if detail_data.delivered_at else None,
+    "razorpayOrderId": detail_data.razorpay_order_id,
+    "razorpayPaymentId": detail_data.razorpay_payment_id,
+    "razorpaySignature": detail_data.razorpay_signature,
+    "discount": detail_data.discount,
+    "paymentId": detail_data.payment_id,
+    "img":img
+})
+    
+
