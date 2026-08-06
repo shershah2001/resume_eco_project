@@ -47,7 +47,7 @@
 
 
     <!-- Order Card -->
-    <div class="border rounded-xl p-5 mb-5 card_container">
+    <div class="card_container">
 
         
     </div>
@@ -104,21 +104,10 @@
      const cardContainer = document.querySelector(".card_container");
      let ordId = null;
      
-    orderSelection.addEventListener('change',async (event)=>{
-        console.log("==>",orderSelection.value);
-        
-       const payload = {
-         order_status:orderSelection.value
-       }
-      try{
-           const res = await axios.post('/orders/myorders/',payload,{
-           headers:{"X-CSRFToken":csrftoken}})
-           const data = res.data
-           console.log("data==>",data);
-           let card
+    const Cards = (data) =>{
+         let card
            cardContainer.innerHTML = ""; 
-           
-           for (let item of data){
+        for (let item of data){
             const date = new Date(item.orderAt);
 
                 const orderAt = date.toLocaleString("en-IN", {
@@ -130,7 +119,7 @@
                     hour12: true
                 });
               card = `
-            
+            <div class="border rounded-xl p-5 mb-5">
               <div class="flex items-center flex-col md:flex-row justify-between w-full">
 
             <!-- Product -->
@@ -168,7 +157,7 @@
                     <!-- Payment -->
                         <div class="flex flex-col">
 
-                            <p class="text-gray-500 text-sm">
+                            <p class="text-gray-500 text-sm  whitespace-nowrap">
                                 Payment Method
                             </p>
 
@@ -176,7 +165,7 @@
                                 ${item.payment_method}
                             </h4>
 
-                            <p class="text-gray-500 text-sm mt-4">
+                            <p class="text-gray-500 text-sm mt-4 whitespace-nowrap">
                                 Payment Status
                             </p>
 
@@ -189,7 +178,7 @@
                     <!-- Order Status -->
                         <div class="flex flex-col">
 
-                            <p class="text-gray-500 text-sm">
+                            <p class="text-gray-500 text-sm whitespace-nowrap">
                                 Order Status
                             </p>
 
@@ -232,15 +221,45 @@
                 </div>
         
         </div>
-
+      </div> 
             `
             cardContainer.insertAdjacentHTML("beforeend", card);
-        }
+    }
+    }
+   
+    window.addEventListener('DOMContentLoaded',async ()=>{
+    
+     try{
+       const res = await axios.get('/orders/allorders/')
+       const data = res.data
+       Cards(data)
+     }catch(error){
+       console.log(error)
+     }
+    })
 
-      }catch(error){
-        console.log(error)
-      }
-    })   
+    orderSelection.addEventListener('change', async (event) => {
+
+    console.log(event.target.value);
+
+    const payload = {
+        order_status: event.target.value
+    };
+
+    try {
+        const res = await axios.post('/orders/myorders/', payload, {
+            headers: {
+                "X-CSRFToken": csrftoken
+            }
+        });
+
+        console.log(res.data);
+       const data = res.data
+       Cards(data)
+    } catch (error) {
+        console.error(error);
+    }
+});
 
     orderdetailBtn.onclick = async () =>{
       try{

@@ -12,7 +12,6 @@ import json
 import razorpay
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from orders.models import Order,OrderItem
 from  django.templatetags.static import static
 @login_required
 def PlaceOrder(request):
@@ -180,6 +179,39 @@ def cancelorder(request):
     })
 
 
+def serialize_orders(user_orders):
+    data_arr = []
+    
+    for item in user_orders:
+        data_img = item.items.first()
+        if data_img and data_img.product and data_img.product.image:
+            img = data_img.product.image.url
+        else:
+            img = static('default_product/pro_img.png')
+
+        orderQuantity = item.items.count()
+        data_arr.append({
+            "orderId": item.order_id,
+            "shipping_address": item.shipping_address.address,
+            "subtotal": item.subtotal,
+            "tax": item.tax,
+            "shipping_charge": item.shipping_charge,
+            "total_amount": item.total_amount,
+            "payment_method": item.payment_method,
+            "order_status": item.order_status,
+            'image':img,
+            'orderAt':item.ordered_at,
+            'orderQuantity':orderQuantity,
+            'deliveredAt':item.delivered_at,
+            'paymentStatus':item.payment_status
+        })
+    return data_arr
+
+@login_required
+def all_orders(request):
+    user_order = Order.objects.filter(user=request.user)
+    return JsonResponse(serialize_orders(user_order),safe=False)
+
 @login_required
 def myorders(request):
 
@@ -214,7 +246,7 @@ def myorders(request):
             status=400
         )
 
-    if status == "all orders":
+    if status == "All Orders":
         user_orders = Order.objects.filter(user=request.user)
         
     else:
@@ -222,40 +254,12 @@ def myorders(request):
             user=request.user,
             order_status=status
         )
-        
-
-    data_arr = []
-
-    for item in user_orders:
-        data_img = item.items.first()
-        if data_img and data_img.product and data_img.product.image:
-            img = data_img.product.image.url
-        else:
-            img = static('default_product/pro_img.png')
-
-        orderQuantity = item.items.count()
-        data_arr.append({
-            "orderId": item.order_id,
-            "shipping_address": item.shipping_address.address,
-            "subtotal": item.subtotal,
-            "tax": item.tax,
-            "shipping_charge": item.shipping_charge,
-            "total_amount": item.total_amount,
-            "payment_method": item.payment_method,
-            "order_status": item.order_status,
-            'image':img,
-            'orderAt':item.ordered_at,
-            'orderQuantity':orderQuantity,
-            'deliveredAt':item.delivered_at,
-            'paymentStatus':item.payment_status
-        })
-
-    return JsonResponse(data_arr, safe=False)
+    return JsonResponse(serialize_orders(user_orders), safe=False)
 
 def orderdetail(request):
-    print("orderdetail hit")
+    # print("orderdetail hit")
     ordId = request.GET.get("ordId")
-    print("orderdetail=>",ordId)
+    # print("orderdetail=>",ordId)
     detail_data = get_object_or_404(Order,order_id=ordId)
     Image = detail_data.items.all()
     for item in Image:
@@ -281,4 +285,6 @@ def orderdetail(request):
     "img":img
 })
     
+
+
 
