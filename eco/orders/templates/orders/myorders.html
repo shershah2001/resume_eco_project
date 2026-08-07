@@ -207,7 +207,8 @@
                                     ₹ ${item.total_amount}
                                 </h2>
                         </div>
-                        <button class="border hover:border-blue-400 text-black hover:bg-blue-400 hover:text-white rounded-sm md:w-[max-content] px-[1rem] py-[0.5rem] cursor-pointer mt-[0.8rem] w-full flex flex-row items-center orderdetail_btn" data-orderid="${item.orderId}">
+                        
+                        <button class="border hover:border-blue-400 text-black hover:bg-blue-400 hover:text-white rounded-sm md:w-[max-content] px-[1rem] py-[0.5rem] cursor-pointer mt-[0.8rem] w-full flex flex-row items-center orderdetail_btn" data-orderid="${item.orderId}" onclick="orderDetailHandler()">
                             <span>View More</span> <span class="font-bold mt-[0.2rem]">
                                 <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
                                     fill="currentColor" viewBox="0 0 24 24" >
@@ -261,7 +262,12 @@
     }
 });
 
-    orderdetailBtn.onclick = async () =>{
+    cardContainer.onclick = async (event) =>{
+        // console.log("==>",event.target.dataset.orderid);
+        const btn = event.target.closest(".orderdetail_btn")
+        if (!btn) return;
+        const ordId = btn.dataset.orderid;
+        
       try{
         const res = await axios.get('/orders/orderdetails/',{params:{ordId:ordId}})
         const detail_data = res.data

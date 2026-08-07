@@ -257,14 +257,11 @@ def myorders(request):
     return JsonResponse(serialize_orders(user_orders), safe=False)
 
 def orderdetail(request):
-    # print("orderdetail hit")
     ordId = request.GET.get("ordId")
-    # print("orderdetail=>",ordId)
     detail_data = get_object_or_404(Order,order_id=ordId)
     Image = detail_data.items.all()
     for item in Image:
         img = item.product.image.url
-    print("Image=>",Image)
     return JsonResponse({
     "orderId": detail_data.order_id,
     "shipping_address": detail_data.shipping_address.address,
