@@ -256,12 +256,18 @@ def myorders(request):
         )
     return JsonResponse(serialize_orders(user_orders), safe=False)
 
+@login_required
 def orderdetail(request):
     ordId = request.GET.get("ordId")
-    detail_data = get_object_or_404(Order,order_id=ordId)
-    Image = detail_data.items.all()
-    for item in Image:
-        img = item.product.image.url
+    detail_data = get_object_or_404(Order,order_id=ordId,user=request.user)
+    items = []
+    for item in detail_data.items.all():
+        items.append({
+        "product_name": item.product.name,
+        "image": item.product.image.url,
+        "price": item.price,
+        "quantity": item.quantity,
+    })
     return JsonResponse({
     "orderId": detail_data.order_id,
     "shipping_address": detail_data.shipping_address.address,
@@ -279,7 +285,7 @@ def orderdetail(request):
     "razorpaySignature": detail_data.razorpay_signature,
     "discount": detail_data.discount,
     "paymentId": detail_data.payment_id,
-    "img":img
+    "items":items
 })
     
 
