@@ -6,10 +6,10 @@
          <form method="get" action="{% url 'search' %}">
             <div class="search_input w-full">
                
-                  <input type="text" name="qs" 
+                  <input type="text" name="search" 
                   placehoder="search here" 
                   class="text-white w-full h-full focus:outline-none px-2"
-                  value="{{request.GET.qs}}"
+                  value="{{request.GET.search}}"
                   >
 
             </div>

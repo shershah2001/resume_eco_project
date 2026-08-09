@@ -13,6 +13,7 @@ import razorpay
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from  django.templatetags.static import static
+
 @login_required
 def PlaceOrder(request):
     
@@ -288,6 +289,8 @@ def orderdetail(request):
     "items":items
 })
     
+
+
 
 
 

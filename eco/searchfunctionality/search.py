@@ -4,11 +4,11 @@ from products.models import Product
 
 class searchfun(django_filters.FilterSet):
     
-    qs=django_filters.CharFilter(method='filter_by_all')
+    search = django_filters.CharFilter(method='filter_by_all')
 
     class Meta:
         model = Product
-        fields = ['qs']
+        fields = ['search']
 
     def filter_by_all(self,queryset,name,value):
         return queryset.filter(

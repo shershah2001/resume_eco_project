@@ -839,7 +839,7 @@ const orderDetailPhone = document.querySelector("#orderdetail_phone");
 const orderDetailPrice = document.querySelector("#orderdetail_price");
 const orderDetailShippingCharges = document.querySelector("#orderdetail_shipping_charge");
 const orderdetailDiscount = document.querySelector("#orderdetail_discount");
-const orderTotalAmount = document.querySelector("order_total_amount");
+const orderTotalAmount = document.querySelector("#order_total_amount");
     cardContainer.onclick = async (event) =>{
         
         const btn = event.target.closest(".orderdetail_btn")
@@ -850,6 +850,31 @@ const orderTotalAmount = document.querySelector("order_total_amount");
         const res = await axios.get('/orders/orderdetails/',{params:{ordId:ordId}})
         const detail_data = res.data
         orderdetailId.textContent=`${detail_data.orderId}`
+        // placed_date.textContent=
+        // orderDetailStatus.textContent=
+        orderDetailPaymentMethod.textContent=`${detail_data.payment_method}`;
+        orderDetailPaymentStatus.textContent=`${detail_data.payment_status}`
+        orderdetailOrderStatus.textContent=`${detail_data.order_status}`
+        orderdetailTotalAmount.textContent=`${detail_data.subtotal}`
+        // productSize.textContent=
+        // productColor.textContent=
+        
+        // orderDetailProductPrice.textContent=
+        // order_user.textContent=
+        orderDetailAddress.textContent=`${detail_data.shipping_address.address}`
+        // orderDetailPhone.textContent=
+        // orderDetailPrice.textContent=
+        // orderDetailShippingCharges.textContent=
+        orderdetailDiscount.textContent=`${detail_data.discount}`
+        orderTotalAmount.textContent=`${detail_data.total_amount}`
+        console.log("==>",orderDetailImg.src);
+        
+        for(let item of detail_data.items){
+            orderDetailImg.src=`${item.image}`
+            productPrice.textContent=`${item.price}`
+            orderDetailQuantity.textContent=`${item.quantity}`
+            document.querySelector('#orderdetail_product_name').textContent=`${item.product_name}`
+        }
       }catch(error){
         console.log(error)
       }
