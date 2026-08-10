@@ -9,6 +9,7 @@ from products import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/',include('account.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
     path('cart/',include('carts.urls')),
     path('',views.home,name='home'),
     path('products/',include('products.urls')),

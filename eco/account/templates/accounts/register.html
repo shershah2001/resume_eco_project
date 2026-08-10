@@ -8,7 +8,7 @@
             {% csrf_token %}
   
             {% if form.non_field_errors %}
-              {% forerror in form.non_field_errors %}
+              {% for error in form.non_field_errors %}
                 <div class="bg-red-500 !text-white p-2 mb-2 rounded">
                     {{ error }}
                 </div>
