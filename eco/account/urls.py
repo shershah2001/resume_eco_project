@@ -12,8 +12,12 @@ urlpatterns = [
     path('address/delete/<int:id>/',views.deleteAddressView,name="delete_address"),
     path('logout/',views.userlogout,name="logout"),
     path('logoutconfirmation/',views.logoutconfirmationpage,name='logoutconfirmationpage'),
-    path("password-change/", auth_views.PasswordChangeView.as_view(),name="password_change"),
-    path("password-change/done/", auth_views.PasswordChangeDoneView.as_view(),name="password_change_done"),
+    path("password-change/", auth_views.PasswordChangeView.as_view(
+        template_name='accounts/change_password.html'
+    ),name="password_change"),
+    path("password-change/done/", auth_views.PasswordChangeDoneView.as_view(
+        template_name='accounts/change_password_confirmation.html'
+    ),name="password_change_done"),
     path("password-reset/", auth_views.PasswordResetView.as_view(
         template_name="accounts/forgotpassword.html"
     ),name="password_reset"),
