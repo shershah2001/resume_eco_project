@@ -468,10 +468,8 @@ updateForm.addEventListener("submit", async (event) => {
 
             // form hide
             address_form.style.display = "none";
-
             // add address button show
             add_new_address.style.display = "block";
-
             // heading show
             hide_heading.style.display = "block";
             
@@ -835,12 +833,16 @@ const orderDetailPrice = document.querySelector("#orderdetail_price");
 const orderDetailShippingCharges = document.querySelector("#orderdetail_shipping_charge");
 const orderdetailDiscount = document.querySelector("#orderdetail_discount");
 const orderTotalAmount = document.querySelector("#order_total_amount");
+
+    // ordId  = orderdetailBtn.dataset.orderid;
+    // console.log("ordId==>",orderdetailBtn);
+    
     cardContainer.onclick = async (event) =>{
         
         const btn = event.target.closest(".orderdetail_btn")
         if (!btn) return;
         const ordId = btn.dataset.orderid;
-        
+        console.log("ordId=,=>",ordId)
       try{
         const res = await axios.get('/orders/orderdetails/',{params:{ordId:ordId}})
         const detail_data = res.data
@@ -875,8 +877,6 @@ const orderTotalAmount = document.querySelector("#order_total_amount");
       }
    }
 // order detail js end here 
-
-// order section js end here
 
 </script>
 

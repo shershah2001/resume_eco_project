@@ -174,3 +174,12 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product_name} ({self.quantity})"
+
+
+class invoice_model(models.Model):
+    invoice_number = models.CharField(max_length=200)
+    orders = models.OneToOneField(Order,on_delete=models.CASCADE,related_name="invoice")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.invoice_number} - {self.orders.user}"

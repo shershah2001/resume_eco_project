@@ -13,6 +13,12 @@ import razorpay
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from  django.templatetags.static import static
+from orders.models import invoice_model
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 
 @login_required
 def PlaceOrder(request):
@@ -31,7 +37,6 @@ def PlaceOrder(request):
 
     cart_item = CartItem.objects.filter(cart__user=request.user)
 
-   
     if not cart_item.exists():
         print("Cart is Empty")
         return JsonResponse({
@@ -95,8 +100,8 @@ def PlaceOrder(request):
     razorpay_order_id=razorpayOrderId,
     razorpay_payment_id=razorpayPaymentId,
     razorpay_signature=razorpaySignature
-
 )
+    
     print("After Order Create")
     for item in cart_item:
         OrderItem.objects.create(
@@ -110,13 +115,14 @@ def PlaceOrder(request):
         item.product.stock -= item.quantity
         item.product.save()
         item.delete()
-    
+    createInvoice(order)
     return JsonResponse({
         "status": "success",
         "message": "Order created successfully",
         "order_id": order.order_id,
         "payment_method": order.payment_method,
 })
+
 
 def verify_payment(request):
     if request.method == "POST":
@@ -137,6 +143,62 @@ def verify_payment(request):
             return JsonResponse({"error":"Invalid payment signature."},status=400)
     return JsonResponse({"error":"invalid request method"},status=405)
 
+def createInvoice(order):
+
+    invoice_number = f"INV-{order.order_id}"
+
+    invoice = invoice_model.objects.create(
+        invoice_number=invoice_number,
+        orders=order
+    )
+
+    subject = f"Your Invoice - {invoice_number}"
+
+    from_email = "shershahcode@gmail.com"
+
+    to_email = order.user.email
+
+    print("================================")
+    print("USER:", order.user)
+    print("USER EMAIL:", repr(to_email))
+    print("FROM EMAIL:", from_email)
+    print("================================")
+
+    # Check user email
+    if not to_email:
+        print("ERROR: User email is empty.")
+        return invoice
+
+    html_content = render_to_string(
+        "orders/invoice.html",
+        {
+            "user_name": order.user.first_name,
+            "order": order,
+            "invoice": invoice,
+        }
+    )
+
+    text_content = strip_tags(html_content)
+
+    msg = EmailMultiAlternatives(
+        subject=subject,
+        body=text_content,
+        from_email=from_email,
+        to=[to_email],
+    )
+
+    msg.attach_alternative(
+        html_content,
+        "text/html"
+    )
+
+    # Actually send email
+    result = msg.send(fail_silently=False)
+
+    print("EMAIL SEND RESULT:", result)
+
+    return invoice
+   
 
 @login_required
 def cancelorder(request):
@@ -289,8 +351,3 @@ def orderdetail(request):
     "items":items
 })
     
-
-
-
-
-
