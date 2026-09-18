@@ -7,13 +7,14 @@ from .utilis import _cart_id_
 from django.contrib.auth.decorators import login_required
 from account.models import AddressModel
 from django.http import JsonResponse
+from decimal import Decimal
 
 import razorpay
 from django.conf import settings
 
 def cartView(request):
     if request.user.is_authenticated:
-        cart_item =CartItem.objects.filter(cart__user=request.user)
+        cart_item = CartItem.objects.filter(cart__user=request.user)
     else:
         cart_id = _cart_id_(request)
         cart_item = CartItem.objects.filter(cart__guest_user = cart_id)
@@ -25,8 +26,7 @@ def cartView(request):
         total_price  += item.product.price * item.quantity
         quantity += item.quantity
     grand_total = total_price  + (total_price * tax_percentage)/100
-    # for item in cart_item:
-    #     print("cart_item==>",item.product.image.url)
+
     context={
         "cart_item":cart_item,
         "sub_total":total_price,
@@ -112,7 +112,9 @@ def decreaseView(request,product_slug):
 @login_required
 def checkout(request):
 
-    user_address=AddressModel.objects.filter(user=request.user);
+    user_address = AddressModel.objects.filter(
+        user=request.user
+    )
     selected_add = user_address.first()
 
     cart_items = CartItem.objects.filter(
@@ -120,16 +122,20 @@ def checkout(request):
         is_active=True
     ).select_related("product")
 
-    subtotal=0
-    grand_total=0
-    tax_percentage=10
-    shipping=10
+    subtotal=Decimal("0")
+    grand_total=Decimal("0")
+    tax_percentage=Decimal("10")
+    shipping=Decimal("10")
 
     for item in cart_items:
         subtotal += item.sub_total 
 
-    tax=subtotal * tax_percentage / 100
-    grand_total=subtotal+tax+shipping
+    tax=subtotal * tax_percentage / Decimal("100")
+    coupon_discount = Decimal(request.session.get("checkout_discount","0"))
+    grand_total=(subtotal+tax+shipping-coupon_discount)
+
+    if grand_total < Decimal("0"):
+        grand_total = Decimal("0")
 
     client = razorpay.Client(auth=(
         settings.RAZORPAY_KEY_ID,
@@ -137,7 +143,13 @@ def checkout(request):
     ))
 
     amount = int(grand_total * 100)
-    
+
+    request.session["checkout_subtotal"] = float(subtotal)
+    request.session["checkout_tax"] = float(tax)
+    request.session["checkout_shipping"] = float(shipping)
+    request.session["checkout_discount"] = float(coupon_discount)
+    request.session["checkout_total"] = float(grand_total)  
+
     payment = client.order.create({
         "amount": amount,
         "currency": "INR",
@@ -152,6 +164,7 @@ def checkout(request):
         "tax_percentage":tax_percentage,
         "shipping":shipping,
         "grand_total":grand_total,
+        "coupon_discount": coupon_discount,
         "razorpay_key": settings.RAZORPAY_KEY_ID,
         "payment":payment,
     }

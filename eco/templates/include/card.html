@@ -1,16 +1,15 @@
 {% load static %}
 <div class="swiper cardSwiper" style="padding-top:5rem;">
    <div class="swiper-wrapper">
-  
    {% for card_item in product_data %}
    
     <div class="swiper-slide">
-      <div class="min-h-screen flex justify-center px-2 ">
-      
+      <div class="min-h-screen flex justify-center px-2">
+      <!-- bg-[#111111] -->
       <div class="bg-[#111111] rounded-[1.5rem] overflow-hidden border border-[#2a2a2a] shadow-2xl group transition duration-500 hover:-translate-y-2">
 
           <!-- Product Image -->
-          <div class="relative overflow-hidden ">
+          <div class="relative overflow-hidden">
             <a href="{% url 'product_detail' card_item.slug %}" class="no-underline">
               <img 
                   src="{{card_item.image.url}}"

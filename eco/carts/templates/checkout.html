@@ -369,6 +369,13 @@
                             </span>
                         </div>
 
+                        <div class="flex justify-between py-2 text-gray-700">
+                            <span>Coupon Discount</span>
+                            <span class="text-green-600">
+                                - ₹{{coupon_discount}}
+                            </span>
+                        </div>
+
                         <div class="flex justify-between py-4 border-t mt-3 font-bold text-xl">
 
                             <span>Total</span>
@@ -406,7 +413,7 @@
             const UserAddress = document.querySelector("#user_address");
             const UserMobile = document.querySelector("#user_mobile");
             const UserEmail = document.querySelector("#user_email");
-            // console.log("useremail==>", UserEmail, "UserAddressType=>", UserAddressType, "UserAddress=>", UserAddress, "UserMobile=>", UserMobile)
+            
             address_id=id
             try {
                 const res = await axios.get(`/cart/checkout/address/${id}/`)

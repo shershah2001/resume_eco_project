@@ -16,6 +16,7 @@
 
   <!-- SweetAlert2  start here -->
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@aejkatappaja/phantom-ui/dist/phantom-ui.cdn.js"></script>
   <!-- SweetAlert2  end here -->
 
   {% block globlestyle %}
@@ -66,9 +67,12 @@
 </head>
 
 <body class="relative bg-black">
-
+<div id="skeleton-navbar">
+  {% include 'skeleton/navbar_skeleton.html' %}
+</div>
+ <div id="navbar-content" class="hidden">
   {% include 'include/navbar.html' %}
-
+</div>
   {% block content %}
 
   {% endblock content %}
@@ -89,6 +93,18 @@
         prevEl: ".swiper-button-prev",
       },
     });
+
+// Skeleton -> Real content swap
+window.addEventListener("load", function () {
+    document.querySelector("#skeleton-navbar").classList.add("hidden");
+    document.querySelector("#navbar-content").classList.remove("hidden");
+});
+
+window.addEventListener("load", () => {
+  document.getElementById("productSkeleton").classList.add("hidden");
+  document.getElementById("actualProduct").classList.remove("hidden");
+});
+
   </script>
 
   {% block script %}

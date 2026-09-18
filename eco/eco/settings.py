@@ -25,8 +25,9 @@ SECRET_KEY = 'django-insecure-f0$!=x+@-m#jmzmion3%g(j&*r7(w(it9j#jmy+uqx-nyaovi-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['','frugality-satiable-computer.ngrok-free.dev']
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok-free.dev']
+CSRF_TRUSTED_ORIGINS = ['https://frugality-satiable-computer.ngrok-free.dev']
 
 # Application definition
 
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'orders',
     'wishlist',
     'searchfunctionality',
+    'coupons',
+    'variations',
 ]
 
 MIDDLEWARE = [
@@ -155,4 +158,8 @@ EMAIL_HOST_USER = 'shershahcode@gmail.com'
 EMAIL_HOST_PASSWORD = 'bvia ivak cjmt doyz'
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+RAZORPAY_KEY_ID = "rzp_test_T7FZ0ubXhu1gmb"
+RAZORPAY_KEY_SECRET = "qyJwog4Qu0pVdM6N8v3LvOOg"
+RAZORPAY_WEBHOOK_SECRET = "shershah@2001"
 

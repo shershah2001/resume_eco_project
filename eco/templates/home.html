@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="hero_banner">
-    {% include 'include/banner.html' %}
-    {% include 'include/card.html' %}
+
+   <div class="hero_banner">
+
+    <!-- SKELETON (initially visible) -->
+    <div id="skeleton-wrapper">
+        {% include 'skeleton/banner_skeleton.html' %}
+        {% include 'skeleton/card_skeleton.html' %}
+    </div>
+
+    <!-- REAL CONTENT (initially hidden) -->
+    <div id="real-content" class="hidden">
+        {% include 'include/banner.html' %}
+        {% include 'include/card.html' %}
+    </div>
+
 </div>
+
+
 {% endblock content %} 
 
 {% block script %}
@@ -62,6 +76,12 @@ const csrftoken = getCookie("csrftoken");
         console.log(error.response);
     }
 }
+
+// Skeleton -> Real content swap
+window.addEventListener("load", function () {
+    document.querySelector("#skeleton-wrapper").classList.add("hidden");
+    document.querySelector("#real-content").classList.remove("hidden");
+});
 </Script>
     <!-- wishlist axios end here  -->
 {% endblock %}

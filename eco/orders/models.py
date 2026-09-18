@@ -183,3 +183,25 @@ class invoice_model(models.Model):
 
     def __str__(self):
         return f"{self.invoice_number} - {self.orders.user}"
+
+
+#  refund model
+
+class refund(models.Model):
+    refund_id = models.CharField(max_length=250, unique=True)
+    refund_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    refund_receipt = models.CharField(max_length=200)
+    refund_currency = models.CharField(max_length=250)
+    refund_payment_id = models.CharField(max_length=100)
+    refund_created_at = models.DateTimeField()
+    created_at  = models.DateTimeField(auto_now_add=True)
+    refund_status = models.CharField(max_length=100)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.refund_id} {self.refund_amount} {self.refund_currency}"
+
+class RazorpayWebhookEvent(models.Model):
+    event_id = models.CharField(max_length=255, unique=True)  # unique=True zaroori hai
+    event_type = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)

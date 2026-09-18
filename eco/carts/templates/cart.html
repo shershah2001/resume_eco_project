@@ -154,9 +154,12 @@
           <!-- Coupon -->
           <div class="mt-6">
 
-            <label class="block text-gray-700 font-medium mb-2">
-              Coupon Code
-            </label>
+            <!-- <form action="{% url 'apply_coupon' %}" method="POST">
+
+              {% csrf_token %}
+              <label class="block text-gray-700 font-medium mb-2">
+                Coupon Code
+              </label>
 
             <div class="flex gap-2">
 
@@ -164,15 +167,18 @@
                 type="text"
                 placeholder="Enter coupon"
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                name="coupon_code"
               />
 
               <button
-                class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 rounded-xl !text-white font-semibold cursor-pointer"
+               type='submit'
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 rounded-xl !text-white font-semibold cursor-pointer whitespace-nowrap"
               >
-                Apply
+                Coupon Apply
               </button>
 
             </div>
+            </form> -->
 
           </div>
 

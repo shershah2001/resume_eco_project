@@ -6,6 +6,7 @@ from django.urls import path
 from products import views
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/',include('account.urls')),
@@ -15,7 +16,8 @@ urlpatterns = [
     path('products/',include('products.urls')),
     path('wishlist/',include('wishlist.urls')),
     path("orders/",include('orders.urls')),
-    path('store/',include('searchfunctionality.urls'))
+    path('store/',include('searchfunctionality.urls')),
+    path('coupons/',include('coupons.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

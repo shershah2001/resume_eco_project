@@ -299,9 +299,6 @@ input:read-only {
 </div>
 
 
-
-
-
 {% endblock content %}
 
 {% block script %}
@@ -498,15 +495,7 @@ updateForm.addEventListener("submit", async (event) => {
 
     }
 });
-    // address_form codes editable codes end here 
-
-    // list update through axios
-    // console.log("addressName=>",addressName);
-    // console.log("addressMobile=>",addressMobile);
-    // console.log("addressAddress=>",addressAddress);
-    // console.log("addressPincode=>",addressPincode);
-    // console.log("addressType=>",addressType);
-
+ 
     const addressData = async () =>{
         const addressName=document.querySelector(`#address_name_${user_id}`);
         const addressMobile=document.querySelector(`#address_mobile_${user_id}`);
@@ -613,6 +602,8 @@ const  cancelHandler = async (orderId) =>{
                 showConfirmButton: false,
                 timer: 1500
             });
+    const orderRes = await axios.get('/orders/allorders/');
+    Cards(orderRes.data);
      }
     }catch (error) {
     

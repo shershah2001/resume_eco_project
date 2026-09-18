@@ -1,0 +1,93 @@
+<!-- skeleton/single_product.html -->
+<div class="parent_single_product_skeleton w-full min-h-screen flex animate-pulse" id="productSkeleton">
+
+  <!-- LEFT: thumbnails + main image -->
+  <div class="flex" style="flex:50%;">
+
+    <!-- thumbnails column -->
+    <div class="flex flex-col gap-2 items-center" style="width:15%;">
+      {% for i in "12345" %}
+      <div class="w-20 h-20 rounded bg-gray-300"></div>
+      {% endfor %}
+    </div>
+
+    <!-- main image -->
+    <div class="relative flex-1 overflow-hidden" style="width:65%;height:40rem;">
+      <div class="w-full h-full rounded bg-gray-300"></div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: content -->
+  <div class="content flex justify-center" style="flex:50%">
+    <div class="w-full max-w-lg">
+
+      <!-- everydayxclusive badge -->
+      <div class="h-6 w-40 bg-gray-300 rounded mb-3"></div>
+
+      <!-- title -->
+      <div class="h-5 w-3/4 bg-gray-300 rounded mb-3"></div>
+
+      <!-- price row -->
+      <div class="flex items-center gap-x-3 mt-2">
+        <div class="h-6 w-16 bg-gray-300 rounded"></div>
+        <div class="h-4 w-14 bg-gray-300 rounded"></div>
+        <div class="h-6 w-20 bg-gray-300 rounded"></div>
+      </div>
+
+      <!-- cashback -->
+      <div class="flex items-center gap-x-2 pt-4">
+        <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+        <div class="h-6 w-32 bg-gray-300 rounded"></div>
+      </div>
+
+      <!-- discount card -->
+      <div class="w-full pt-4">
+        <div class="h-32 w-full bg-gray-300 rounded-xl"></div>
+      </div>
+
+      <!-- payment banner -->
+      <div class="h-10 w-full bg-gray-300 rounded mt-4"></div>
+
+      <!-- color swatches -->
+      <div class="pt-4">
+        <div class="h-4 w-20 bg-gray-300 rounded mb-2"></div>
+        <div class="grid grid-cols-[repeat(5,80px)] gap-x-4">
+          {% for i in "1234" %}
+          <div class="w-full aspect-[2/3] bg-gray-300 rounded-xl"></div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- size -->
+      <div class="pt-4">
+        <div class="h-4 w-16 bg-gray-300 rounded mb-2"></div>
+        <div class="grid grid-cols-[repeat(5,60px)] gap-2">
+          {% for i in "12345" %}
+          <div class="w-12 h-12 bg-gray-300 rounded-lg"></div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- buttons -->
+      <div class="flex gap-x-2 mt-4">
+        <div class="h-12 w-40 bg-gray-300 rounded-lg"></div>
+        <div class="h-12 w-40 bg-gray-300 rounded-lg"></div>
+      </div>
+
+      <!-- shipping info -->
+      <div class="flex gap-x-6 mt-6">
+        <div class="flex items-center gap-x-2">
+          <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+          <div class="h-4 w-24 bg-gray-300 rounded"></div>
+        </div>
+        <div class="flex items-center gap-x-2">
+          <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+          <div class="h-4 w-32 bg-gray-300 rounded"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
