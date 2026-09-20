@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from account.models import AddressModel
 from django.http import JsonResponse
 from decimal import Decimal
+from variations.models import ProductVariant
 
 import razorpay
 from django.conf import settings
@@ -36,23 +37,67 @@ def cartView(request):
     }
     return render(request,'cart.html',context)
 
-def add_to_cart(request,product_slug):
-    product=get_object_or_404(Product,slug=product_slug)
+# def add_to_cart(request,product_slug):
+#     product=get_object_or_404(Product,slug=product_slug)
+#     if request.user.is_authenticated:
+#         cart,created=Cart.objects.get_or_create(user=request.user)
+#     else:
+#         cart_id  = _cart_id_(request)
+#         cart,created = Cart.objects.get_or_create(guest_user = cart_id)
+#     cartItem,cartItem_created = CartItem.objects.get_or_create(cart=cart,product=product)
+
+#     if not cartItem_created:
+#         cartItem.quantity  +=1
+#     else:
+#         cartItem.quantity=1
+#     # cartItem.price = product.price * cartItem.quantity
+#     cartItem.save()
+
+#     return redirect('cart')
+
+
+def add_to_cart(request, product_slug, variant_id):
+
+    product = get_object_or_404(
+        Product,
+        slug=product_slug
+    )
+
+    variant = get_object_or_404(
+        ProductVariant,
+        id=variant_id,
+        product=product,
+        is_active=True
+    )
+
     if request.user.is_authenticated:
-        cart,created=Cart.objects.get_or_create(user=request.user)
-    else:
-        cart_id  = _cart_id_(request)
-        cart,created = Cart.objects.get_or_create(guest_user = cart_id)
-    cartItem,cartItem_created = CartItem.objects.get_or_create(cart=cart,product=product)
 
-    if not cartItem_created:
-        cartItem.quantity  +=1
-    else:
-        cartItem.quantity=1
-    # cartItem.price = product.price * cartItem.quantity
-    cartItem.save()
+        cart, created = Cart.objects.get_or_create(
+            user=request.user
+        )
 
-    return redirect('cart')
+    else:
+
+        cart_id = _cart_id_(request)
+
+        cart, created = Cart.objects.get_or_create(
+            guest_user=cart_id
+        )
+
+    cart_item, created = CartItem.objects.get_or_create(
+        cart=cart,
+        product=product,
+        variant=variant
+    )
+
+    if not created:
+        cart_item.quantity += 1
+    else:
+        cart_item.quantity = 1
+
+    cart_item.save()
+
+    return redirect("cart")
 
 
 def remove_to_cart(request,product_slug):

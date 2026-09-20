@@ -2,7 +2,7 @@ from django.db import models
 from products.models import Product
 from account.models import MyUser
 # Create your models here.
-
+from variations.models import ProductVariant
 
 class Cart(models.Model):
     user=models.ForeignKey(MyUser,null=True,blank=True, on_delete=models.CASCADE)
@@ -24,11 +24,19 @@ class CartItem(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
-
+    variant = models.ForeignKey(
+        ProductVariant,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="cart_items"
+    )
     def __str__(self):
         return f"{self.product.name} {self.cart}"
     
     @property
     def sub_total(self):
+        if self.variant:
+            return self.variant.price * self.quantity
         return self.product.price * self.quantity
 
