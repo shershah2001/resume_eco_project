@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import MyUser,AddressModel
 from products.models import Product
+from variations.models import ProductVariant
 import uuid
 
 class Order(models.Model):
@@ -152,6 +153,14 @@ class OrderItem(models.Model):
         related_name="order_items"
     )
 
+    variant = models.ForeignKey(
+        ProductVariant,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="order_items"
+    )
+    
     product_name = models.CharField(
         max_length=255
     )

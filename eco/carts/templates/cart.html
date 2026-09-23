@@ -12,7 +12,7 @@
   <!-- Main Container -->
 
   {%  if cart_item %}
-  <div class="max-w-7xl mx-auto px-4 py-10">
+  <div   id="cartContainer" class="max-w-7xl mx-auto px-4 py-10">
 
     <!-- Heading -->
     <div class="mb-8">
@@ -28,7 +28,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
       <!-- Cart Products -->
-      <div class="lg:col-span-2 space-y-6">
+      <div id="cartProducts" class="lg:col-span-2 space-y-6">
        {% for item in cart_item %}
         <!-- Product Card -->
         <div class="bg-white rounded-2xl shadow-md p-4 sm:p-6">
@@ -55,38 +55,49 @@
                   </h2>
 
                   <p class="text-gray-500 mt-1">
-                    Size: M | Color: Black
+                      {% if item.variant %}
+                          Size: {{ item.variant.size }} | Color: {{ item.variant.color }}
+                      {% else %}
+                          No Variant
+                      {% endif %}
                   </p>
 
                   <p class="text-2xl font-bold text-indigo-600 mt-3">
-                    ₹{{item.product.price}}
+                    {% if item.variant %}
+                        ₹{{ item.variant.price }}
+                    {% else %}
+                        ₹{{ item.product.price }}
+                    {% endif %}
                   </p>
                 </div>
 
                 <!-- Quantity -->
                 <div class="flex items-center gap-3">
 
-                 <form action="{% url 'remove_to_cart' item.product.slug %}" method="POST">
-                  {% csrf_token %}
-                  <button
-                    class="w-10 h-10 rounded-lg bg-gray-200 hover:bg-gray-300 text-xl cursor-pointer"
-                     type="submit"
-                  >
+                 <button
+                    type="button"
+                    class="decrease-btn w-10 h-10 rounded-lg bg-gray-200 hover:bg-gray-300 text-xl cursor-pointer"
+                    data-product-slug="{{ item.product.slug }}"
+                    data-variant-id="{{ item.variant.id }}"
+                >
                     -
-                  </button>
-                </form>
+                </button>
 
-                  <span class="text-lg font-semibold">{{item.quantity}}</span>
+                  <span
+                      class="item-quantity text-lg font-semibold"
+                      data-variant-id="{{ item.variant.id }}"
+                  >
+                      {{ item.quantity }}
+                  </span>
 
-                  <form action="{% url 'add_to_cart' item.product.slug %}" method="POST">
-                    {% csrf_token %}
-                    <button
-                      class="w-10 h-10 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xl cursor-pointer !text-white"
-                      type="submit"
-                    >
-                      +
-                    </button>
-                  </form>
+                  <button
+                    type="button"
+                    class="increase-btn w-10 h-10 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xl cursor-pointer !text-white"
+                    data-product-slug="{{ item.product.slug }}"
+                    data-variant-id="{{ item.variant.id }}"
+                >
+                    +
+                </button>
 
                 </div>
 
@@ -96,14 +107,30 @@
               <div class="flex justify-between items-center mt-6">
 
                 <button
-                  class="text-red-500 hover:text-red-700 font-medium"
-                >
-                  Remove
+                    type="submit"
+                    class="remove-btn flex gap-1 px-4 py-2
+                          text-sm font-semibold text-red-600
+                          border border-red-200 rounded-lg
+                          bg-red-50
+                          hover:bg-red-600 hover:text-white
+                          hover:border-red-600
+                          transition-all duration-200
+                          cursor-pointer"
+                          data-product-slug="{{ item.product.slug }}"
+                          data-variant-id="{{ item.variant.id }}"
+
+                          >
+                    
+                    <i class="bx bx-trash text-lg"></i>
+                    Remove
                 </button>
 
-                <p class="text-lg font-bold text-gray-800">
+                <p
+                  class="item-subtotal text-lg font-bold text-gray-800"
+                  data-variant-id="{{ item.variant.id }}"
+              >
                   Total: ₹ {{ item.sub_total }}
-                </p>
+              </p>
 
               </div>
 
@@ -129,25 +156,20 @@
 
             <div class="flex justify-between text-gray-600">
               <span>Subtotal</span>
-              <span>₹{{sub_total}}</span>
-            </div>
+              <span id="cartSubtotal">₹{{ sub_total }}</span>
+          </div>
 
-            <!-- <div class="flex justify-between text-gray-600">
-              <span>Shipping</span>
-              <span>₹100</span>
-            </div> -->
-
-            <div class="flex justify-between text-gray-600">
+          <div class="flex justify-between text-gray-600">
               <span>Tax</span>
-              <span>₹{{tax_percentage}}</span>
-            </div>
+              <span id="cartTax">₹{{ tax }}</span>
+          </div>
 
-            <hr>
+          <hr>
 
-            <div class="flex justify-between text-xl font-bold text-gray-800">
+          <div class="flex justify-between text-xl font-bold text-gray-800">
               <span>Total</span>
-              <span>₹{{grand_total}}</span>
-            </div>
+              <span id="cartGrandTotal">₹{{ grand_total }}</span>
+          </div>
 
           </div>
 
@@ -206,9 +228,346 @@
     </div>
 
   </div>
-  {% else %}
-  <div class="flex justify-center items-center w-[50%] h-full mx-auto">
-    <img class="w-full h-full" src="{% static 'empty_cart/emptycart.png' %}" alt="emptycart">
-  </div>
 {% endif %}
+<div
+    id="emptyCartContainer"
+    class="{% if cart_item %}hidden{% else %}flex{% endif %} justify-center items-center w-[50%] h-full mx-auto"
+>
+    <img
+        class="w-full h-full"
+        src="{% static 'empty_cart/emptycart.png' %}"
+        alt="emptycart"
+    >
+</div>
+
 {% endblock content %}
+
+
+{% block script %}
+<script>
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+// Usage example (commonly named 'csrftoken' or 'XSRF-TOKEN')
+const csrftoken = getCookie('csrftoken');
+
+const increaseButtons = document.querySelectorAll(".increase-btn");
+const decreaseButtons = document.querySelectorAll(".decrease-btn");
+
+increaseButtons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        const productSlug = button.dataset.productSlug;
+        const variantId = button.dataset.variantId;
+        const color = button.dataset.color;
+
+        console.log("Product:", productSlug);
+        console.log("Variant ID:", variantId);
+        console.log("Color:", color);
+
+        axios.post(
+          `/cart/increase/${productSlug}/`,
+        {
+            variant_id: variantId
+        },
+        {
+            headers: {
+                "X-CSRFToken": csrftoken,
+                "Content-Type": "application/json"
+            }
+        }
+    )
+    .then((response) => {
+        console.log("Increase Response:", response.data);
+
+    if (response.data.success) {
+
+        const quantityElement = document.querySelector(
+            `.item-quantity[data-variant-id="${variantId}"]`
+        );
+
+        if (quantityElement) {
+            quantityElement.textContent = response.data.quantity;
+        }
+       const subtotalElement = document.querySelector(
+            `.item-subtotal[data-variant-id="${variantId}"]`
+        );
+         if (subtotalElement) {
+            subtotalElement.textContent =
+                `Total: ₹ ${response.data.subtotal}`;
+        }
+
+        const cartSubtotal = document.getElementById("cartSubtotal");
+        const cartTax = document.getElementById("cartTax");
+        const cartGrandTotal = document.getElementById("cartGrandTotal");
+
+        if (cartSubtotal) {
+            cartSubtotal.textContent =
+                `₹ ${response.data.cart_subtotal}`;
+        }
+
+        if (cartTax) {
+            cartTax.textContent =
+                `₹ ${response.data.tax}`;
+        }
+
+        if (cartGrandTotal) {
+            cartGrandTotal.textContent =
+                `₹ ${response.data.grand_total}`;
+        }
+    }
+    })
+    .catch((error) => {
+        console.error("Increase Error:", error);
+    });
+
+    });
+
+});
+
+decreaseButtons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        const productSlug = button.dataset.productSlug;
+        const variantId = button.dataset.variantId;
+
+        axios.post(
+            `/cart/decrease/${productSlug}/`,
+            {
+                variant_id: variantId
+            },
+            {
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then((response) => {
+
+            console.log("Decrease Response:", response.data);
+
+            if (response.data.success) {
+
+                // Item quantity
+                const quantityElement = document.querySelector(
+                    `.item-quantity[data-variant-id="${variantId}"]`
+                );
+
+                // Item card
+                const card = button.closest(".bg-white");
+                // If quantity becomes 0
+                if (response.data.deleted) {
+
+                        if (card) {
+                            card.remove();
+                        }
+
+                        if (response.data.cart_count === 0) {
+
+                            const cartContainer =
+                                document.getElementById("cartContainer");
+
+                            const emptyCartContainer =
+                                document.getElementById("emptyCartContainer");
+
+                            if (cartContainer) {
+                                cartContainer.remove();
+                            }
+
+                            if (emptyCartContainer) {
+                                emptyCartContainer.classList.remove("hidden");
+                            }
+                        }
+
+                        return;
+                    }
+                // Update quantity
+                if (quantityElement) {
+                    quantityElement.textContent =
+                        response.data.quantity;
+                }
+                // Update item subtotal
+                const subtotalElement = document.querySelector(
+                    `.item-subtotal[data-variant-id="${variantId}"]`
+                );
+
+                if (subtotalElement) {
+                    subtotalElement.textContent =
+                        `Total: ₹ ${response.data.subtotal}`;
+                }
+                // Update cart subtotal
+                const cartSubtotal =
+                    document.getElementById("cartSubtotal");
+
+                if (cartSubtotal) {
+                    cartSubtotal.textContent =
+                        `₹ ${response.data.cart_subtotal}`;
+                }
+                // Update tax
+                const cartTax =
+                    document.getElementById("cartTax");
+
+                if (cartTax) {
+                    cartTax.textContent =
+                        `₹ ${response.data.tax}`;
+                }
+                // Update grand total
+                const cartGrandTotal =
+                    document.getElementById("cartGrandTotal");
+
+                if (cartGrandTotal) {
+                    cartGrandTotal.textContent =
+                        `₹ ${response.data.grand_total}`;
+                }
+
+            }
+
+        })
+        .catch((error) => {
+
+            console.error(
+                "Decrease Error:",
+                error
+            );
+
+        });
+
+    });
+
+});
+
+// remove button codes start here
+const removeButtons = document.querySelectorAll(".remove-btn");
+
+removeButtons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        const productSlug = button.dataset.productSlug;
+        const variantId = button.dataset.variantId;
+
+        axios.post(
+            `/cart/remove_to_cart/${productSlug}/`,
+            {
+                variant_id: variantId
+            },
+            {
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then((response) => {
+
+            console.log("Remove Response:", response.data);
+
+            if (response.data.success) {
+
+                // Find product card
+                const card = button.closest(".bg-white");
+
+                // Remove product card
+                if (card) {
+                    card.remove();
+                }
+             if (response.data.cart_count === 0) {
+
+                const cartContainer =
+                    document.getElementById("cartContainer");
+
+                const emptyCartContainer =
+                    document.getElementById("emptyCartContainer");
+
+                if (cartContainer) {
+                    cartContainer.remove();
+                }
+
+                if (emptyCartContainer) {
+                    emptyCartContainer.classList.remove("hidden");
+                }
+            }
+                // Update cart subtotal
+                const cartSubtotal =
+                    document.getElementById("cartSubtotal");
+
+                if (cartSubtotal) {
+                    cartSubtotal.textContent =
+                        `₹ ${response.data.cart_subtotal}`;
+                }
+
+
+                // Update tax
+                const cartTax =
+                    document.getElementById("cartTax");
+
+                if (cartTax) {
+                    cartTax.textContent =
+                        `₹ ${response.data.tax}`;
+                }
+
+
+                // Update grand total
+                const cartGrandTotal =
+                    document.getElementById("cartGrandTotal");
+
+                if (cartGrandTotal) {
+                    cartGrandTotal.textContent =
+                        `₹ ${response.data.grand_total}`;
+                }
+
+
+                // Update navbar cart count
+                const cartCount =
+                    document.getElementById("cartCount");
+
+                if (cartCount) {
+                    cartCount.textContent =
+                        response.data.cart_count;
+                }
+
+
+                // Success message
+                Swal.fire({
+                    icon: "success",
+                    title: "Removed!",
+                    text: response.data.message,
+                    timer: 1200,
+                    showConfirmButton: false
+                });
+
+            }
+
+        })
+        .catch((error) => {
+
+            console.error(
+                "Remove Error:",
+                error
+            );
+
+        });
+
+    });
+
+});
+// remove button codes end here 
+  </script>
+{% endblock %}

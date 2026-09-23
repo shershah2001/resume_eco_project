@@ -25,11 +25,15 @@ SECRET_KEY = 'django-insecure-f0$!=x+@-m#jmzmion3%g(j&*r7(w(it9j#jmy+uqx-nyaovi-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['','frugality-satiable-computer.ngrok-free.dev']
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok-free.dev']
-CSRF_TRUSTED_ORIGINS = ['https://frugality-satiable-computer.ngrok-free.dev']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'frugality-satiable-computer.ngrok-free.dev',
+]
 
-# Application definition
+CSRF_TRUSTED_ORIGINS = [
+    'https://frugality-satiable-computer.ngrok-free.dev',
+]
 
 INSTALLED_APPS = [
     'jazzmin',

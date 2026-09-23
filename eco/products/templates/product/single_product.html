@@ -201,7 +201,8 @@
           {% if variant.color and variant.image %}
 
           <div class="variant-color cursor-pointer" data-color="{{ variant.color }}" data-variant-id="{{ variant.id }}">
-            <img src="{{ variant.image.url }}" class="w-full h-full rounded-xl" alt="{{ variant.color }}">
+            <img src="{{ variant.image.url }}" class="w-full h-full rounded-xl" alt="{{ variant.color }}"
+              data-image="{{variant.image.url}}">
           </div>
 
           {% endif %}
@@ -221,14 +222,14 @@
           </span>
         </h4>
         <ul id='sizeContainer' class="grid grid-cols-[repeat(5,60px)] pt-[0.5rem]">
-         
+
         </ul>
       </div>
       <!-- size end here -->
 
       <!-- add to cart button start here -->
       <div class="flex gap-x-[0.5rem] mt-[1rem]">
-        <button class="flex gap-x-2 p-3 bg-white rounded-lg cursor-pointer">
+        <button id="addToCartBtn" class="flex gap-x-2 p-3 bg-white rounded-lg cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
             <path
@@ -378,43 +379,71 @@
 
 {% block script %}
 <script>
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  const csrftoken = getCookie('csrftoken');
+  let selectedVariant;
+
+
   const variants = JSON.parse(
     document.getElementById("variant-data").textContent
   );
-    const sizeContainer = document.getElementById("sizeContainer");
+  const sizeContainer = document.getElementById("sizeContainer");
   // console.log("Size container:", sizeContainer);
   const colorButtons = document.querySelectorAll(".variant-color");
   const availableSizes = [
     ...new Set(
-        variants
-            .filter((variant) => variant.stock > 0)
-            .map((variant) => variant.size)
+      variants
+        .filter((variant) => variant.stock > 0)
+        .map((variant) => variant.size)
     )
-];
-availableSizes.forEach((size) => {
+  ];
+  availableSizes.forEach((size) => {
     const li = document.createElement("li");
     li.className =
-        "w-[3rem] h-[3rem] border border-white flex justify-center items-center rounded-lg cursor-pointer text-white";
+      "w-[3rem] h-[3rem] border border-white flex justify-center items-center rounded-lg cursor-pointer text-white";
     li.textContent = size;
     sizeContainer.appendChild(li);
-});
+  });
 
   console.log("Available Sizes:", availableSizes);
 
+  const firstAvailableVariant = variants.find(
+    (variant) => variant.stock > 0
+  );
+
+  selectedVariant = firstAvailableVariant;
+
+  console.log("Default Selected Variant:", selectedVariant);
 
   // size option start here
   const sizeOptions = document.querySelectorAll(".size-option");
   sizeOptions.forEach((sizeOption) => {
-      const selectedSize = sizeOption.dataset.size;
-      const available = colorVariants.some((variant) => {
-          return variant.size === selectedSize;
-      });
-      console.log(selectedSize, available);
+    const selectedSize = sizeOption.dataset.size;
+    const available = colorVariants.some((variant) => {
+      return variant.size === selectedSize;
+    });
+    console.log(selectedSize, available);
   });
 
   colorButtons.forEach((button) => {
 
-    button.addEventListener("click", () => {  
+    button.addEventListener("click", () => {
       const selectedColor = button.dataset.color;
       console.log("Selected Color:", selectedColor);
       const colorVariants = variants.filter((variant) => {
@@ -422,55 +451,110 @@ availableSizes.forEach((size) => {
       });
 
       const colorSizes = [
-    ...new Set(
-        colorVariants
+        ...new Set(
+          colorVariants
             .filter((variant) => variant.stock > 0)
             .map((variant) => variant.size)
-    )
-];
-const firstAvailableVariant = colorVariants.find(
-    (variant) => variant.stock > 0
-);
+        )
+      ];
+      const firstAvailableVariant = colorVariants.find(
+        (variant) => variant.stock > 0
+      );
+      selectedVariant = firstAvailableVariant;
 
-selectedVariant = firstAvailableVariant;
-
-
-  sizeContainer.innerHTML = "";
-  
-  colorSizes.forEach((size) => {
-
-    const li = document.createElement("li");
-    li.className =
-        "w-[3rem] h-[3rem] border border-white flex justify-center items-center rounded-lg cursor-pointer text-white"
-    li.textContent = size;
-    li.dataset.size = size;
-    li.addEventListener("click", () => {
-
-        const variant = variants.find((item) => {
-            return (
-                item.color.toLowerCase() === selectedColor.toLowerCase() &&
-                item.size.toLowerCase() === size.toLowerCase() &&
-                item.stock > 0
-            );
-        });
-        selectedVariant = variant;
-        console.log("Selected Variant:", selectedVariant);
-
-        if (selectedVariant) {
+      if (firstAvailableVariant) {
         document.getElementById("productPrice").textContent =
-      selectedVariant.price;}
-    });
-    sizeContainer.appendChild(li);
-   sizeContainer.querySelectorAll(".size-option").forEach((option) => {
-    option.classList.remove("bg-white", "text-black");
-});
-li.classList.add("bg-white", "!text-black","font-semibold");
-});
+          selectedVariant.price;
+      }
+
+      sizeContainer.innerHTML = "";
+
+      colorSizes.forEach((size) => {
+
+        const li = document.createElement("li");
+        li.className =
+          "w-[3rem] h-[3rem] border border-white flex justify-center items-center rounded-lg cursor-pointer text-white"
+        li.textContent = size;
+        li.dataset.size = size;
+        li.addEventListener("click", () => {
+
+          const variant = variants.find((item) => {
+            return (
+              item.color.toLowerCase() === selectedColor.toLowerCase() &&
+              item.size.toLowerCase() === size.toLowerCase() &&
+              item.stock > 0
+            );
+          });
+          selectedVariant = variant;
+          console.log("Selected Variant:", selectedVariant);
+
+          if (selectedVariant) {
+            document.getElementById("productPrice").textContent =
+              selectedVariant.price;
+          }
+        });
+        sizeContainer.appendChild(li);
+        sizeContainer.querySelectorAll(".size-option").forEach((option) => {
+          option.classList.remove("bg-white", "text-black");
+        });
+        li.classList.add("bg-white", "!text-black", "font-semibold");
+      });
 
     });
 
   });
+  // axios part start here 
 
+  const addToCartBtn = document.getElementById("addToCartBtn");
+
+  addToCartBtn.addEventListener("click", () => {
+    if (!selectedVariant) {
+      alert("Please select a color and size");
+      return;
+    }
+    const productSlug = "{{ single_product.slug }}";
+    console.log("productSlug==>", productSlug);
+
+    axios.post(
+      `/cart/add_to_cart/${productSlug}/`,
+      {
+        variant_id: selectedVariant.id
+      },
+      {
+        headers: {
+          "X-CSRFToken": csrftoken,
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then((response) => {
+        console.log("Cart Response:", response.data);
+
+        if (response.data.success) {
+
+          const cartCount = document.getElementById("cartCount");
+
+          if (cartCount) {
+            cartCount.textContent = response.data.cart_count;
+          }
+         
+          Swal.fire({
+            icon: "success",
+            title: "Added to Cart!",
+            text: response.data.message,
+            timer: 1500,
+            showConfirmButton: false
+        });
+        }
+
+      })
+      .catch((error) => {
+        console.error("Add To Cart Error:", error);
+      });
+
+  });
+
+  // axios part end here 
   const thumbs = document.querySelectorAll(".thumb");
   const mainImage = document.getElementById("mainImage");
 
@@ -546,13 +630,13 @@ li.classList.add("bg-white", "!text-black","font-semibold");
 
   differentImage.addEventListener("click", (event) => {
     if (event.target.tagName !== "IMG") return;
+    console.log("target==>", event.target.dataset.image)
     const imageUrl = event.target.dataset.image;
     mainImage.src = imageUrl;
-
   });
   // image different end here 
 
- 
+
 </script>
 
 {% endblock %}

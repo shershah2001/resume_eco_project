@@ -12,6 +12,8 @@ from variations.models import ProductVariant
 
 import razorpay
 from django.conf import settings
+import json
+from django.db.models import Sum
 
 def cartView(request):
     if request.user.is_authenticated:
@@ -20,54 +22,42 @@ def cartView(request):
         cart_id = _cart_id_(request)
         cart_item = CartItem.objects.filter(cart__guest_user = cart_id)
     total_price = 0
-    quantity= 0
-    tax_percentage  = 10
-    grand_total= 0
+    quantity = 0
+    tax_percentage = 10
+
     for item in cart_item:
-        total_price  += item.product.price * item.quantity
+        total_price += item.sub_total
         quantity += item.quantity
-    grand_total = total_price  + (total_price * tax_percentage)/100
+
+    tax = total_price * tax_percentage / 100
+    grand_total = total_price + tax
 
     context={
-        "cart_item":cart_item,
-        "sub_total":total_price,
-        "quantity":quantity,
-        "grand_total":grand_total,
-        "tax_percentage":tax_percentage
-    }
+    "cart_item": cart_item,
+    "sub_total": total_price,
+    "quantity": quantity,
+    "tax": tax,
+    "tax_percentage": tax_percentage,
+    "grand_total": grand_total
+}
     return render(request,'cart.html',context)
 
-# def add_to_cart(request,product_slug):
-#     product=get_object_or_404(Product,slug=product_slug)
-#     if request.user.is_authenticated:
-#         cart,created=Cart.objects.get_or_create(user=request.user)
-#     else:
-#         cart_id  = _cart_id_(request)
-#         cart,created = Cart.objects.get_or_create(guest_user = cart_id)
-#     cartItem,cartItem_created = CartItem.objects.get_or_create(cart=cart,product=product)
+def add_to_cart(request, product_slug):
 
-#     if not cartItem_created:
-#         cartItem.quantity  +=1
-#     else:
-#         cartItem.quantity=1
-#     # cartItem.price = product.price * cartItem.quantity
-#     cartItem.save()
-
-#     return redirect('cart')
-
-
-def add_to_cart(request, product_slug, variant_id):
-
+    if request.method != "POST":
+        return redirect("cart")
+    
     product = get_object_or_404(
         Product,
         slug=product_slug
     )
-
+    data = json.loads(request.body)
+    variant_id = data.get("variant_id")
     variant = get_object_or_404(
         ProductVariant,
         id=variant_id,
         product=product,
-        is_active=True
+        is_active=True  
     )
 
     if request.user.is_authenticated:
@@ -97,61 +87,257 @@ def add_to_cart(request, product_slug, variant_id):
 
     cart_item.save()
 
-    return redirect("cart")
+    cart_count = CartItem.objects.filter(
+        cart=cart
+    ).aggregate(
+        total=Sum("quantity")
+    )["total"] or 0
+
+    return JsonResponse({
+        "success": True,
+        "message": "Product added to cart successfully",
+        "cart_count": cart_count
+    })
 
 
-def remove_to_cart(request,product_slug):
-    product = get_object_or_404(Product,slug=product_slug)
+def remove_to_cart(request, product_slug):
+
+    if request.method != "POST":
+        return JsonResponse({
+            "success": False,
+            "message": "Invalid request method"
+        }, status=405)
+
+    data = json.loads(request.body)
+    variant_id = data.get("variant_id")
+
+    product = get_object_or_404(
+        Product,
+        slug=product_slug
+    )
+
+    variant = get_object_or_404(
+        ProductVariant,
+        id=variant_id,
+        product=product,
+        is_active=True
+    )
+
     if request.user.is_authenticated:
-        cart = get_object_or_404(Cart,user = request.user)
+
+        cart = get_object_or_404(
+            Cart,
+            user=request.user
+        )
+
     else:
-        cart=get_object_or_404(Cart, guest_user = _cart_id_(request))
-    if cart:
-        cart_item=CartItem.objects.filter(cart=cart,product=product)
-        for item in cart_item:
-            if item.quantity > 1:
-                item.quantity -=1
-                # item.price = product.price * item.quantity
-                item.save()
-            else:
-                item.delete()
-            
-    return redirect('cart')
+
+        cart_id = _cart_id_(request)
+
+        cart = get_object_or_404(
+            Cart,
+            guest_user=cart_id
+        )
+
+    cart_item = get_object_or_404(
+        CartItem,
+        cart=cart,
+        product=product,
+        variant=variant
+    )
+
+    # Remove complete item
+    cart_item.delete()
+
+    # Recalculate cart totals
+    cart_items = CartItem.objects.filter(
+        cart=cart,
+        is_active=True
+    )
+
+    subtotal = sum(
+        item.sub_total for item in cart_items
+    )
+
+    tax = subtotal * Decimal("10") / Decimal("100")
+
+    grand_total = subtotal + tax
+
+    # Cart item count
+    cart_count = sum(
+        item.quantity for item in cart_items
+    )
+
+    return JsonResponse({
+        "success": True,
+        "message": "Product removed from cart",
+        "cart_subtotal": str(subtotal),
+        "tax": str(tax),
+        "grand_total": str(grand_total),
+        "cart_count": cart_count
+    })
 
 
-def increaseView(request,product_slug):
-    if request.method == "POST":
-        product = get_object_or_404(Product,slug=product_slug)
-        if  request.user.is_authenticated:
-            cart = get_object_or_404(Cart,user=request.user)
-        else:
-            cart_id =_cart_id_(request)
-            cart=get_object_or_404(Cart,guest_user = cart_id)
-        cart_item=get_object_or_404(CartItem,cart=cart,product=product)
+def increaseView(request, product_slug):
 
-        cart_item.quantity += 1
-        # cart_item.price = product.price * cart_item.quantity
-        cart_item.save()
-    return redirect('cart')
+    if request.method != "POST":
+        return JsonResponse({
+            "success": False,
+            "message": "Invalid request method"
+        }, status=405)
+
+    data = json.loads(request.body)
+
+    variant_id = data.get("variant_id")
+
+    product = get_object_or_404(
+        Product,
+        slug=product_slug
+    )
+
+    variant = get_object_or_404(
+        ProductVariant,
+        id=variant_id,
+        product=product,
+        is_active=True
+    )
+
+    if request.user.is_authenticated:
+        cart = get_object_or_404(
+            Cart,
+            user=request.user
+        )
+    else:
+        cart_id = _cart_id_(request)
+
+        cart = get_object_or_404(
+            Cart,
+            guest_user=cart_id
+        )
+
+    cart_item = get_object_or_404(
+        CartItem,
+        cart=cart,
+        product=product,
+        variant=variant
+    )
+
+    cart_item.quantity += 1
+    cart_item.save()
+
+    cart_items = CartItem.objects.filter(
+    cart=cart,
+    is_active=True
+)
+    subtotal = sum(
+    item.sub_total for item in cart_items
+)
+    tax = subtotal * Decimal("10") / Decimal("100")
+    grand_total = subtotal + tax
+
+    return JsonResponse({
+    "success": True,
+    "message": "Quantity increased",
+    "quantity": cart_item.quantity,
+    "subtotal": str(cart_item.sub_total),
+    "cart_subtotal": str(subtotal),
+    "tax": str(tax),
+    "grand_total": str(grand_total)
+}) 
     
 
-def decreaseView(request,product_slug):
-    if request.method=="POST":
-        product=get_object_or_404(Product,slug=product_slug)
-        if request.user.is_authenticated:
-            cart=get_object_or_404(Cart,user=request.user)
-        else:
-            cart_id  = _cart_id_(request)
-            cart=get_object_or_404(Cart,guest_user=cart_id)
-        cart_item=get_object_or_404(CartItem,cart=cart,product=product)
+def decreaseView(request, product_slug):
 
-        if cart_item.quantity > 1:
-            cart_item.quantity-=1
-            # cart_item.price = product.price * cart_item.quantity
-            cart_item.save()
-        else:
-            cart_item.delete()
-    return redirect('cart')
+    if request.method != "POST":
+        return JsonResponse({
+            "success": False,
+            "message": "Invalid request method"
+        }, status=405)
+
+    data = json.loads(request.body)
+    variant_id = data.get("variant_id")
+
+    product = get_object_or_404(
+        Product,
+        slug=product_slug
+    )
+
+    variant = get_object_or_404(
+        ProductVariant,
+        id=variant_id,
+        product=product,
+        is_active=True
+    )
+
+    if request.user.is_authenticated:
+        cart = get_object_or_404(
+            Cart,
+            user=request.user
+        )
+    else:
+        cart_id = _cart_id_(request)
+
+        cart = get_object_or_404(
+            Cart,
+            guest_user=cart_id
+        )
+
+    cart_item = get_object_or_404(
+        CartItem,
+        cart=cart,
+        product=product,
+        variant=variant
+    )
+
+    if cart_item.quantity > 1:
+
+        cart_item.quantity -= 1
+        cart_item.save()
+
+    else:
+
+        cart_item.delete()
+
+        cart_count = CartItem.objects.filter(
+            cart=cart,
+            is_active=True
+        ).aggregate(
+            total=Sum("quantity")
+        )["total"] or 0
+
+        return JsonResponse({
+            "success": True,
+            "deleted": True,
+            "message": "Item removed from cart",
+            "cart_count": cart_count
+        })
+
+
+    # Calculate cart totals
+
+    cart_items = CartItem.objects.filter(
+        cart=cart,
+        is_active=True
+    )
+
+    subtotal = sum(
+        item.sub_total for item in cart_items
+    )
+
+    tax = subtotal * Decimal("10") / Decimal("100")
+
+    grand_total = subtotal + tax
+
+
+    return JsonResponse({
+        "success": True,
+        "deleted": False,
+        "quantity": cart_item.quantity,
+        "subtotal": str(cart_item.sub_total),
+        "cart_subtotal": str(subtotal),
+        "tax": str(tax),
+        "grand_total": str(grand_total)
+    })
 
 
 @login_required

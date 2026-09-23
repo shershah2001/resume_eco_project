@@ -340,11 +340,25 @@
                                 Quantity: {{item.quantity}}
                             </p>
 
-                        </div>
+                            {% if item.variant %}
+                                {% if item.variant.color %}
+                                    <p class="text-sm text-gray-500">
+                                        Color: {{ item.variant.color }}
+                                    </p>
+                                {% endif %}
 
+                                {% if item.variant.size %}
+                                    <p class="text-sm text-gray-500">
+                                        Size: {{ item.variant.size }}
+                                    </p>
+                                {% endif %}
+                            {% endif %}
+
+                        </div>
+            
                         <div class="text-right">
                             <p class="font-bold text-lg">
-                                ₹{{item.product.price}}
+                                ₹{% if item.variant %}{{ item.variant.price }}{% else %}{{ item.product.price }}{% endif %}
                             </p>
                         </div>
 

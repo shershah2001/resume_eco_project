@@ -21,7 +21,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 from django.utils import timezone
-from django.db import transaction
 from django.views.decorators.csrf import csrf_exempt
 from .models import Order, RazorpayWebhookEvent
 
@@ -29,6 +28,7 @@ import logging
 logger = logging.getLogger(__name__)
 from django.db import transaction, IntegrityError
 from coupons.models import coupons,CouponUsage
+
 
 @login_required
 def PlaceOrder(request):
@@ -70,13 +70,22 @@ def PlaceOrder(request):
   
     # Calculate subtotal and check stock
     for item in cart_item:
-        if item.quantity > item.product.stock:
-            print("Out of Stock:", item.product.name)
-            return JsonResponse({
-            "status": "error",
-            "message": f"{item.product.name} is out of stock."
-        }, status=400)
-        
+
+        if item.variant:
+
+            if item.quantity > item.variant.stock:
+                return JsonResponse({
+                    "status": "error",
+                    "message": f"{item.product.name} ({item.variant.color} / {item.variant.size}) is out of stock."
+                }, status=400)
+
+        else:
+
+            if item.quantity > item.product.stock:
+                return JsonResponse({
+                    "status": "error",
+                    "message": f"{item.product.name} is out of stock."
+                }, status=400)
 
         total_price += item.sub_total
 
@@ -189,56 +198,66 @@ def PlaceOrder(request):
                 "status": "error",
                 "message": "You have already used this coupon."
             }, status=400)
+    with transaction.atomic():
+        order = Order.objects.create(
+                user=request.user,
+                shipping_address=address,
+                subtotal=total_price,
+                tax=tax_cal,
+                shipping_charge=shipping_charge,
+                total_amount=totalAmount,
+                discount=discount_amount,
+                payment_method=payment_method,
+                payment_status=payment_status,
+                razorpay_order_id=razorpayOrderId,
+                razorpay_payment_id=razorpayPaymentId,
+                razorpay_signature=razorpaySignature
+            )
         
-    order = Order.objects.create(
+        if coupon_code:
+            CouponUsage.objects.create(
+            coupon=coupon_obj,
             user=request.user,
-            shipping_address=address,
-            subtotal=total_price,
-            tax=tax_cal,
-            shipping_charge=shipping_charge,
-            total_amount=totalAmount,
-            discount=discount_amount,
-            payment_method=payment_method,
-            payment_status=payment_status,
-            razorpay_order_id=razorpayOrderId,
-            razorpay_payment_id=razorpayPaymentId,
-            razorpay_signature=razorpaySignature
+            order=order,
+            discount_amount=discount_amount
         )
-    
-    if coupon_code:
-        CouponUsage.objects.create(
-        coupon=coupon_obj,
-        user=request.user,
-        order=order,
-        discount_amount=discount_amount
-    )
 
-        coupon_obj.used_count += 1
-        coupon_obj.save(update_fields=['used_count'])
+            coupon_obj.used_count += 1
+            coupon_obj.save(update_fields=['used_count'])
 
-    for key in [
-        'checkout_subtotal',
-        'checkout_tax',
-        'checkout_shipping',
-        'checkout_total',
-        'checkout_discount',
-        'coupon_code'
-    ]:
-         request.session.pop(key, None)
+        for key in [
+            'checkout_subtotal',
+            'checkout_tax',
+            'checkout_shipping',
+            'checkout_total',
+            'checkout_discount',
+            'coupon_code'
+        ]:
+            request.session.pop(key, None)
 
-    print("After Order Create")
-    for item in cart_item:
-        OrderItem.objects.create(
-            order = order,
-            product = item.product,
-            product_name = item.product.name,
-            quantity = item.quantity,
-            price = item.product.price,
-            total_price = item.sub_total
-        )
-        item.product.stock -= item.quantity
-        item.product.save()
-        item.delete()
+        print("After Order Create")
+        for item in cart_item:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                variant=item.variant,
+                product_name=item.product.name,
+                quantity=item.quantity,
+                price=item.variant.price if item.variant else item.product.price,
+                total_price=item.sub_total
+            )
+
+            # Variant stock
+            if item.variant:
+                item.variant.stock -= item.quantity
+                item.variant.save(update_fields=["stock"])
+
+            # Old product without variant
+            else:
+                item.product.stock -= item.quantity
+                item.product.save(update_fields=["stock"])
+
+            item.delete()
     createInvoice(order)
     return JsonResponse({
         "status": "success",
@@ -597,11 +616,14 @@ def orderdetail(request):
     items = []
     for item in detail_data.items.all():
         items.append({
-        "product_name": item.product.name,
-        "image": item.product.image.url,
-        "price": item.price,
-        "quantity": item.quantity,
-    })
+            "product_name": item.product.name,
+            "image": item.product.image.url,
+            "price": item.price,
+            "quantity": item.quantity,
+
+            "color": item.variant.color if item.variant else None,
+            "size": item.variant.size if item.variant else None,
+        })
     return JsonResponse({
     "orderId": detail_data.order_id,
     "shipping_address": detail_data.shipping_address.address,
